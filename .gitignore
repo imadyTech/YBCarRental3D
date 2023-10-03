@@ -70,3 +70,14 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# textmeshpro
+/[Aa]ssets/[Tt]ext[Mm]esh [Pp]ro/*
+/[Aa]ssets/com.imady.unityui/*
+# don't need this at this moment
+/[Aa]ssets/[Pp]lugins/*
+/[Aa]ssets/[Rr]esources/CarModels
+/[Aa]ssets/[Rr]esources/ExampleAssets
+
+
+
