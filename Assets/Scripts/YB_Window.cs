@@ -10,18 +10,18 @@ namespace YBCarRental3D
 {
     public class YB_Window : NebuSingleton<YB_Window>
     {
-        public GameObject viewTemplate;
-        public GameObject viewItemTemplate;
-        public GameObject buttonItemTemplate;
-        public GameObject textItemTemplate;
-        public GameObject listHeadTemplate;
-        public GameObject listItemTemplate;
-        public GameObject inputItemTemplate;
-        public GameObject menuItemTemplate;
+        public GameObject   viewTemplate;
+        public GameObject   viewItemTemplate;
+        public GameObject   buttonItemTemplate;
+        public GameObject   textItemTemplate;
+        public GameObject   listHeadTemplate;
+        public GameObject   listItemTemplate;
+        public GameObject   inputItemTemplate;
+        public GameObject   menuItemTemplate;
 
-        YB_ViewFactory viewFactory;
-        YB_LogicFactory logicFactory;
-        YB_ViewBasis currentView;
+        YB_ViewFactory      viewFactory;
+        YB_LogicFactory     logicFactory;
+        YB_ViewBasis        currentView;
         Stack<YB_ViewBasis> viewHistoryStack;
 
         public YB_Window ConfigLogicFactory(YB_LogicFactory factory)
@@ -46,10 +46,16 @@ namespace YBCarRental3D
 
         public void Goto(YB_ViewBasis viewPtr)
         {
-            if (viewPtr == null) viewPtr = viewFactory.GetView(YBGlobal.ERROR_VIEW);
-            currentView = viewPtr;
+            if (currentView != null && currentView.viewObject != null)
+                currentView.viewObject.SetActive(false);
+
+            if (viewPtr == null)
+                currentView = viewFactory.GetView(YBGlobal.ERROR_VIEW);
+            else
+                currentView = viewPtr;
 
             this.viewHistoryStack.Push(currentView);
+            currentView.viewObject.SetActive(true);
         }
         public void Goto(int viewId)
         {
@@ -76,79 +82,34 @@ namespace YBCarRental3D
         {
             foreach (var viewDef in viewFactory)
             {
-                GameObject view = Instantiate(viewTemplate);
-                view.transform.SetParent(this.gameObject.transform);
+                viewDef.viewObject = Instantiate(viewTemplate, this.gameObject.transform);
                 foreach (var viewItemDef in viewDef)
                 {
-                    var item = this.GenerateViewItemObject(viewItemDef, viewDef);
-                    if (item != null)
-                    {
-                        item.transform.SetParent(view.transform);
-                    }
+                    var item = this.GenerateViewItemObject(viewItemDef, viewDef.viewObject.transform);
+                    viewDef.ConfigViewItemObj(viewItemDef, ref item);
                 }
-                view.name = viewDef.Title;
-                view.SetActive(false);
+                viewDef.viewObject.name = viewDef.Title;
+                viewDef.viewObject.SetActive(false);
+
+                if (!string.IsNullOrEmpty(viewDef.Source))
+                {
+                    Type datasourceType = logicFactory.FindDataSource(viewDef.Source).GetType();
+                    if (datasourceType != null) viewDef.viewObject.AddComponent(datasourceType);
+                }
             }
         }
 
-        private GameObject GenerateViewItemObject(YB_ViewItemBasis itemDef, YB_ViewBasis parentViewDef)
+        private GameObject GenerateViewItemObject(YB_ViewItemBasis itemDef, Transform parentViewObj)
         {
             GameObject viewItemObj = viewItemTemplate;
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON) viewItemObj = Instantiate(buttonItemTemplate);
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_HEAD) viewItemObj = Instantiate(listHeadTemplate);
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_INPUT) viewItemObj = Instantiate(inputItemTemplate);
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_LISTITEM) viewItemObj = Instantiate(listItemTemplate);
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_TEXT) viewItemObj = Instantiate(textItemTemplate);
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_MENUITEM) viewItemObj = Instantiate(menuItemTemplate);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON) viewItemObj = Instantiate(buttonItemTemplate, parentViewObj);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_HEAD) viewItemObj = Instantiate(listHeadTemplate, parentViewObj);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_INPUT) viewItemObj = Instantiate(inputItemTemplate, parentViewObj);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_LISTITEM) viewItemObj = Instantiate(listItemTemplate, parentViewObj);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_TEXT) viewItemObj = Instantiate(textItemTemplate, parentViewObj);
+            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_MENUITEM) viewItemObj = Instantiate(menuItemTemplate, parentViewObj);
 
-            this.RescaleItem(parentViewDef, itemDef, ref viewItemObj);
-            this.RepositItem(parentViewDef, itemDef, ref viewItemObj);
-            this.SetItemContent(itemDef, ref viewItemObj);
             return viewItemObj;
-        }
-
-        private void RescaleItem(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-            //fit width
-            var width = ((float)Screen.width * itemDef.w / parentViewDef.w);
-            var height = ((float)Screen.height * itemDef.h / parentViewDef.h);
-            itemObject.GetComponent<RectTransform>().sizeDelta = new Vector2((float)width, (float)height);
-        }
-        private void RepositItem(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-            //            systemLogContainer.GetComponent<RectTransform>().anchoredPosition3D = logViewCurrentPos += logItemHeight;//×Ô¶¯¹ö¶¯Ò»ÐÐ
-
-            var x = Screen.width - ((float)Screen.width * itemDef.x / parentViewDef.w);
-            var y = Screen.height - ((float)Screen.height * itemDef.y / parentViewDef.h);
-            itemObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
-        }
-        private void SetItemContent(YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-            try
-            {
-                TMP_Text tmpText = itemObject.GetComponent<TMP_Text>();
-                tmpText.enableWordWrapping = false;
-                tmpText.text = itemDef.Content;
-            }
-            catch { }
-        }
-        private void SetAction(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON)
-                itemObject.GetComponent<Button>().onClick.AddListener(() => { this.Goto(itemDef.Link); });
-        }
-        private void CreateListItem(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-
-        }
-        private void CreateListHead(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-
-        }
-        private void SetContent(YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
-            if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON)
-                itemObject.GetComponent<Text>().text = itemDef.Content;
         }
     }
 

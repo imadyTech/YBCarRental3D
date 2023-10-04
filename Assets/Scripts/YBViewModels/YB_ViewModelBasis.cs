@@ -1,11 +1,12 @@
-﻿using System;
+﻿using imady.NebuUI;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Unity.VisualScripting;
 
 namespace YBCarRental3D
 {
-    public class YB_ViewModelBasis<TData>: IYB_DataSource 
+    public class YB_ViewModelBasis<TData>: NebuUIViewBase, IYB_DataSource 
         where TData : YB_DataBasis
     {
         public TData principalObject;

@@ -33,7 +33,7 @@ namespace YBCarRental3D
         //EXAMPLE: a button with 'Bind:ButtonContent!' the the button's content will be passed.
         //if you need retrieve which button is clicked, just use "(*valuesMapPtr)["ButtonContent"]"
         public const string SUBMIT_BINDKEY_BUTTONCONTENT = "ButtonContent";
-        public const string INIT_VIEW = "MainMenuView";
+        public const string INIT_VIEW = "WelcomeView";
         public const string EXIT_VIEW = "ByeByeView";
         public const string MAIN_VIEW = "MainMenuView";
         public const string USER_MAIN_VIEW = "UserMenu";

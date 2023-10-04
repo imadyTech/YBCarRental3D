@@ -81,18 +81,15 @@ namespace YBCarRental3D
         private YB_ViewBasis    CreateProduct(string serializeString)
         {
             YB_ViewBasis newView = new YB_ViewBasis(serializeString);
-            if (!string.IsNullOrEmpty(newView.Source))
-                newView.dataSource = logicFactory?.FindDataSource(newView.Source);
 
             return newView;
 
         }
         private void            CreateSubViewitems(ref YB_ViewBasis view, string viewString)
         {
-            YB_ViewItemBasis prompt = this.viewItemFactory.CreateViewItem(YBGlobal.PROMPT_MESSAGEBOX_VIEW_ITEM);
-            prompt.parent = view;
-            view.subItemsList.Add(prompt);
-            view.SetPrompt(prompt);
+            //YB_ViewItemBasis prompt = this.viewItemFactory.CreateViewItem(YBGlobal.PROMPT_MESSAGEBOX_VIEW_ITEM);
+            //prompt.parent = view;
+            //view.subItemsList.Add(prompt);
 
             var itemsDef = view.FindValues(CONST_VIEW_ITEM_STARTER);
             if (itemsDef != null && itemsDef.Count > 0)

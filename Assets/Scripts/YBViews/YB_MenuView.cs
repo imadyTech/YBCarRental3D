@@ -2,11 +2,11 @@
 {
     internal class YB_MenuView : YB_ViewBasis
     {
-        private object value;
-
-        public YB_MenuView(object value)
+        public YB_MenuView() : base()
         {
-            this.value = value;
+        }
+        public YB_MenuView(string serializeString) : base(serializeString)
+        {
         }
     }
 }
