@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -39,5 +40,9 @@ namespace YBCarRental3D
         void onYesClicked();
         void onNoClicked();
         void onOkClicked();
+
+        void ConfigViewDef(YB_ViewBasis view);
+
+        void ConfigViewItemObj(YB_ViewItemBasis viewItemDef, ref GameObject itemObj);
     }
 }

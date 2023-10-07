@@ -10,18 +10,18 @@ namespace YBCarRental3D
 {
     public class YB_Window : NebuSingleton<YB_Window>
     {
-        public GameObject   viewTemplate;
-        public GameObject   viewItemTemplate;
-        public GameObject   buttonItemTemplate;
-        public GameObject   textItemTemplate;
-        public GameObject   listHeadTemplate;
-        public GameObject   listItemTemplate;
-        public GameObject   inputItemTemplate;
-        public GameObject   menuItemTemplate;
+        public GameObject viewTemplate;           //unique for all views
+        public GameObject viewItemTemplate;       //empty temp template
+        public GameObject buttonItemTemplate;
+        public GameObject textItemTemplate;
+        public GameObject listHeadTemplate;
+        public GameObject listItemTemplate;
+        public GameObject inputItemTemplate;
+        public GameObject menuItemTemplate;
 
-        YB_ViewFactory      viewFactory;
-        YB_LogicFactory     logicFactory;
-        YB_ViewBasis        currentView;
+        YB_ViewFactory viewFactory;
+        YB_LogicFactory logicFactory;
+        YB_ViewBasis currentView;
         Stack<YB_ViewBasis> viewHistoryStack;
 
         public YB_Window ConfigLogicFactory(YB_LogicFactory factory)
@@ -82,22 +82,35 @@ namespace YBCarRental3D
         {
             foreach (var viewDef in viewFactory)
             {
+                //create view object
                 viewDef.viewObject = Instantiate(viewTemplate, this.gameObject.transform);
+                viewDef.viewObject.SetActive(false);
+                viewDef.viewObject.name = viewDef.Title;
+
+                //get and attach the viewmodel
+                if (!string.IsNullOrEmpty(viewDef.Source))
+                {
+                    Type datasourceType = logicFactory.FindDataSource(viewDef.Source);
+                    if (datasourceType != null)
+                    {
+                        viewDef.dataSource = viewDef.viewObject.AddComponent(datasourceType) as IYB_DataSource;                 //dual-way attach vm
+                        viewDef.dataSource.ConfigViewDef(viewDef);                                                              //dual-way attach view
+                    }
+                }
+
                 foreach (var viewItemDef in viewDef)
                 {
                     var item = this.GenerateViewItemObject(viewItemDef, viewDef.viewObject.transform);
-                    viewDef.ConfigViewItemObj(viewItemDef, ref item);
-                }
-                viewDef.viewObject.name = viewDef.Title;
-                viewDef.viewObject.SetActive(false);
+                    if (viewDef.dataSource != null)
+                    {
+                        viewDef.dataSource.ConfigViewItemObj(viewItemDef, ref item);
 
-                if (!string.IsNullOrEmpty(viewDef.Source))
-                {
-                    Type datasourceType = logicFactory.FindDataSource(viewDef.Source).GetType();
-                    if (datasourceType != null) viewDef.viewObject.AddComponent(datasourceType);
+                    }
                 }
             }
         }
+
+
 
         private GameObject GenerateViewItemObject(YB_ViewItemBasis itemDef, Transform parentViewObj)
         {
@@ -111,6 +124,7 @@ namespace YBCarRental3D
 
             return viewItemObj;
         }
+
     }
 
 }

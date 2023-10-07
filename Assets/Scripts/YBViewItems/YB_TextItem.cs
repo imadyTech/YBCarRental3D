@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -15,7 +16,7 @@ namespace YBCarRental3D
         }
         public override void OnBind(string contents)
         {
-            throw new NotImplementedException();
+            base.OnBind(contents);
         }
     }
 }

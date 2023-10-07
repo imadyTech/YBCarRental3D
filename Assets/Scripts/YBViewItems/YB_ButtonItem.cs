@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 
 namespace YBCarRental3D
 {
@@ -17,7 +18,15 @@ namespace YBCarRental3D
 
         public override void OnBind(string contents)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TMP_Text tmpText = itemObject.GetComponentInChildren<TMP_Text>();
+                tmpText.enableWordWrapping = false;
+                tmpText.text = contents;
+                if (this.isCentral)
+                    tmpText.alignment = TextAlignmentOptions.Center;
+            }
+            catch { }
         }
     }
 }

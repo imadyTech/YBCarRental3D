@@ -51,12 +51,12 @@ namespace YBCarRental3D
         {
             YB_ViewItemBasis newItem = new YB_ViewItemBasis(serializeString);
 
-            if (newItem.ItemType == "ButtonItem")   { return new YB_ButtonItem(serializeString); }
-            if (newItem.ItemType == "TextItem")     { return new YB_TextItem(serializeString); }
-            if (newItem.ItemType == "InputItem")    { return new YB_InputItem(serializeString); }
-            if (newItem.ItemType == "ListItem")     { return new YB_ListItem(serializeString); }
-            if (newItem.ItemType == "ListHead")     { return new YB_ListHead(serializeString); }
-            if (newItem.ItemType == "MenuItem")     { return new YB_MenuItem(serializeString); }
+            if (newItem.ItemType == "ButtonItem")   { return new YB_ButtonItem  (serializeString); }
+            if (newItem.ItemType == "TextItem")     { return new YB_TextItem    (serializeString); }
+            if (newItem.ItemType == "InputItem")    { return new YB_InputItem   (serializeString); }
+            if (newItem.ItemType == "ListItem")     { return new YB_ListItem    (serializeString); }
+            if (newItem.ItemType == "ListHead")     { return new YB_ListHead    (serializeString); }
+            if (newItem.ItemType == "MenuItem")     { return new YB_MenuItem    (serializeString); }
             return null;
         }
     }

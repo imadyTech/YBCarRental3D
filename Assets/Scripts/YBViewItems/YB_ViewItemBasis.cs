@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
+using UnityEditor.Rendering;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -22,6 +25,7 @@ namespace YBCarRental3D
         public string Content;
 
         public YB_ViewBasis parent;
+        public GameObject   itemObject;
 
 
         public YB_ViewItemBasis() {
@@ -55,7 +59,18 @@ namespace YBCarRental3D
 
         public virtual void OnBind(string contents)
         {
+            try
+            {
+                TMP_Text tmpText = itemObject.GetComponent<TMP_Text>();
+                tmpText.enableWordWrapping = false;
+                tmpText.text = contents;
+                if (this.isCentral)
+                    tmpText.alignment = TextAlignmentOptions.Center;
+            }
+            catch { }
 
         }
+
+
     }
 }

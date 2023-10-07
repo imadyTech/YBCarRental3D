@@ -15,7 +15,7 @@ namespace YBCarRental3D
         }
         public override void OnBind(string contents)
         {
-            throw new NotImplementedException();
+            base.OnBind(contents);
         }
     }
 }
