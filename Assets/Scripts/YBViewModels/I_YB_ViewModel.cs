@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace YBCarRental3D
 {
@@ -11,7 +12,7 @@ namespace YBCarRental3D
     using FORMATED_LIST_ITEM_VALUE = Tuple<string, string, int>;
     using FORMATED_LIST_VIEW_VALUES = List<Tuple<string, string, int>>;
 
-    public interface IYB_DataSource
+    public interface I_YB_ViewModel
     {
         string Get_PropertyValue(string bindNamePtr);
         //query an object and fill the result as indicated in a List ref
@@ -41,8 +42,10 @@ namespace YBCarRental3D
         void onNoClicked();
         void onOkClicked();
 
-        void ConfigViewDef(YB_ViewBasis view);
+        void SetViewDef(YB_ViewBasis view);
 
-        void ConfigViewItemObj(YB_ViewItemBasis viewItemDef, ref GameObject itemObj);
+        void GenerateViewItems(YB_Window window);
+
+        void OnChildReturn(YB_ViewMessageBasis message, YB_ButtonItem fromItem);
     }
 }

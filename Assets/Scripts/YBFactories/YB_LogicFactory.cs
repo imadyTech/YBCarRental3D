@@ -23,7 +23,7 @@ namespace YBCarRental3D
             //this.RegisterDataSource("YB_WelcomeVM",         Type.GetType("YB_WelcomeVM"));
 
             this.RegisterDataSource("YB_WelcomeVM",         typeof(YB_WelcomeVM));
-            this.RegisterDataSource("YB_MainMenuView",      typeof(YB_MainMenuView));
+            this.RegisterDataSource("YB_MainMenuViewVM",    typeof(YB_MainMenuViewVM));
             this.RegisterDataSource("YB_UserLoginVM",       typeof(YB_UserLoginVM));
             this.RegisterDataSource("YB_UserRegisterVM",    typeof(YB_UserRegisterVM));
             this.RegisterDataSource("YB_UserMenuVM",        typeof(YB_UserMenuVM));
@@ -42,7 +42,11 @@ namespace YBCarRental3D
             this.RegisterDataSource("YB_OrderAdminVM",      typeof(YB_OrderAdminVM));//admin - approve or reject
             this.RegisterDataSource("YB_UserAdminListVM",   typeof(YB_UserAdminListVM));//admin
             this.RegisterDataSource("YB_UserAdminVM",       typeof(YB_UserAdminVM));//admin
-            this.RegisterDataSource("YB_LogOutVM",          typeof(YB_LogOutVM));//dmin          
+            this.RegisterDataSource("YB_LogOutVM",          typeof(YB_LogOutVM));//
+            this.RegisterDataSource("YB_HelpViewVM",        typeof(YB_HelpViewVM));//         
+            this.RegisterDataSource("YB_CopyrightViewVM",   typeof(YB_CopyrightViewVM));//
+            this.RegisterDataSource("YB_ErrorViewVM",       typeof(YB_ErrorViewVM));//
+            this.RegisterDataSource("YB_ByeByeViewVM",      typeof(YB_ByeByeViewVM));//
         }
         public bool RegisterDataSource(string sourceName, Type service) {
             try

@@ -13,9 +13,9 @@ namespace YBCarRental3D
         {
             base.Deserialize(def);
         }
-        public override void OnBind(string contents)
+        public override YB_ViewItemBasis BindContent()
         {
-            base.OnBind(contents);
+            return base.BindContent();
         }
     }
 }

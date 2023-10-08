@@ -23,7 +23,7 @@ namespace YBCarRental3D
         public string ConfirmView = "";
 
         public GameObject               viewObject;                     //The empty view frame 
-        public IYB_DataSource           dataSource;
+        public I_YB_ViewModel           dataSource;
         public List<YB_ViewItemBasis>   bindableItems;                  //Items affected by binding behaviour
         public List<YB_ViewItemBasis>   subItemsList;
         private string serializeString;

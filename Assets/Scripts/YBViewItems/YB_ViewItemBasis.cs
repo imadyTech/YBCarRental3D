@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace YBCarRental3D
 {
@@ -25,13 +26,14 @@ namespace YBCarRental3D
         public string Content;
 
         public YB_ViewBasis parent;
-        public GameObject   itemObject;
+        public GameObject itemObject;
 
 
-        public YB_ViewItemBasis() {
+        public YB_ViewItemBasis()
+        {
             this.persistentSeparator = '!';
         }
-        public YB_ViewItemBasis(string definition):this()
+        public YB_ViewItemBasis(string definition) : this()
         {
             base.serializedString = definition;
             this.Deserialize(definition);
@@ -41,36 +43,39 @@ namespace YBCarRental3D
         {
             base.SplitLine(line);
 
-            if (base.HasValue("Id"))                base.Id = int.Parse(FindValue("Id"));
-            if (base.HasValue("x"))                 x = int.Parse(FindValue("x"));
-            if (base.HasValue("y"))                 y = int.Parse(FindValue("y"));
-            if (base.HasValue("w"))                 w = int.Parse(FindValue("w"));
-            if (base.HasValue("h"))                 h = int.Parse(FindValue("h"));
-            if (base.HasValue("Bind"))              Bind = FindValue("Bind");
-            if (base.HasValue("Link"))              Link = FindValue("ink");
-            if (base.HasValue("ItemType"))          ItemType = FindValue("ItemType");
-            if (base.HasValue("Content"))           Content = FindValue("Content");
-            if (base.HasValue("Background"))        Background = FindValue("Background");
-            if (base.HasValue("isCentral"))         isCentral = FindValue("isCentral") == "1";
-            if (base.HasValue("isFocused"))         isFocused = FindValue("isFocused") == "1";
-            if (base.HasValue("isSelected"))        isSelected = FindValue("isSelected") == "1";
-            if (base.HasValue("isHidden"))          isHidden = FindValue("isHidden") == "1";
+            if (base.HasValue("Id")) base.Id = int.Parse(FindValue("Id"));
+            if (base.HasValue("x")) x = int.Parse(FindValue("x"));
+            if (base.HasValue("y")) y = int.Parse(FindValue("y"));
+            if (base.HasValue("w")) w = int.Parse(FindValue("w"));
+            if (base.HasValue("h")) h = int.Parse(FindValue("h"));
+            if (base.HasValue("Bind")) Bind = FindValue("Bind");
+            if (base.HasValue("Link")) Link = FindValue("Link");
+            if (base.HasValue("ItemType")) ItemType = FindValue("ItemType");
+            if (base.HasValue("Content")) Content = FindValue("Content");
+            if (base.HasValue("Background")) Background = FindValue("Background");
+            if (base.HasValue("isCentral")) isCentral = FindValue("isCentral") == "1";
+            if (base.HasValue("isFocused")) isFocused = FindValue("isFocused") == "1";
+            if (base.HasValue("isSelected")) isSelected = FindValue("isSelected") == "1";
+            if (base.HasValue("isHidden")) isHidden = FindValue("isHidden") == "1";
         }
 
-        public virtual void OnBind(string contents)
+        public virtual YB_ViewItemBasis BindContent()
         {
             try
             {
                 TMP_Text tmpText = itemObject.GetComponent<TMP_Text>();
                 tmpText.enableWordWrapping = false;
-                tmpText.text = contents;
+                tmpText.text = this.Content;
                 if (this.isCentral)
                     tmpText.alignment = TextAlignmentOptions.Center;
             }
             catch { }
-
+            return this;
         }
 
-
+        public virtual YB_ViewItemBasis BindAction()
+        {
+            return this;
+        }
     }
 }

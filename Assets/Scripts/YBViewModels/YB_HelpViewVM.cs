@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YBCarRental3D
 {
-    public class YB_MainMenuView: YB_ViewModelBasis<YB_User>
+    public class YB_HelpViewVM : YB_ViewModelBasis<YB_User>
     {
     }
 }

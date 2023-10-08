@@ -17,6 +17,7 @@ namespace YBCarRental3D
 
         public const string msgDef_ListItem = "ListItem";
         public const string msgDef_Menu = "MENU";
+
         public const string VIEWITEM_TYPE_BUTTON = "ButtonItem";
         public const string VIEWITEM_TYPE_TEXT = "TextItem";
         public const string VIEWITEM_TYPE_INPUT = "InputItem";
