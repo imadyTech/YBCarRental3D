@@ -22,7 +22,7 @@ namespace YBCarRental3D
         //???
         List<YB_DataBasis> Get_QueryList(int page, int pageSize);
         //return the current principalData only.
-        YB_DataBasis Get_PrincipalData();
+        //YB_DataBasis Get_PrincipalData();
         //query an return an object by the object.Id, AND store the object as principalData at meantime.
         //YB_DataBasis Get_PrincipalData(int Id);
         //void Set_PropertyValue(string bindNamePtr, string valuePtr);
@@ -31,21 +31,17 @@ namespace YBCarRental3D
         //Fired in ViewBasis.Init()
         //Dictionary<string, string> onListInitiated(string tableHeadNames);                              //tableheadNames format: Model/Make/Mileage
         //Dictionary<string, string> onListInitiated(string tableHeadNames, int pageNum, int size);       //Table paging, Todo...
-        void onInit();
-        void onSubmit(Dictionary<string, string> values);
-        void onViewForwarded(YB_DataBasis fromData);
+        void onInit(YB_Window window);
+        void onViewForwarded(YB_ViewBasis fromView);
+        void OnButtonClicked(YB_ButtonItem button);
+        void onSubmit();
         void onContentUpdated(string bindName, string newValue);
         //void onItemFocused(string bindName);
         //void onItemSelected(string bindName);
-        void onButtonClicked(string buttonName);
         void onYesClicked();
         void onNoClicked();
         void onOkClicked();
 
         void SetViewDef(YB_ViewBasis view);
-
-        void GenerateViewItems(YB_Window window);
-
-        void OnChildReturn(YB_ViewMessageBasis message, YB_ButtonItem fromItem);
     }
 }

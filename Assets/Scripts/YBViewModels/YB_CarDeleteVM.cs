@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace YBCarRental3D
@@ -9,19 +10,20 @@ namespace YBCarRental3D
         {
         }
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            this.principalObject = (YB_Car)(fromData);
         }
 
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)
+        public override void onSubmit()
         {
+            throw new NotImplementedException();
+
             bool deleteResult = YB_ManagerFactory.CarMgr.DeleteCar(this.principalObject);
 
             if (deleteResult)
-                Window.Goto(YBGlobal.USER_MAIN_VIEW);
+                ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);
             else if (deleteResult)
-                Window.Goto(YBGlobal.ADMIN_MAIN_VIEW);
+                ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
         }
 
     };

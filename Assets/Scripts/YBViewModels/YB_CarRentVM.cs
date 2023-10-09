@@ -12,14 +12,13 @@ namespace YBCarRental3D
         {
         }
 
-        YB_UserManager  userManagerPtr = YB_ManagerFactory.UserMgr;
-        YB_RentManager  rentManagerPtr = YB_ManagerFactory.RentMgr;
-        YB_CarManager   carManagerPtr = YB_ManagerFactory.CarMgr;
+        YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
+        YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
+        YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            this.principalObject = (YB_Car)(fromData);
         }
 
 
@@ -40,23 +39,24 @@ namespace YBCarRental3D
         }
 
 
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)
+        public override void onSubmit()
         {
+            throw new NotImplementedException();
+
             int daysToRent = 0;
             int carId = 0;
 
             DateTime startDate = DateTime.Now;
 
-            string key = "DaysToRent";
-            if (valuesMapPtr.ContainsKey(key))
-                daysToRent = int.Parse(valuesMapPtr[key]);
-            key = "Id";
-            if (valuesMapPtr.ContainsKey(key))
-                carId = int.Parse((valuesMapPtr)[key]);
 
-            YB_Car car      = carManagerPtr.GetCar(carId);
-            YB_Rent order   = new YB_Rent();
-            int totalPrice = (int) (car.DayRentPrice * daysToRent);
+            if (base.Has_PropertyValue("DaysToRent"))
+                daysToRent = int.Parse(base.Get_PropertyValue("DaysToRent"));
+            if (base.Has_PropertyValue("Id"))
+                carId = int.Parse(base.Get_PropertyValue("Id"));
+
+            YB_Car car = carManagerPtr.GetCar(carId);
+            YB_Rent order = new YB_Rent();
+            int totalPrice = (int)(car.DayRentPrice * daysToRent);
 
             if (userManagerPtr.CurrentUser().Balance >= totalPrice)
             {
@@ -71,7 +71,7 @@ namespace YBCarRental3D
             }
             else
             {
-                Window.PopPrompt("You don't have enough money to fulfill the order.", YBGlobal.USER_MAIN_VIEW);
+                ybWindow.PopPrompt(this.viewDef.Title, "You don't have enough money to fulfill the order.", YBGlobal.USER_MAIN_VIEW);
             }
         }
     };

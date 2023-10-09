@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace YBCarRental3D
 {
@@ -7,14 +7,17 @@ namespace YBCarRental3D
     {
         public YB_OrderAdminVM() : base() { }
 
-        YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
-        YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
-        YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
+        YB_UserManager userManagerPtr   = YB_ManagerFactory.UserMgr;
+        YB_RentManager rentManagerPtr   = YB_ManagerFactory.RentMgr;
+        YB_CarManager carManagerPtr     = YB_ManagerFactory.CarMgr;
 
+        int CarId = -1;
+        int RentDays = 0;
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            this.principalObject = (YB_Rent)(fromData);
+            CarId       = int.Parse( fromView.viewModel.Get_PropertyValue("CarId"));
+            RentDays    = int.Parse( fromView.viewModel.Get_PropertyValue("RentDays"));
         }
         public override string Get_PropertyValue(string bindName)
         {
@@ -31,7 +34,7 @@ namespace YBCarRental3D
             }
             if (bindName == "CarInfo")
             {
-                var car = carManagerPtr.GetCar(principalObject.CarId);
+                var car = carManagerPtr.GetCar(this.CarId);
                 value = car.Make + " " + car.Model + " " + car.Year;
                 return value;
             }
@@ -42,27 +45,34 @@ namespace YBCarRental3D
             }
             if (bindName == "OrderCost")
             {
-                var car = carManagerPtr.GetCar(principalObject.CarId);
-                value = (principalObject.RentDays * car.DayRentPrice).ToString();
+                var car = carManagerPtr.GetCar(this.CarId);
+                value = (this.RentDays * car.DayRentPrice).ToString();
                 return value;
             }
             return base.Get_PropertyValue(bindName);
         }
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)
+        public override void onSubmit()
         {
-            string reviewType = (valuesMapPtr)[YBGlobal.SUBMIT_BINDKEY_BUTTONCONTENT];
-            int orderId = int.Parse((valuesMapPtr)["Id"]);
+            throw new NotImplementedException();
+
+            int orderId = int.Parse(base.Get_PropertyValue("Id"));
+
+            string reviewType = base.Get_PropertyValue(YBGlobal.SUBMIT_BINDKEY_BUTTONCONTENT);
             if (reviewType == "APPROVE")
             {
                 rentManagerPtr.ApproveOrder(orderId);
-                Window.PopPrompt("You have approved the order!", YBGlobal.ADMIN_MAIN_VIEW);
+                base.ybWindow.PopPrompt(this.viewDef.Title, "You have approved the order!", YBGlobal.ADMIN_MAIN_VIEW);
             };
             if (reviewType == "REJECT")
             {
                 rentManagerPtr.RejectOrder(orderId);
-                Window.PopPrompt("You have rejected the order.", null);
+                base.ybWindow.PopPrompt(this.viewDef.Title, "You have rejected the order.", null);
             };
         }
-    };
-
+        public override void OnButtonClicked(YB_ButtonItem button)
+        {
+            if (button.ButtonType == YBGlobal.Button_Type_Submit)
+                this.onSubmit();
+        }
+    }
 }

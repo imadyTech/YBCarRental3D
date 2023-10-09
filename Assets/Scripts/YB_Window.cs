@@ -3,6 +3,7 @@ using imady.NebuUI.Samples;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,18 +56,18 @@ namespace YBCarRental3D
                 //get and attach the viewmodel
                 if (!string.IsNullOrEmpty(viewDef.Source))
                 {
-                    Type datasourceType = logicFactory.FindDataSource(viewDef.Source);
+                    Type datasourceType = logicFactory.FindViewModel(viewDef.Source);
                     if (datasourceType != null)
                     {
-                        viewDef.dataSource = viewDef.viewObject.AddComponent(datasourceType) as I_YB_ViewModel;
-                        viewDef.dataSource.SetViewDef(viewDef);
-                        viewDef.dataSource.GenerateViewItems(this);
+                        viewDef.viewModel = viewDef.viewObject.AddComponent(datasourceType) as I_YB_ViewModel;
+                        viewDef.viewModel.SetViewDef(viewDef);
+                        viewDef.viewModel.onInit(this);
                     }
                 }
             }
         }
 
-        public GameObject GenerateViewItemObject(YB_ViewItemBasis itemDef, Transform parentViewObj)
+        public GameObject GetViewItemTemplate(YB_ViewItemBasis itemDef, Transform parentViewObj)
         {
             GameObject viewItemObj = viewItemTemplate;
             if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON) viewItemObj = Instantiate(buttonItemTemplate, parentViewObj);
@@ -84,13 +85,18 @@ namespace YBCarRental3D
             if (currentView != null && currentView.viewObject != null)
                 currentView.viewObject.SetActive(false);
 
+            var previousView = currentView;
             if (viewPtr == null)
                 currentView = viewFactory.GetView(YBGlobal.ERROR_VIEW);
             else
                 currentView = viewPtr;
 
-            this.viewHistoryStack.Push(currentView);
             currentView.viewObject.SetActive(true);
+            if (previousView != null)
+            {
+                this.viewHistoryStack.Push(previousView);
+                currentView.viewModel.onViewForwarded(previousView);
+            }
         }
         public void Goto(int viewId)
         {
@@ -98,7 +104,8 @@ namespace YBCarRental3D
         }
         public void Goto(string viewTitle)
         {
-            this.Goto(viewFactory.GetView(viewTitle));
+            if (!string.IsNullOrEmpty(viewTitle))
+                this.Goto(viewFactory.GetView(viewTitle));
         }
         public void Back()
         {
@@ -108,10 +115,15 @@ namespace YBCarRental3D
                 this.currentView = this.viewHistoryStack.Pop();
             }
         }
-        public void PopPrompt(string v, object value)
+        public void PopPrompt(string title, string msg, string gotoView)
         {
-            throw new NotImplementedException();
-            //App.Instance.uiManager.ShowMessageBox(v, v);
+            //throw new NotImplementedException();
+            App.Instance.uiManager.ShowMessageBox(title, msg, () => { this.Goto(gotoView); });
+        }
+        public void PopPrompt(string title, string msg)
+        {
+            //throw new NotImplementedException();
+            App.Instance.uiManager.ShowMessageBox(title, msg);
         }
 
     }

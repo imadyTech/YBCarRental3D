@@ -10,13 +10,6 @@ namespace YBCarRental3D
         {
         }
 
-        public override void onViewForwarded(YB_DataBasis fromData)
-        {
-            principalObject = YB_ManagerFactory.UserMgr.CurrentUser();
-        }
-
-
-
         private void Update()
         {
             if( Input.anyKeyDown )

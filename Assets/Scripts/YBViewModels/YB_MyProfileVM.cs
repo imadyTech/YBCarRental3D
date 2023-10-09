@@ -9,9 +9,8 @@ namespace YBCarRental3D {
 		YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
 
 
-		public override void					onViewForwarded(YB_DataBasis fromData)		
+		public override void					onViewForwarded(YB_ViewBasis fromView)		
 		{
-			this.principalObject = (YB_User)fromData;
 		}
 		public override string Get_PropertyValue(string bindName) 
 		{

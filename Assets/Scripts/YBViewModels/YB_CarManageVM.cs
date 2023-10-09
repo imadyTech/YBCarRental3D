@@ -23,21 +23,16 @@ namespace YBCarRental3D
         public float DayRentPrice { get; set; }
 
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onSubmit()
         {
-            this.principalObject = (YB_Car)fromData;
-        }
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)
-        {
-
-            if (valuesMapPtr.ContainsKey("Id")) Id = int.Parse(valuesMapPtr["Id"]);
-            if (valuesMapPtr.ContainsKey("Make")) Make = valuesMapPtr["Make"];
-            if (valuesMapPtr.ContainsKey("Model")) Model = valuesMapPtr["Model"];
-            if (valuesMapPtr.ContainsKey("Year")) Year = int.Parse(valuesMapPtr["Year"]);
-            if (valuesMapPtr.ContainsKey("Mileage")) Mileage = int.Parse(valuesMapPtr["Mileage"]);
-            if (valuesMapPtr.ContainsKey("MinRentPeriod")) MinRentPeriod = int.Parse(valuesMapPtr["MinRentPeriod"]);
-            if (valuesMapPtr.ContainsKey("MaxRentPeriod")) MaxRentPeriod = int.Parse(valuesMapPtr["MaxRentPeriod"]);
-            if (valuesMapPtr.ContainsKey("DayRentPrice")) DayRentPrice = float.Parse(valuesMapPtr["DayRentPrice"]);
+            if (base.Has_PropertyValue("Id")) Id = int.Parse(base.Get_PropertyValue("Id"));
+            if (base.Has_PropertyValue("Make")) Make = base.Get_PropertyValue("Make");
+            if (base.Has_PropertyValue("Model")) Model = base.Get_PropertyValue("Model");
+            if (base.Has_PropertyValue("Year")) Year = int.Parse(base.Get_PropertyValue("Year"));
+            if (base.Has_PropertyValue("Mileage")) Mileage = int.Parse(base.Get_PropertyValue("Mileage"));
+            if (base.Has_PropertyValue("MinRentPeriod")) MinRentPeriod = int.Parse(base.Get_PropertyValue("MinRentPeriod"));
+            if (base.Has_PropertyValue("MaxRentPeriod")) MaxRentPeriod = int.Parse(base.Get_PropertyValue("MaxRentPeriod"));
+            if (base.Has_PropertyValue("DayRentPrice")) DayRentPrice = float.Parse(base.Get_PropertyValue("DayRentPrice"));
 
             YB_Car car = new YB_Car();
             car.Id = Id;
@@ -53,11 +48,11 @@ namespace YBCarRental3D
             bool result = carManagerPtr.UpdateCar(car);
             if (result)
             {
-                Window.PopPrompt("The car has been successfully updated!", YBGlobal.ADMIN_MAIN_VIEW);
+                ybWindow.PopPrompt(this.viewDef.Title, "The car has been successfully updated!", YBGlobal.ADMIN_MAIN_VIEW);
             }
             else
             {
-                Window.PopPrompt("There is some issue to add your car information.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "There is some issue to add your car information.", null);
             }
         }
 

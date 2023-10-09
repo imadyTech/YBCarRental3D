@@ -7,10 +7,6 @@ namespace YBCarRental3D {
         public YB_UserMenuVM():base() {
 		}
 
-        public override void onViewForwarded(YB_DataBasis fromData)		
-		{
-			this.principalObject = YB_ManagerFactory.UserMgr.CurrentUser();
-		}
 	}
 }
 

@@ -17,5 +17,9 @@ namespace YBCarRental3D
         {
             return base.BindContent();
         }
+        public override YB_ViewItemBasis BindAction()
+        {
+            return base.BindAction();
+        }
     }
 }

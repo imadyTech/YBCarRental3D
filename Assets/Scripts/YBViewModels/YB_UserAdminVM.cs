@@ -12,40 +12,36 @@ namespace YBCarRental3D {
 		YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
 
-        public override void onViewForwarded(YB_DataBasis fromData)		
+        public override void onSubmit()				
 		{
-			this.principalObject = (YB_User)(fromData);
-		}
+			throw new NotImplementedException();
 
-
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)				
-		{
 			var userPtr = this.principalObject;
 
 			try {
 				//userPtr.Id				= std.stoi((valuesMapPtr)["Id"]);
-				userPtr.UserName = ((valuesMapPtr)["UserName"]);
-				userPtr.FirstName = ((valuesMapPtr)["FirstName"]);
-				userPtr.FamilyName = ((valuesMapPtr)["FamilyName"]);
-				userPtr.UserRoles = ((valuesMapPtr)["UserRoles"]);
-				userPtr.Balance = int.Parse((valuesMapPtr)["Balance"]);
+				userPtr.UserName	= base.Get_PropertyValue("UserName");
+				userPtr.FirstName	= base.Get_PropertyValue("FirstName");
+				userPtr.FamilyName	= base.Get_PropertyValue("FamilyName");
+				userPtr.UserRoles	= base.Get_PropertyValue("UserRoles");
+				userPtr.Balance		= int.Parse(base.Get_PropertyValue("Balance"));
 			}
 			catch (Exception e)
 			{
-				Window.PopPrompt("Some issues in your input. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.", null);
 			}
 			try {
 				if (userManagerPtr.UpdateUser(userPtr)) {
-					Window.PopPrompt("The user info was successfully updated.", YBGlobal.ADMIN_MAIN_VIEW);
+					ybWindow.PopPrompt(this.viewDef.Title, "The user info was successfully updated.", YBGlobal.ADMIN_MAIN_VIEW);
 				}
 				else
 				{
-					Window.PopPrompt("The user info update was NOT successful.", YBGlobal.ADMIN_MAIN_VIEW);
+					ybWindow.PopPrompt(this.viewDef.Title, "The user info update was NOT successful.", YBGlobal.ADMIN_MAIN_VIEW);
 				}
 			}
 			catch (Exception e)
 			{
-				Window.PopPrompt("Something goes wrong. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.", null);
 			}
 		}
 	}

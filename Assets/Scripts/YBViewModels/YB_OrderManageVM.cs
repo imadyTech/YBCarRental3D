@@ -10,10 +10,6 @@ namespace YBCarRental3D
 
         YB_User carryForwardedUser;
 
-        public override void onViewForwarded(YB_DataBasis fromData)
-        {
-            carryForwardedUser = (YB_User)fromData;
-        }
     };
 }
 

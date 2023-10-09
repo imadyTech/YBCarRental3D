@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace YBCarRental3D
 {
@@ -22,23 +22,24 @@ namespace YBCarRental3D
         public float DayRentPrice { get; set; }
 
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            this.principalObject = (YB_Car)fromData;
         }
         public override string Get_PropertyValue(string bindName)
         {
             return base.Get_PropertyValue(bindName);
         }
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)
+        public override void onSubmit()
         {
-            if (valuesMapPtr.ContainsKey("Model")) Make = valuesMapPtr["Make"];
-            if (valuesMapPtr.ContainsKey("Model")) Model = valuesMapPtr["Model"]; ;
-            if (valuesMapPtr.ContainsKey("Year")) Year = int.Parse(valuesMapPtr["Year"]);
-            if (valuesMapPtr.ContainsKey("Mileage")) Mileage = int.Parse(valuesMapPtr["Mileage"]);
-            if (valuesMapPtr.ContainsKey("MinRentPeriod")) MinRentPeriod = int.Parse(valuesMapPtr["MinRentPeriod"]);
-            if (valuesMapPtr.ContainsKey("MaxRentPeriod")) MaxRentPeriod = int.Parse(valuesMapPtr["MaxRentPeriod"]);
-            if (valuesMapPtr.ContainsKey("DayRentPrice")) DayRentPrice = float.Parse(valuesMapPtr["DayRentPrice"]);
+            throw new NotImplementedException();
+
+            if (base.Has_PropertyValue("Model")) Make = base.Get_PropertyValue("Make");
+            if (base.Has_PropertyValue("Model")) Model = base.Get_PropertyValue("Model"); ;
+            if (base.Has_PropertyValue("Year")) Year = int.Parse(base.Get_PropertyValue("Year"));
+            if (base.Has_PropertyValue("Mileage")) Mileage = int.Parse(base.Get_PropertyValue("Mileage"));
+            if (base.Has_PropertyValue("MinRentPeriod")) MinRentPeriod = int.Parse(base.Get_PropertyValue("MinRentPeriod"));
+            if (base.Has_PropertyValue("MaxRentPeriod")) MaxRentPeriod = int.Parse(base.Get_PropertyValue("MaxRentPeriod"));
+            if (base.Has_PropertyValue("DayRentPrice")) DayRentPrice = float.Parse(base.Get_PropertyValue("DayRentPrice"));
 
             YB_Car car = new YB_Car();
             car.Make = Make;
@@ -53,11 +54,11 @@ namespace YBCarRental3D
             bool result = carManagerPtr.AddCar(car);
             if (result)
             {
-                Window.PopPrompt("The car has been successfully added!", YBGlobal.ADMIN_MAIN_VIEW);
+                ybWindow.PopPrompt(this.viewDef.Title, "The car has been successfully added!", YBGlobal.ADMIN_MAIN_VIEW);
             }
             else
             {
-                Window.PopPrompt("There is some issue to add your car information.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "There is some issue to add your car information.", null);
             }
         }
     }

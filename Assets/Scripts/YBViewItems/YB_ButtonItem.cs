@@ -25,7 +25,7 @@ namespace YBCarRental3D
         {
             try
             {
-                TMP_Text tmpText = itemObject.GetComponentInChildren<TMP_Text>();
+                TMP_Text tmpText = itemObject.GetComponentInChildren<TMP_Text>();//differ to base method
                 tmpText.enableWordWrapping = false;
                 tmpText.text = this.Content;
                 if (this.isCentral)
@@ -40,28 +40,18 @@ namespace YBCarRental3D
             {
                 var btn = itemObject.GetComponent<Button>();
                 if (btn != null)
-                {
-                    if (this.ButtonType == YBGlobal.Button_Type_Submit)
-                    {
-                        YB_ButtonSubmitMessage message = new YB_ButtonSubmitMessage();
-                        btn.onClick.AddListener(() => this.parent.dataSource.OnChildReturn(message, this));
-                    }
-                    if (this.ButtonType == YBGlobal.Button_Type_Yes)
-                    {
-                        YB_ButtonYesMessage message = new YB_ButtonYesMessage();
-                        btn.onClick.AddListener(() => this.parent.dataSource.OnChildReturn(message, this));
-                    }
-                    if (this.ButtonType == YBGlobal.Button_Type_No)
-                    {
-                        YB_ButtonNoMessage message = new YB_ButtonNoMessage();
-                        btn.onClick.AddListener(() => this.parent.dataSource.OnChildReturn(message, this));
-                    }
-                    if (this.ButtonType == YBGlobal.Button_Type_Ok)
-                    {
-                        YB_ButtonOkMessage message = new YB_ButtonOkMessage();
-                        btn.onClick.AddListener(() => this.parent.dataSource.OnChildReturn(message, this));
-                    }
-                }
+                        btn.onClick.AddListener(() => this.parent.viewModel.OnButtonClicked(this));
+            }
+            catch
+            {
+            }
+            return this;
+        }
+        public override YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
+        {
+            try
+            {
+                valuesMapPtr.Add(this.Bind, () => { return this.itemObject.GetComponentInChildren<TMP_Text>().text; });
             }
             catch
             {

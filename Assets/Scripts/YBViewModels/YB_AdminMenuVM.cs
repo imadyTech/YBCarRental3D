@@ -8,9 +8,8 @@ namespace YBCarRental3D
         {
         }
 
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            principalObject = YB_ManagerFactory.UserMgr.CurrentUser();
         }
     };
 }

@@ -13,9 +13,8 @@ namespace YBCarRental3D
         YB_User carryForwardedUser;
 
         //DO NOT carryForward current principalObject, this confuse with the current user (Admin) of the current view
-        public override void onViewForwarded(YB_DataBasis fromData)
+        public override void onViewForwarded(YB_ViewBasis fromView)
         {
-            this.carryForwardedUser = (YB_User)fromData;
         }
     };
 }

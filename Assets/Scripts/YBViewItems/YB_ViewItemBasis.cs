@@ -12,21 +12,21 @@ namespace YBCarRental3D
 {
     public class YB_ViewItemBasis : YB_DataBasis
     {
-        public int x = 0, y = 0;                           //relative coordinate inside the view
-        public int w = 100;                                //Width of the viewItem.
-        public int h = 1;                              //Height of the viewItem.
-        public string ItemType;
-        public string Background = "";
-        public string Bind = "";
-        public string Link = "";
-        public bool isCentral = true;
-        public bool isFocused = false;
-        public bool isSelected = false;
-        public bool isHidden = false;                  //if an item is hidden, then the View will ignore it during rendering.
-        public string Content;
+        public int              x = 0, y = 0;                       //relative coordinate inside the view
+        public int              w = 100;                            //Width of the viewItem.
+        public int              h = 1;                              //Height of the viewItem.
+        public string           ItemType;
+        public string           Background = "";
+        public string           Bind = "";
+        public string           Link = "";
+        public bool             isCentral = true;
+        public bool             isFocused = false;
+        public bool             isSelected = false;
+        public bool             isHidden = false;                  //if an item is hidden, then the View will ignore it during rendering.
+        public string           Content = "";
 
-        public YB_ViewBasis parent;
-        public GameObject itemObject;
+        public YB_ViewBasis     parent;
+        public GameObject       itemObject;
 
 
         public YB_ViewItemBasis()
@@ -77,5 +77,11 @@ namespace YBCarRental3D
         {
             return this;
         }
+
+        public virtual YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
+        {
+            return this;
+        }
+
     }
 }

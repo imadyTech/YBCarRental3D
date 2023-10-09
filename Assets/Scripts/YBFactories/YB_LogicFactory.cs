@@ -58,7 +58,7 @@ namespace YBCarRental3D
                 return false; 
             }
         }
-        public Type FindDataSource(string sourceName) { 
+        public Type FindViewModel(string sourceName) { 
             if(string.IsNullOrEmpty(sourceName)) return null;
 
             if(this.serviceInstanceMap.ContainsKey(sourceName))

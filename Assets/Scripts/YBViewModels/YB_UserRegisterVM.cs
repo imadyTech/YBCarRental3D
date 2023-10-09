@@ -13,8 +13,8 @@ namespace YBCarRental3D {
 		
 		YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
 
-        public override void onViewForwarded(YB_DataBasis fromData)		
-		{
+        public override void onViewForwarded(YB_ViewBasis fromView)
+        {
 			//for Register, always starts from an empty user
 			YB_User userPtr = new YB_User();
 			userPtr.Balance = 0;
@@ -23,52 +23,54 @@ namespace YBCarRental3D {
 			this.principalObject = userPtr;
 		}
 
-        public override void onSubmit(Dictionary<string, string> valuesMapPtr)				
+        public override void onSubmit()				
 		{
+			throw new NotImplementedException();
+
 			var userPtr = this.principalObject;
 
 			try {
 				//userPtr.Id				= std::stoi((valuesMapPtr)["Id"]);
-				userPtr.UserName	= ((valuesMapPtr)["UserName"]);
-				userPtr.FirstName	= ((valuesMapPtr)["FirstName"]);
-				userPtr.FamilyName = ((valuesMapPtr)["FamilyName"]);
-				userPtr.Password	= ((valuesMapPtr)["Password"]);
+				userPtr.UserName	= base.Get_PropertyValue("UserName");
+				userPtr.FirstName	= base.Get_PropertyValue("FirstName");
+				userPtr.FamilyName  = base.Get_PropertyValue("FamilyName");
+				userPtr.Password	= base.Get_PropertyValue("Password");
 			}
 			catch (Exception e)
 			{
-				Window.PopPrompt("Some issues in your input. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.", null);
 			}
 
 			//Input verification
 			if (userPtr.UserName.Length > 10 || userPtr.UserName.Length < 3) {
-                Window.PopPrompt("UserName length must between 3 and 10 characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "UserName length must between 3 and 10 characters.", null);
 				return;
 			}
 			if (userPtr.FirstName.Length > 12 || userPtr.FirstName.Length < 3) {
-                Window.PopPrompt("First Name length must between 3 and 12 characters..", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "First Name length must between 3 and 12 characters..", null);
 				return;
 			}
 			if (userPtr.FamilyName.Length > 12 || userPtr.FamilyName.Length < 3) {
-                Window.PopPrompt("Family Name length must between 3 and 12 characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "Family Name length must between 3 and 12 characters.", null);
 				return;
 			}
 			if (userPtr.Password.Length > 6 || userPtr.Password.Length < 1) {
-                Window.PopPrompt("Must input a password no more than 6 digits or characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "Must input a password no more than 6 digits or characters.", null);
 				return;
 			}
 
 			try {
 				if (userManagerPtr.UserRegister(userPtr)) {
-                    Window.PopPrompt("The new user was successfully registered.", YBGlobal.MAIN_VIEW);
+                    ybWindow.PopPrompt(this.viewDef.Title, "The new user was successfully registered.", YBGlobal.MAIN_VIEW);
 				}
 				else
 				{
-                    Window.PopPrompt("The user registration was NOT successful.", YBGlobal.MAIN_VIEW);
+                    ybWindow.PopPrompt(this.viewDef.Title, "The user registration was NOT successful.", YBGlobal.MAIN_VIEW);
 				}
 			}
 			catch (Exception e)
 			{
-                Window.PopPrompt("Something goes wrong. Please check again.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.", null);
 			}
 		}
 	};

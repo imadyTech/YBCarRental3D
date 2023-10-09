@@ -14,19 +14,20 @@ namespace YBCarRental3D
 {
     public class YB_ViewBasis : YB_DataBasis, IEnumerable<YB_ViewItemBasis>
     {
-        public string ViewType = "";
-        public string Title = "";
-        public int w = 120, h = 32;
-        public char Background = '.';
-        public string Source = "";                                      //datasource, viewmodel
-        public string GotoView = "";
-        public string ConfirmView = "";
+        public string   ViewType = "";
+        public string   Title = "";
+        public int      w = 120, h = 32;
+        public char     Background = '.';
+        public string   Source = "";                                    //=datasource, viewmodel
+        public string   GotoView = "";
+        public string   ConfirmView = "";
 
         public GameObject               viewObject;                     //The empty view frame 
-        public I_YB_ViewModel           dataSource;
+        public I_YB_ViewModel           viewModel;
         public List<YB_ViewItemBasis>   bindableItems;                  //Items affected by binding behaviour
         public List<YB_ViewItemBasis>   subItemsList;
-        private string serializeString;
+
+        private string                  serializeString;
 
         public YB_ViewBasis() : base()
         {
