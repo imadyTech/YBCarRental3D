@@ -15,7 +15,7 @@ namespace YBCarRental3D
             string value = string.Empty;
             if (bindName == "SeeYou")
             {
-                value = "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser().FirstName;
+                value = "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser.FirstName;
                 return value;
             }
             return base.Get_PropertyValue(bindName);

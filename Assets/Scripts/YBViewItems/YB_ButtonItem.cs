@@ -51,6 +51,7 @@ namespace YBCarRental3D
         {
             try
             {
+                //Bind the button content to the variable 
                 valuesMapPtr.Add(this.Bind, () => { return this.itemObject.GetComponentInChildren<TMP_Text>().text; });
             }
             catch

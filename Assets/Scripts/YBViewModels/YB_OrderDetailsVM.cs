@@ -25,12 +25,12 @@ namespace YBCarRental3D
             string value = "";
             if (bindName == "UserName")
             {
-                value = userManagerPtr.CurrentUser().UserName;
+                value = userManagerPtr.CurrentUser.UserName;
                 return value;
             }
             if (bindName == "Balance")
             {
-                value = (userManagerPtr.CurrentUser().Balance).ToString();
+                value = (userManagerPtr.CurrentUser.Balance).ToString();
                 return value;
             }
             if (bindName == "CarInfo")
@@ -41,7 +41,7 @@ namespace YBCarRental3D
             }
             if (bindName == "CustomerName")
             {
-                value = userManagerPtr.CurrentUser().FirstName + " " + userManagerPtr.CurrentUser().FamilyName;
+                value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
                 return value;
             }
             if (bindName == "OrderCost")
@@ -72,16 +72,16 @@ namespace YBCarRental3D
             YB_Rent order = new YB_Rent();
             int totalPrice = (int) car.DayRentPrice*daysToRent;
 
-            if (userManagerPtr.CurrentUser().Balance >= totalPrice)
+            if (userManagerPtr.CurrentUser.Balance >= totalPrice)
             {
-                bool result = rentManagerPtr.PlaceOrder((userManagerPtr.CurrentUser()).Id,
+                bool result = rentManagerPtr.PlaceOrder((userManagerPtr.CurrentUser).Id,
                     carId,
                     startDate,
                     daysToRent);
                 //order success, deduct account balance
                 if (result)
-                    userManagerPtr.CurrentUser().Balance -= totalPrice;
-                userManagerPtr.Update(userManagerPtr.CurrentUser());
+                    userManagerPtr.CurrentUser.Balance -= totalPrice;
+                userManagerPtr.Update(userManagerPtr.CurrentUser);
             }
             else
             {

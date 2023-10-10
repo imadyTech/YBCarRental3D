@@ -10,8 +10,8 @@ namespace YBCarRental3D
         YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
-        public string UserRoles => userManagerPtr.CurrentUser().UserRoles;
-        public string UserName => userManagerPtr.CurrentUser().UserName;
+        public string UserRoles => userManagerPtr.CurrentUser.UserRoles;
+        public string UserName => userManagerPtr.CurrentUser.UserName;
         public string Make { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }

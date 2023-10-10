@@ -4,11 +4,8 @@ namespace YBCarRental3D
 {
     public class YB_RentManager : YB_ManagerBasis<YB_Rent>
     {
-        private string v;
-
-        public YB_RentManager(string v)
+        public YB_RentManager(string baseUrl) : base(baseUrl, "YBRents")
         {
-            this.v = v;
         }
 
         public bool PlaceOrder(int userId, int carId, DateTime startDate, int days)
@@ -26,8 +23,7 @@ namespace YBCarRental3D
             order.DateOfOrder = today;
             order.Status = YB_Rent.YB_Rental_Status_Pending;
 
-            apiManager.Add(order);
-            return true;
+            return base.Add(order).Result;
         }
         public bool ApproveOrder(YB_Rent rentalOrder)
         {
@@ -35,8 +31,7 @@ namespace YBCarRental3D
             try
             {
                 rentalOrder.Status = YB_Rent.YB_Rental_Status_Approved;
-                base.Update(rentalOrder);
-                return true;
+                return base.Update(rentalOrder).Result;
             }
             catch (Exception e)
             {
@@ -49,8 +44,7 @@ namespace YBCarRental3D
             try
             {
                 rentalOrder.Status = YB_Rent.YB_Rental_Status_Rejected;
-                base.Update(rentalOrder);
-                return true;
+                return base.Update(rentalOrder).Result;
             }
             catch (Exception e)
             {
@@ -59,13 +53,13 @@ namespace YBCarRental3D
         }
         public bool ApproveOrder(int orderId)
         {
-            var orderPtr = base.Get(orderId);
+            var orderPtr = base.Get(orderId).Result;
 
             return this.ApproveOrder(orderPtr);
         }
         public bool RejectOrder(int orderId)
         {
-            var orderPtr = base.Get(orderId);
+            var orderPtr = base.Get(orderId).Result;
 
             return this.RejectOrder(orderPtr);
         }

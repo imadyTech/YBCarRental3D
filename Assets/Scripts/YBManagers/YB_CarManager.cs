@@ -5,58 +5,39 @@ namespace YBCarRental3D
 {
     public class YB_CarManager : YB_ManagerBasis<YB_Car>
     {
-        public YB_CarManager(string v) : base() { }
-
+        public YB_CarManager(string baseUrl) : base(baseUrl, "YBCars")
+        {
+        }
 
         public bool AddCar(YB_Car carPtr)
         {
-            var existingCar = base.Get(carPtr.Id);
-            if (existingCar != null)
-            {
-                return false; //already exist
-            }
-            //carPtr.Id = this.CreateIncrementId();
-            return this.Add(carPtr);
+            return base.Add(carPtr).Result;
         }
 
         public bool DeleteCar(YB_Car carPtr)
         {
-            var existingCar = this.Get(carPtr.Id);
-            if (existingCar ==null)
-            {
-                return false; //car doesn't exist
-            }
-            return this.Delete(carPtr.Id);
+            return this.Delete(carPtr.Id).Result;
         }
 
         public bool DeleteCar(int carId)
         {
-            var existingCar = this.Get(carId);
-            if (existingCar == null)
-            {
-                return false; //car doesn't exist
-            }
-            return this.Delete(carId);
+            return base.Delete(carId).Result;
         }
 
         public bool UpdateCar(YB_Car carPtr)
         {
-            var existingCar = this.Get(carPtr.Id);
-            if (existingCar == null)
-            {
-                return false; //car doesn't exist
-            }
-            return this.Update(carPtr);
+            return base.Update(carPtr).Result;
         }
 
         public YB_Car GetCar(int carId)
         {
-            return this.Get(carId);
+            return base.Get(carId).Result;
         }
 
         public Dictionary<int, YB_Car> ListCars()
         {
-            return base.GetAll();
+            throw new NotImplementedException();
+            //return base.GetAll();
         }
     }
 }

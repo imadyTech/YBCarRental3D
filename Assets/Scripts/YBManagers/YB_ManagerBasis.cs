@@ -1,61 +1,75 @@
-﻿using System;
+﻿using imady.NebuUI;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using imady.NebuEvent;
 
 namespace YBCarRental3D
 {
-    public class YB_ManagerBasis<TData>
+    public class YB_ManagerBasis<TData> : NebuEventInterfaceObjectBase
     {
-        public YB_APIManager<TData> apiManager;
+        protected YB_APIContext apiContext;
+        protected string baseUrl, controllerName;
 
-        public void LoadAll()
+        protected YB_ManagerBasis(string baseUrl, string controllerName)
         {
-            apiManager.LoadAll();
+            this.baseUrl = baseUrl;
+            this.controllerName = controllerName;
+            apiContext = new YB_APIContext();
+            this.apiContext.BaseApiUrl = $"{baseUrl}/{controllerName}";
         }
 
-        public TData Get(int id)
+        public async Task<TData> Get(int id)
         {
-            return apiManager.Get(id);
+            var requestString = $"{this.apiContext.BaseApiUrl}/{id}";
+            var result = await apiContext.GetRequest(requestString);
+            return JsonConvert.DeserializeObject<TData>(result);
         }
 
-        public Dictionary<int, TData> GetAll()
+        public async Task<bool> Add(TData data)
         {
-            return apiManager.GetAll();
-        }
+            var requestString = $"{baseUrl}/Add";
+            var contentString = JsonConvert.SerializeObject(data);
 
-        public bool Add(TData data)
-        {
             try
             {
-                apiManager.Add(data);
+                var result = await apiContext.PostRequest(requestString, contentString);
                 return true;
             }
             catch (Exception e)
             {
-                throw new YB_PersistorError(e.Message);
+                return false;
             }
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            var requestString = $"{baseUrl}/Delete/{id}";
             try
             {
-                return apiManager.Delete(id);
+                var result = apiContext.DeleteRequest(requestString);
+                return true;
             }
             catch (Exception e)
             {
-                throw new YB_PersistorError(e.Message);
+                return false;
             }
         }
 
-        public bool Update(TData data)
+        public async Task<bool> Update(TData data)
         {
+            var requestString = $"{baseUrl}/Update";
+            var contentString = JsonConvert.SerializeObject(data);
+
             try
             {
-                return apiManager.Update(data);
+                var result = await apiContext.PostRequest(requestString, contentString);
+                return true;
             }
             catch (Exception e)
             {
-                throw new YB_PersistorError(e.Message);
+                return false;
             }
         }
     }

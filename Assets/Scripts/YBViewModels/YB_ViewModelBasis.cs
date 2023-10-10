@@ -45,9 +45,13 @@ namespace YBCarRental3D
         //public virtual YB_DataBasis Get_PrincipalData() { return this.principalObject; }
 
 
+        //must use the YB_Window passed in here, as the static instance of YB_Window is not yet existing at this moment.
         public virtual void onInit(YB_Window window)
         {
-            //must use the YB_Window passed in here, as the static instance of YB_Window is not yet existing at this moment.
+            if (valuesMapPtr == null)
+                valuesMapPtr = new Dictionary<string, Func<string>>();
+            else
+                valuesMapPtr.Clear();
 
             //generate and config item objects one-by-one (through viewModel's configuring method)
             foreach (var viewItemDef in viewDef)
@@ -55,10 +59,6 @@ namespace YBCarRental3D
                 var item = window.GetViewItemTemplate(viewItemDef, this.transform);
                 this.ConfigViewItemObj(viewItemDef, ref item);
             }
-            if (valuesMapPtr == null)
-                valuesMapPtr = new Dictionary<string, Func<string>>();
-            else
-                valuesMapPtr.Clear();
         }
         public virtual void onSubmit()
         {

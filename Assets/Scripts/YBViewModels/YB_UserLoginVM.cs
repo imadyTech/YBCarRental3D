@@ -10,7 +10,7 @@ namespace YBCarRental3D
         {
         }
 
-        public override void onSubmit()
+        public async override void onSubmit()
         {
             var uName = base.Get_PropertyValue("UserName");
             var uPsd  = base.Get_PropertyValue("Password");
@@ -20,12 +20,12 @@ namespace YBCarRental3D
                 return;
             }
 
-            bool loginResult = YB_ManagerFactory.UserMgr.UserLogin(uName, uPsd);
-            this.principalObject = YB_ManagerFactory.UserMgr.CurrentUser();
+            var loginResult =await YB_ManagerFactory.UserMgr.UserLogin(uName, uPsd);
+            this.principalObject = YB_ManagerFactory.UserMgr.CurrentUser;
 
-            if (loginResult && !YB_ManagerFactory.UserMgr.IsAdmin())
+            if (YB_ManagerFactory.UserMgr.CurrentUser !=null && !YB_ManagerFactory.UserMgr.IsAdmin())
                 base.ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);
-            else if (loginResult && YB_ManagerFactory.UserMgr.IsAdmin())
+            else if (YB_ManagerFactory.UserMgr.CurrentUser != null && YB_ManagerFactory.UserMgr.IsAdmin())
                 base.ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
         }
 

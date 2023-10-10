@@ -38,7 +38,7 @@ namespace YBCarRental3D
                     return this.itemObject.GetComponent<TMP_InputField>().text; 
                 });
             }
-            catch { 
+            catch (Exception e) { 
             }
             return this;
         }

@@ -24,12 +24,12 @@ namespace YBCarRental3D
             string value = string.Empty;
             if (bindName == "UserName")
             {
-                value = userManagerPtr.CurrentUser().UserName;
+                value = userManagerPtr.CurrentUser.UserName;
                 return value;
             }
             if (bindName == "UserRoles")
             {
-                value = (userManagerPtr.CurrentUser().UserRoles);
+                value = (userManagerPtr.CurrentUser.UserRoles);
                 return value;
             }
             if (bindName == "CarInfo")
@@ -40,7 +40,7 @@ namespace YBCarRental3D
             }
             if (bindName == "CustomerName")
             {
-                value = userManagerPtr.CurrentUser().FirstName + " " + userManagerPtr.CurrentUser().FamilyName;
+                value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
                 return value;
             }
             if (bindName == "OrderCost")

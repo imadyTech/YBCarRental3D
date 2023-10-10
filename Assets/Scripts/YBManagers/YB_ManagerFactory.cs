@@ -18,7 +18,7 @@ namespace YBCarRental3D
 
         public YB_ManagerFactory()
         {
-            UserMgr =   new YB_UserManager("\\UserRepo.txt");
+            UserMgr =   new YB_UserManager("https://localhost:7024/api");
             CarMgr =    new YB_CarManager("\\CarRepo.txt");
             RentMgr =   new YB_RentManager("\\RentRepo.txt");
         }
