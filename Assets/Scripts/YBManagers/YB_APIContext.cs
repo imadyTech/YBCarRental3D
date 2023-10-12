@@ -32,7 +32,7 @@ namespace YBCarRental3D
             using (UnityWebRequest www = UnityWebRequest.Get(uri))
             {
                 // Request and wait for the desired page.
-                www.timeout = 1;
+                www.timeout = 30;
                 await www.SendWebRequest();
 
                 string[] pages = uri.Split('/');
@@ -58,7 +58,7 @@ namespace YBCarRental3D
         {
             using (UnityWebRequest www = UnityWebRequest.Post(uri, postdata, "application/json"))
             {
-                www.timeout = 1;
+                www.timeout = 30;
                 await www.SendWebRequest();
 
                 if (www.result != UnityWebRequest.Result.Success)
@@ -77,7 +77,7 @@ namespace YBCarRental3D
         {
             using (UnityWebRequest www = UnityWebRequest.Delete(uri))
             {
-                www.timeout = 1;
+                www.timeout = 30;
                 await www.SendWebRequest();
 
                 if (www.result != UnityWebRequest.Result.Success)
@@ -95,7 +95,7 @@ namespace YBCarRental3D
         {
             using (UnityWebRequest www = UnityWebRequest.Post(uri, postdata, "application/json"))
             {
-                www.timeout = 1;
+                www.timeout = 30;
                 await www.SendWebRequest();
 
                 if (www.result != UnityWebRequest.Result.Success)

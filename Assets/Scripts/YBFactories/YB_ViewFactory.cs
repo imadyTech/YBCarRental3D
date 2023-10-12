@@ -27,10 +27,15 @@ namespace YBCarRental3D
         /// <summary>
         /// Constructor and initialization (read view YBML into repository).
         /// </summary>
-        /// <param name="viewRepoUrl">The file path of View Repository (view definitions similar function to HTML).</param>
-        public YB_ViewFactory(string viewRepoUrl) : this()
+        /// <param name="viewRepoLocalPath">The file path of View Repository (view definitions similar function to HTML).</param>
+        public YB_ViewFactory(string viewRepoLocalPath, Action afterLoad) : this()
         {
-            this.repository = new YB_Repository(viewRepoUrl);
+            this.repository = new YB_Repository(viewRepoLocalPath);
+            afterLoad();
+        }        
+        public YB_ViewFactory(Uri viewRepoUrl, Action afterLoad) : this()
+        {
+            this.repository = new YB_Repository(viewRepoUrl, afterLoad);
         }
 
         public YB_ViewFactory   ConfigLogicFactory(YB_LogicFactory factory)

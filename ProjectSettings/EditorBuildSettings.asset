@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    path: Assets/com.imady.unityui/Samples/Scenes/imadyUnityUISample.unity
+    guid: 0dfccdef3b2784042a07b56ad81c4ce6
   m_configObjects: {}
