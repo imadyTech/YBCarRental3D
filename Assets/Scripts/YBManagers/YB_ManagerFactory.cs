@@ -18,8 +18,11 @@ namespace YBCarRental3D
 
         public YB_ManagerFactory()
         {
-            //UserMgr =   new YB_UserManager("https://localhost:7024/api");            
+#if DEVELOPMENT
+            UserMgr =   new YB_UserManager("https://localhost:7024/api");
+#elif PRODUCTION
             UserMgr =   new YB_UserManager("https://angoomathapi.azurewebsites.net/api");
+#endif
             CarMgr =    new YB_CarManager("\\CarRepo.txt");
             RentMgr =   new YB_RentManager("\\RentRepo.txt");
         }

@@ -31,7 +31,6 @@ namespace YBCarRental3D
         public YB_ViewFactory(string viewRepoLocalPath, Action afterLoad) : this()
         {
             this.repository = new YB_Repository(viewRepoLocalPath);
-            afterLoad();
         }        
         public YB_ViewFactory(Uri viewRepoUrl, Action afterLoad) : this()
         {

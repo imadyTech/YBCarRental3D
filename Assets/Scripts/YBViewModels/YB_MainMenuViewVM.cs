@@ -8,5 +8,5 @@ namespace YBCarRental3D
 {
     public class YB_MainMenuViewVM: YB_ViewModelBasis<YB_User>
     {
-    }
-}
+
+    }}
