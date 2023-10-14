@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -18,10 +18,12 @@ namespace YBCarRental3D
 
         public override YB_ViewItemBasis BindContent()
         {
-            return base.BindContent();
+            Debug.Log($"[YB_InputItem BindContent] : {this.Bind}");
+            return this;
         }
         public override YB_ViewItemBasis BindAction()
         {
+            Debug.Log($"[YB_InputItem BindAction] : {this.Bind}");
             //this.itemObject.GetComponent<TMP_Dropdown>().onValueChanged.AddListener((input) => { });
             return base.BindAction();
         }
@@ -32,6 +34,7 @@ namespace YBCarRental3D
         /// <returns></returns>
         public override YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
         {
+            Debug.Log($"[YB_InputItem ReverseBinding] : {this.Bind}");
             try
             {
                 valuesMapPtr.Add(this.Bind, () => { 
@@ -39,6 +42,7 @@ namespace YBCarRental3D
                 });
             }
             catch (Exception e) { 
+                Debug.Log(e);
             }
             return this;
         }

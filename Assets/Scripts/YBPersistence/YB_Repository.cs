@@ -17,9 +17,9 @@ namespace YBCarRental3D
     {
         const string lineBreakConnector = "&";       //if a line in the repo file is ended with '&', then the next line will be concatenated.
         const string commentsSeparator = "#";        //for any line end with a '#' will be treated as comments, and won't be processed.
-        string       repositoryFilePath = "";
-        private Uri  repositoryUri;
-        public bool  isReady = false;                //status indicator
+        string repositoryFilePath = "";
+        private Uri repositoryUri;
+        public bool isReady = false;                //status indicator
         /// <summary>
         /// a TData record is serielized to a string and here caches all the records strings.
         /// Note: for simplicity reason, this data cache was designed to be exposed as public.
@@ -36,7 +36,7 @@ namespace YBCarRental3D
             ReadAllLines();
         }
 
-        public YB_Repository(Uri viewRepoUrl, Action afterLoad): this()
+        public YB_Repository(Uri viewRepoUrl, Action afterLoad) : this()
         {
             this.repositoryUri = viewRepoUrl;
             ReadAllLinesFromDownload(afterLoad);
@@ -103,14 +103,14 @@ namespace YBCarRental3D
             isReady = true;
         }
 
-        async void ReadAllLinesFromDownload( Action afterLoad)
+        async void ReadAllLinesFromDownload(Action afterLoad)
         {
             string fileContents;
             UnityWebRequest www = UnityWebRequest.Get(repositoryUri);
             www.timeout = 30;
             await www.SendWebRequest();
 
-            if (www.result==UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError("Error downloading file: " + www.error);
                 return;
@@ -131,10 +131,11 @@ namespace YBCarRental3D
                 using (StringReader sr = new StringReader(fileContents))
                 {
 
-                    while (sr.Peek()>=0)
+                    while (sr.Peek() >= 0)
                     {
                         //Console.WriteLine(sr.ReadLine());
                         line = sr.ReadLine();
+                        Debug.Log(line);
 
                         if (string.IsNullOrEmpty(line) || line[^1..] == commentsSeparator)      //check if ended with a '#' or empty line
                             continue;

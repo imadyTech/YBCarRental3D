@@ -57,6 +57,7 @@ namespace YBCarRental3D
             foreach (var pairValue in this.repository.allRecordLines)
             {
                 YB_ViewBasis viewPtr = this.CreateProduct(pairValue.Value);
+                Debug.Log($"[Initializing View] : {viewPtr.Title}");
                 try
                 {
                     CreateSubViewitems(ref viewPtr, pairValue.Value);
@@ -102,6 +103,7 @@ namespace YBCarRental3D
                 {
                     string itemSubString = itemIdPiar.Value;
                     YB_ViewItemBasis child = this.viewItemFactory.CreateViewItem(itemSubString);
+                    Debug.Log($"[...generating viewItem] : {child.Id}");
                     child.parent = view;
                     view.subItemsList.Add(child);
                 }

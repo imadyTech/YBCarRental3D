@@ -47,6 +47,7 @@ namespace YBCarRental3D
         {
             foreach (var viewDef in viewFactory)
             {
+                Debug.Log($"[Rendering View] : {viewDef.Title}");
                 //create view object
                 viewDef.viewObject = Instantiate(viewTemplate, this.gameObject.transform);
                 viewDef.viewObject.SetActive(false);

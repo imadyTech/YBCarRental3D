@@ -54,6 +54,7 @@ namespace YBCarRental3D
             //generate and config item objects one-by-one (through viewModel's configuring method)
             foreach (var viewItemDef in viewDef)
             {
+                Debug.Log($"[Generating ViewItem] : {viewItemDef.Id}, {viewItemDef.ItemType}");
                 var item = window.GetViewItemTemplate(viewItemDef, this.transform);
                 this.ConfigViewItemObj(viewItemDef, ref item);
             }
@@ -138,7 +139,7 @@ namespace YBCarRental3D
                 try
                 {
                     BindingText(this.gameObject, property.Name, property.GetValue(this).ToString());
-                    Debug.Log($"[ViewBasis] {property.Name}={property.GetValue(this)}");
+                    //Debug.Log($"[ViewBasis] {property.Name}={property.GetValue(this)}");
                 }
                 catch (Exception e)
                 {
