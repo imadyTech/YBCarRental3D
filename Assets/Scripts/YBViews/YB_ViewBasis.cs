@@ -26,7 +26,7 @@ namespace YBCarRental3D
         public List<YB_ViewItemBasis>   bindableItems;                  //Items affected by binding behaviour
         public List<YB_ViewItemBasis>   subItemsList;
 
-        private string                  serializeString;
+        protected string                serializeString;
 
         public YB_ViewBasis() : base()
         {
@@ -40,7 +40,7 @@ namespace YBCarRental3D
             this.Deserialize(this.serializeString);
         }
 
-        public void Deserialize(string serializeString)
+        public virtual void Deserialize(string serializeString)
         {
             base.SplitLine(serializeString);
 
@@ -82,7 +82,7 @@ namespace YBCarRental3D
         }
         public void Exit()
         {
-
+            this.viewObject.SetActive(false);
         }
 
         public List<KeyValuePair<string, string>> FindValues(string key)
@@ -98,8 +98,11 @@ namespace YBCarRental3D
             return results;
         }
 
-
-
-
+        public virtual List<KeyValuePair<string, string>> GetItemDefStrings()
+        {
+            //Base view only return def with '<col>'
+            //Implement more in derived view
+            return this.FindValues(YBGlobal.CONST_VIEW_ITEM_STARTER);
+        }
     }
 }

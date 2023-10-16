@@ -16,15 +16,20 @@ namespace YBCarRental3D
         public static YB_CarManager        CarMgr;
         public static YB_RentManager       RentMgr;
 
+        public string localApiUri = "https://localhost:7024/api";
+        public string azureApiUri = "https://angoomathapi.azurewebsites.net/api";
+
         public YB_ManagerFactory()
         {
 #if DEVELOPMENT
-            UserMgr =   new YB_UserManager("https://localhost:7024/api");
+            UserMgr =   new YB_UserManager(localApiUri);
+            CarMgr =    new YB_CarManager(localApiUri);
+            RentMgr =   new YB_RentManager(localApiUri);
 #elif PRODUCTION
-            UserMgr =   new YB_UserManager("https://angoomathapi.azurewebsites.net/api");
+            UserMgr =   new YB_UserManager(azureApiUri);
+            CarMgr =    new YB_CarManager(azureApiUri);
+            RentMgr =   new YB_RentManager(azureApiUri);
 #endif
-            CarMgr =    new YB_CarManager("\\CarRepo.txt");
-            RentMgr =   new YB_RentManager("\\RentRepo.txt");
         }
     };
 }

@@ -38,7 +38,7 @@ namespace YBCarRental3D
             try
             {
                 valuesMapPtr.Add(this.Bind, () => { 
-                    return this.itemObject.GetComponent<TMP_InputField>().text; 
+                    return this.itemGameObject.GetComponent<TMP_InputField>().text; 
                 });
             }
             catch (Exception e) { 

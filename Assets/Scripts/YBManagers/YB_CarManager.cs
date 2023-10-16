@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace YBCarRental3D
 {
@@ -34,10 +35,9 @@ namespace YBCarRental3D
             return base.Get(carId).Result;
         }
 
-        public Dictionary<int, YB_Car> ListCars()
+        public async Task<IEnumerable<YB_Car>> ListCars(int pageNum, int pageSize)
         {
-            throw new NotImplementedException();
-            //return base.GetAll();
+            return await base.GetList(pageNum, pageSize);
         }
     }
 }

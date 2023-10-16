@@ -29,9 +29,9 @@ namespace YBCarRental3D
                 base.ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
         }
 
-        public override void OnButtonClicked(YB_ButtonItem button)
+        public override void OnButtonClicked(YB_ViewItemBasis button)
         {
-            if (button.ButtonType == YBGlobal.Button_Type_Submit)
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
                 this.onSubmit();
         }
 

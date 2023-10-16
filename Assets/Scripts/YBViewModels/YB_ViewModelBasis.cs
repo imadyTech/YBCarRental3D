@@ -18,6 +18,9 @@ namespace YBCarRental3D
         private Dictionary<string, Func<string>> valuesMapPtr;
 
         protected YB_Window ybWindow { get => YB_Window.Instance; }
+        public YB_DataBasis PrincipalData { 
+            get => this.principalObject;
+            set => this.principalObject = value as TData; } 
 
         public YB_ViewModelBasis()
         {
@@ -55,7 +58,7 @@ namespace YBCarRental3D
             foreach (var viewItemDef in viewDef)
             {
                 Debug.Log($"[Generating ViewItem] : {viewItemDef.Id}, {viewItemDef.ItemType}");
-                var item = window.GetViewItemTemplate(viewItemDef, this.transform);
+                var item = window.GenerateViewItemTemplate(viewItemDef, this.transform);
                 this.ConfigViewItemObj(viewItemDef, ref item);
             }
         }
@@ -69,11 +72,12 @@ namespace YBCarRental3D
         public virtual void onContentUpdated(string bindName, string newValue)
         {
         }
-        public virtual void OnButtonClicked(YB_ButtonItem button)
+        public virtual void OnButtonClicked(YB_ViewItemBasis button)
         {
+            //the function in basis doing nothing.
+            //override this method in derived VM
             Debug.Log(button.Content);
 
-            //override this method in derived VM
             //if (button.ButtonType == YBGlobal.Button_Type_Submit)
             //{
             //}
@@ -100,7 +104,7 @@ namespace YBCarRental3D
         }
         protected virtual void ConfigViewItemObj(YB_ViewItemBasis itemDef, ref GameObject itemObj)
         {
-            itemDef.itemObject = itemObj;
+            itemDef.itemGameObject = itemObj;
 
             Rect viewContainer = viewDef.viewObject.GetComponent<RectTransform>().rect;
 
@@ -143,7 +147,7 @@ namespace YBCarRental3D
                 }
                 catch (Exception e)
                 {
-                    Debug.LogException(e);
+                    Debug.Log($"[Binding Error] : {this.gameObject.name}, {property.Name}");
                 }
 
                 void BindingText(GameObject parentGameObject, string filedName, string content)

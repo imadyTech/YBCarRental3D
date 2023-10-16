@@ -12,52 +12,37 @@ namespace YBCarRental3D
 {
     public class YB_ListView : YB_ViewBasis
     {
+        public string   ListHead;
+        public int      ListRowCount;
+        public string   ListRowTemplate;
 
-
-        public void CreateListItem(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
+        public YB_ListView(string serializeString) : base() {
+            base.serializeString = serializeString;
+            this.Deserialize(base.serializeString);
 
         }
-        public void CreateListHead(YB_ViewBasis parentViewDef, YB_ViewItemBasis itemDef, ref GameObject itemObject)
-        {
 
-        }
-        public virtual List<INebuUIView> RenderListview(IEnumerable<object> sourceVMCollection, Type template, LayoutGroup container, Func<Type, GameObject, bool, INebuUIView> resourceLoader)
+        public override void Deserialize(string line)
         {
-            //ClearLayoutContainer(container);
-            var resultViewList = new List<INebuUIView>();
+            base.Deserialize(line);
 
-            foreach (object item in sourceVMCollection)
-            {
-                var viewItem = resourceLoader.Invoke(template, container.gameObject, true);// true: create new viewitem instance
-                viewItem.SetViewModel(item);
-                resultViewList.Add(viewItem);
-            }
-            return resultViewList;
+            if (base.HasValue("ListHead"))          ListHead = base.FindValue("ListHead");
+            if (base.HasValue("ListRowCount"))      ListRowCount = int.Parse(base.FindValue("ListRowCount"));
+            if (base.HasValue("ListRowTemplate"))   ListRowTemplate = base.FindValue("ListRowTemplate");
         }
 
         /// <summary>
-        /// ¸ù¾ÝÌá¹©µÄViewModelÊý¾ÝÔ´£¬¶ÔÒ»¸ö¿ÕµÄListViewÈÝÆ÷½øÐÐäÖÈ¾¡£
+        /// return a list of viewitem definitions
+        /// e.g., start with '<item>', plus specific types of itemdef
         /// </summary>
-        /// <typeparam name="T">type of a certain ViewModel</typeparam>
-        /// <param name="sourceVMs">Êý¾ÝÔ´VM¼¯ºÏ£¬VMÏîÐè´øÓÐLeeViewModelTypeAttribute±êÇ©Ö¸Ã÷ViewÄ£°å</param>
-        /// <param name="container">ListViewÈÝÆ÷</param>
-        /// <param name="resultViewList">äÖÈ¾ºóµÄ½á¹û</param>
         /// <returns></returns>
-        protected virtual List<INebuUIView> RenderListview<T>(List<T> sourceVMs, LayoutGroup container, Func<Type, GameObject, bool, INebuUIView> resourceLoader)
+        public override List<KeyValuePair<string, string>> GetItemDefStrings()
         {
-            //ClearLayoutContainer(container);
-            var resultViewList = new List<INebuUIView>();
+            var itemDefList =  this.FindValues(YBGlobal.CONST_VIEW_ITEM_STARTER);
+            itemDefList.Add(new KeyValuePair<string, string>("ListHead", base.FindValue("ListHead")));
 
-            foreach (T item in sourceVMs)
-            {
-                var viewtype = item.GetType().GetCustomAttribute<NbuViewModelTypeAttribute>().NbuViewType;
-                var viewItem = resourceLoader.Invoke(viewtype, container.gameObject, true);// true: create new viewitem instance
-                viewItem.SetViewModel(item);
-                resultViewList.Add(viewItem);
-            }
-            return resultViewList;
-        }
-
+            return itemDefList;
     }
+
+}
 }

@@ -19,6 +19,9 @@ namespace YBCarRental3D
         public GameObject inputItemTemplate;
         public GameObject menuItemTemplate;
 
+        public GameObject listHeadColTemplate;
+        public GameObject listItemColTemplate;
+
         YB_ViewFactory viewFactory;
         YB_LogicFactory logicFactory;
         YB_ViewBasis currentView;
@@ -61,13 +64,12 @@ namespace YBCarRental3D
                     {
                         viewDef.viewModel = viewDef.viewObject.AddComponent(datasourceType) as I_YB_ViewModel;
                         viewDef.viewModel.SetViewDef(viewDef);
-                        viewDef.viewModel.onInit(this);
                     }
                 }
             }
         }
 
-        public GameObject GetViewItemTemplate(YB_ViewItemBasis itemDef, Transform parentViewObj)
+        public GameObject GenerateViewItemTemplate(YB_ViewItemBasis itemDef, Transform parentViewObj)
         {
             GameObject viewItemObj = viewItemTemplate;
             if (itemDef.ItemType == YBGlobal.VIEWITEM_TYPE_BUTTON) viewItemObj = Instantiate(buttonItemTemplate, parentViewObj);
@@ -82,37 +84,39 @@ namespace YBCarRental3D
 
         public void Goto(YB_ViewBasis viewPtr)
         {
-            if (currentView != null && currentView.viewObject != null)
-                currentView.viewObject.SetActive(false);
+            YB_ViewBasis previousView = currentView;
 
-            var previousView = currentView;
+            if (currentView != null && currentView.viewObject != null)
+            //currentView.viewObject.SetActive(false);
+                currentView.Exit();
+
             if (viewPtr == null)
                 currentView = viewFactory.GetView(YBGlobal.ERROR_VIEW);
             else
                 currentView = viewPtr;
 
             currentView.viewObject.SetActive(true);
+            viewPtr.viewModel.onInit(this);
             if (previousView != null)
             {
-                this.viewHistoryStack.Push(previousView);
                 currentView.viewModel.onViewForwarded(previousView);
             }
-        }
-        public void Goto(int viewId)
-        {
-            this.Goto(viewFactory.GetView(viewId));
+            Debug.Log($"[Window.Goto ]: {currentView.Title}");
         }
         public void Goto(string viewTitle)
         {
             if (!string.IsNullOrEmpty(viewTitle))
+            {
+                this.viewHistoryStack.Push(currentView);
                 this.Goto(viewFactory.GetView(viewTitle));
+            }
         }
         public void Back()
         {
             if (this.viewHistoryStack?.Count > 1)
             {
-                this.currentView.Exit();
-                this.currentView = this.viewHistoryStack.Pop();
+                var previous = this.viewHistoryStack.Pop();
+                this.Goto(previous);
             }
         }
         public void PopPrompt(string title, string msg, string gotoView)
@@ -126,6 +130,14 @@ namespace YBCarRental3D
             App.Instance.uiManager.ShowMessageBox(title, msg);
         }
 
+
+        public void Update()
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                this.Back();
+            }
+        }
     }
 }
 

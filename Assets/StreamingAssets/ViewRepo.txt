@@ -88,6 +88,7 @@ Id:106;Title:AdminMenu;ViewType:MenuView;w:120;h:29;Source:YB_AdminMenuVM;&
 <item>106D:Id:1063!x:36!y:12!w:48!h:1!ItemType:MenuItem!Content:DELETE a car!Link:CarDeleteListView!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>106E:Id:1064!x:36!y:13!w:48!h:1!ItemType:MenuItem!Content:Order Management!Link:OrderManageView!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>106F:Id:1065!x:36!y:14!w:48!h:1!ItemType:MenuItem!Content:User Management!Link:UserAdminListView!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
+<item>106J:Id:1069!x:36!y:15!w:48!h:1!ItemType:MenuItem!Content:Logout!Link:LogOutView!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>106G:Id:1066!x:0!y:20!w:120!h:1!ItemType:TextItem!Content:<Please toggle with TAB and select with Return key>!Background: !isCentral:1!isFocused:0!isSelected:0!isHidden:0!;&
 <item>106H:Id:1067!x:100!y:2!w:16!h:1!ItemType:TextItem!Content:admin!Background:.!isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>106I:Id:1068!x:100!y:4!w:16!h:1!ItemType:TextItem!Content:admin!Background:.!isCentral:0!isFocused:0!isSelected:0!isHidden:0!;
@@ -125,7 +126,7 @@ ListRowTemplate:ItemType:ListItem!Link:OrderDetailsView!x:0!y:8!w:120!h:1!Conten
 
 ## 109 - Car selection list menu - select a car to rent ##
 Id:109;Title:CarSelectionView;ViewType:ListView;w:120;h:29;Source:YB_CarSelectionVM;&
-ListHead:Id:1090!ItemType:ListHead!x:0!y:6!w:120!h:1!<col>Id:8!<col>Make:12!<col>Model:15!<col>Year:8!<col>Mileage:12!<col>MinRentPeriod:18!<col>MaxRentPeriod:18!<col>DayRentPrice:18!;&
+ListHead:Id:1090!ItemType:ListHead!x:0!y:6!w:120!h:1!<col>Id:8!<col>Make:15!<col>Model:15!<col>Year:12!<col>Mileage:16!<col>MinRentPeriod:18!<col>MaxRentPeriod:18!<col>DayRentPrice:18!;&
 ListRowCount:8;&
 ListRowTemplate:ItemType:ListItem!Link:CarRentView!x:0!y:8!w:120!h:1!Content:Car Info!isCentral:1!isFocused:0!;&
 <item>109A:Id:1091!x:0!y:5!isCentral:0!w:120!h:1!ItemType:TextItem!Content:----------------------------------------------------------------------------------------------------------------------!;&
@@ -258,7 +259,7 @@ ListRowTemplate:ItemType:ListItem!Link:OrderAdminView!x:0!y:8!w:120!h:1!Content:
 
 ## 116 - User Management (Admin feature) ##
 Id:116;Title:UserAdminListView;ViewType:ListView;w:120;h:29;Source:YB_UserAdminListVM;&
-ListHead:Id:1160!ItemType:ListHead!x:0!y:6!w:120!h:1!<col>Id:8!<col>Id:12!<col>UserName:15!<col>FirstName:18!<col>FamilyName:18!<col>UserRoles:15!<col>Balance:18!;&
+ListHead:Id:1160!ItemType:ListHead!x:0!y:6!w:120!h:1!<col>Id:12!<col>UserName:15!<col>FirstName:18!<col>FamilyName:18!<col>UserRoles:15!<col>Balance:18!;&
 ListRowCount:8;&
 ListRowTemplate:ItemType:ListItem!Link:UserAdminView!x:0!y:8!w:120!h:1!Content:------!isCentral:1!isFocused:0!;&
 <item>116A:Id:1161!x:0!y:5!isCentral:0!w:120!h:1!ItemType:TextItem!Content:----------------------------------------------------------------------------------------------------------------------!;&

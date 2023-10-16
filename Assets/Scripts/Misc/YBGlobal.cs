@@ -14,6 +14,8 @@ namespace YBCarRental3D
 
     public class YBGlobal
     {
+        public static string CONST_LIST_HEAD_STARTER = "<col>";
+        public static string CONST_VIEW_ITEM_STARTER = "<item>";
 
         public const string msgDef_ListItem = "ListItem";
         public const string msgDef_Menu = "MENU";
@@ -34,6 +36,7 @@ namespace YBCarRental3D
         //EXAMPLE: a button with 'Bind:ButtonContent!' the the button's content will be passed.
         //if you need retrieve which button is clicked, just use "(*valuesMapPtr)["ButtonContent"]"
         public const string SUBMIT_BINDKEY_BUTTONCONTENT = "ButtonContent";
+        //public const string INIT_VIEW = "CarSelectionView";
         public const string INIT_VIEW = "WelcomeView";
         public const string EXIT_VIEW = "ByeByeView";
         public const string MAIN_VIEW = "MainMenuView";

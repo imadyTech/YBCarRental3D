@@ -8,5 +8,8 @@ namespace YBCarRental3D
 {
     public class YB_InputView: YB_ViewBasis
     {
-    }
+        public YB_InputView(string serializeString) : base (serializeString)
+        {
+        }
+}
 }

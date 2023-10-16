@@ -16,11 +16,15 @@ namespace YBCarRental3D
         YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
+        public string Make=> base.principalObject.Make;
+        public string Model=> base.principalObject.Model;
 
         public override void onViewForwarded(YB_ViewBasis fromView)
         {
+            this.principalObject = fromView.viewModel.PrincipalData as YB_Car;
+            base.onViewForwarded(fromView);
+            base.RenderView();
         }
-
 
         public override string Get_PropertyValue(string bindName)
         {

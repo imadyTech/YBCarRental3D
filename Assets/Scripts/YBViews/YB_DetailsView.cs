@@ -8,5 +8,9 @@ namespace YBCarRental3D
 {
     public class YB_DetailsView: YB_ViewBasis
     {
+
+        public YB_DetailsView(string serializeString) : base (serializeString)
+        {
+        }
     }
 }

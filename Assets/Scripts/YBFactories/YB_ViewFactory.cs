@@ -12,9 +12,6 @@ namespace YBCarRental3D
 
     public class YB_ViewFactory : IEnumerable<YB_ViewBasis>
     {
-        static string                       CONST_LIST_HEAD_STARTER = "<col>";
-        static string                       CONST_VIEW_ITEM_STARTER = "<item>";
-
         public YB_LogicFactory              logicFactory;
         public YB_ViewItemFactory           viewItemFactory;
         Dictionary<int, YB_ViewBasis>       viewPool;
@@ -85,10 +82,18 @@ namespace YBCarRental3D
 
         private YB_ViewBasis    CreateProduct(string serializeString)
         {
-            YB_ViewBasis newView = new YB_ViewBasis(serializeString);
+            int startIndex = serializeString.IndexOf("ViewType:") + "ViewType:".Length;
+            int endIndex = serializeString.IndexOf(";", startIndex);
+            var typeStr = serializeString.Substring(startIndex, endIndex - startIndex);  
 
-            return newView;
+            if (typeStr == "DetailsView")    return new YB_DetailsView(serializeString);
+            if (typeStr == "DialogView")     return new YB_DialogView(serializeString);
+            if (typeStr == "InputView")      return new YB_InputView(serializeString);
+            if (typeStr == "ListView")       return new YB_ListView(serializeString);
+            if (typeStr == "MenuView")       return new YB_MenuView(serializeString);
+            if (typeStr == "WelcomeView")    return new YB_WelcomeView(serializeString);
 
+            return new YB_ViewBasis(serializeString);
         }
         private void            CreateSubViewitems(ref YB_ViewBasis view, string viewString)
         {
@@ -96,7 +101,8 @@ namespace YBCarRental3D
             //prompt.parent = view;
             //view.subItemsList.Add(prompt);
 
-            var itemsDef = view.FindValues(CONST_VIEW_ITEM_STARTER);
+            var itemsDef = view.GetItemDefStrings();
+
             if (itemsDef != null && itemsDef.Count > 0)
             {
                 foreach (var itemIdPiar in itemsDef)
@@ -104,7 +110,7 @@ namespace YBCarRental3D
                     string itemSubString = itemIdPiar.Value;
                     YB_ViewItemBasis child = this.viewItemFactory.CreateViewItem(itemSubString);
                     Debug.Log($"[...generating viewItem] : {child.Id}");
-                    child.parent = view;
+                    child.parentDef = view;
                     view.subItemsList.Add(child);
                 }
             }

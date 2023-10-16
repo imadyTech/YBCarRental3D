@@ -20,11 +20,11 @@ namespace YBCarRental3D
         //query the source with a index (NOT Id) and fill the result to a List
         //bool Get_QueryByIndex(int index, List<LIST_ITEM_VALUE> result);
         //???
-        List<YB_DataBasis> Get_QueryList(int page, int pageSize);
         //return the current principalData only.
-        //YB_DataBasis Get_PrincipalData();
+        YB_DataBasis PrincipalData { get; set; }
         //query an return an object by the object.Id, AND store the object as principalData at meantime.
         //YB_DataBasis Get_PrincipalData(int Id);
+        //void Get_PrincipalData(YB_DataBasis data);
         //void Set_PropertyValue(string bindNamePtr, string valuePtr);
         //void Set_PropertyValues(Dictionary<string, string> valuesPtr);
 
@@ -33,7 +33,7 @@ namespace YBCarRental3D
         //Dictionary<string, string> onListInitiated(string tableHeadNames, int pageNum, int size);       //Table paging, Todo...
         void onInit(YB_Window window);
         void onViewForwarded(YB_ViewBasis fromView);
-        void OnButtonClicked(YB_ButtonItem button);
+        void OnButtonClicked(YB_ViewItemBasis button);
         void onSubmit();
         void onContentUpdated(string bindName, string newValue);
         //void onItemFocused(string bindName);
@@ -43,5 +43,6 @@ namespace YBCarRental3D
         void onOkClicked();
 
         void SetViewDef(YB_ViewBasis view);
+
     }
 }

@@ -24,7 +24,7 @@ namespace YBCarRental3D
         {
             try
             {
-                TMP_Text tmpText = itemObject.GetComponentInChildren<TMP_Text>();//differ to base method
+                TMP_Text tmpText = itemGameObject.GetComponentInChildren<TMP_Text>();//differ to base method
                 tmpText.enableWordWrapping = false;
                 tmpText.text = this.Content;
                 if (this.isCentral)
@@ -37,9 +37,9 @@ namespace YBCarRental3D
         {
             try
             {
-                var btn = itemObject.GetComponent<Button>();
+                var btn = itemGameObject.GetComponent<Button>();
                 if (btn != null)
-                        btn.onClick.AddListener(() => this.parent.viewModel.OnButtonClicked(this));
+                        btn.onClick.AddListener(() => this.parentDef.viewModel.OnButtonClicked(this));
             }
             catch
             {
@@ -51,7 +51,7 @@ namespace YBCarRental3D
             try
             {
                 //Bind the button content to the variable 
-                valuesMapPtr.Add(this.Bind, () => { return this.itemObject.GetComponentInChildren<TMP_Text>().text; });
+                valuesMapPtr.Add(this.Bind, () => { return this.itemGameObject.GetComponentInChildren<TMP_Text>().text; });
             }
             catch
             {

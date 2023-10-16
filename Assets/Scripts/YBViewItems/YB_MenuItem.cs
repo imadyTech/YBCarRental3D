@@ -19,7 +19,7 @@ namespace YBCarRental3D
         {
             try
             {
-                TMP_Text tmpText = itemObject.GetComponentInChildren<TMP_Text>();
+                TMP_Text tmpText = itemGameObject.GetComponentInChildren<TMP_Text>();
                 tmpText.enableWordWrapping = false;
                 tmpText.text = this.Content;
                 if (this.isCentral)
@@ -32,7 +32,7 @@ namespace YBCarRental3D
         {
             try
             {
-                var btn = itemObject.GetComponent<Button>();
+                var btn = itemGameObject.GetComponent<Button>();
                 if (btn != null)
                     btn.onClick.AddListener(() => { YB_Window.Instance.Goto(this.Link); });
             }

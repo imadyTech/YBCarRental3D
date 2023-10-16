@@ -24,6 +24,11 @@ namespace YBCarRental3D
         {
             return stringPairsMap.ContainsKey(key);
         }
+        /// <summary>
+        /// get value from stringPairsMap (if data didn't go over a SplitLine process then will cause to an error)
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string FindValue(string key)
         {
             try
@@ -36,6 +41,20 @@ namespace YBCarRental3D
                 return string.Empty;
             }
         }
+        public string FindFieldValue(string key)
+        {
+            try
+            {
+                var type = this.GetType();
+                var field = type.GetField(key);
+                return field.GetValue(this).ToString();
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
 
         public Dictionary<string, string> SplitLine(string line)
         {

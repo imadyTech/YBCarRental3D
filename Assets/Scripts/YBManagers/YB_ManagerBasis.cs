@@ -29,7 +29,7 @@ namespace YBCarRental3D
 
         public async Task<bool> Add(TData data)
         {
-            var requestString = $"{baseUrl}/Add";
+            var requestString = $"{this.apiContext.BaseApiUrl}/Add";
             var contentString = JsonConvert.SerializeObject(data);
 
             try
@@ -45,7 +45,7 @@ namespace YBCarRental3D
 
         public async Task<bool> Delete(int id)
         {
-            var requestString = $"{baseUrl}/Delete/{id}";
+            var requestString = $"{this.apiContext.BaseApiUrl}/Delete/{id}";
             try
             {
                 var result = apiContext.DeleteRequest(requestString);
@@ -59,7 +59,7 @@ namespace YBCarRental3D
 
         public async Task<bool> Update(TData data)
         {
-            var requestString = $"{baseUrl}/Update";
+            var requestString = $"{this.apiContext.BaseApiUrl}/Update";
             var contentString = JsonConvert.SerializeObject(data);
 
             try
@@ -70,6 +70,27 @@ namespace YBCarRental3D
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+        internal async Task<IEnumerable<TData>> GetList(int pageNum, int pageSize)
+        {
+            var requestString = $"{this.apiContext.BaseApiUrl}/list";
+            var postDataString = JsonConvert.SerializeObject(new 
+            {
+                PageSize = pageSize,
+                PageNum = pageNum
+            });
+
+            try
+            {
+                var result = await apiContext.PostRequest(requestString, postDataString);
+                var list = JsonConvert.DeserializeObject<IEnumerable<TData>>(result) ;
+                return list;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

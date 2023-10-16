@@ -1,6 +1,7 @@
 
 
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -10,24 +11,27 @@ namespace YBCarRental3D
     {
         public YB_LogOutVM() : base() { }
 
-        public override string Get_PropertyValue(string bindName)
-        {
-            string value = string.Empty;
-            if (bindName == "SeeYou")
-            {
-                value = "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser.FirstName;
-                return value;
-            }
-            return base.Get_PropertyValue(bindName);
-        }
+        public string SeeYou => "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser.FirstName;
 
 
         public override void onSubmit()
         {
-            YB_ManagerFactory.UserMgr.UserLogout();
+        }
+
+        private void Update()
+        {
+            if (Input.anyKeyDown)
+            {
+                YB_Window.Instance.Goto(this.viewDef.GotoView);
+            }
+        }
+
+        public async override void onViewForwarded(YB_ViewBasis fromView)
+        {
+            base.onViewForwarded(fromView);
+            base.RenderView();
+            await YB_ManagerFactory.UserMgr.UserLogout();
         }
     };
-
-
 }
 

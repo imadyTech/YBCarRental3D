@@ -8,7 +8,7 @@ namespace YBCarRental3D
     {
         YB_User currentUser;
 
-        public YB_UserManager(string baseUrl): base(baseUrl, "YBUsers")
+        public YB_UserManager(string baseUrl) : base(baseUrl, "YBUsers")
         {
         }
 
@@ -28,21 +28,20 @@ namespace YBCarRental3D
         public async Task<YB_User> UserLogin(string username, string password)
         {
             var requestString = $"{this.apiContext.BaseApiUrl}/login";
-            var postdata = $"{{\"userName\":\"{username}\",\"password\": \"{password }\"}}";
+            var postdata = $"{{\"userName\":\"{username}\",\"password\": \"{password}\"}}";
             var result = await apiContext.PostRequest(requestString, postdata);
             currentUser = JsonConvert.DeserializeObject<YB_User>(result);
             return currentUser;
         }
 
-        public bool UserLogout()
-
+        public async Task<bool> UserLogout()
         {
-            currentUser.LoginStatus = false;
+            var requestString = $"{this.apiContext.BaseApiUrl}/logout";
+            var postdata = $"{{\"userName\":\"{currentUser.UserName}\",\"password\": \"{currentUser.Password}\"}}";
+            var result = await apiContext.PostRequest(requestString, postdata);
 
-            if (this.Update(currentUser).Result)
-                return true;
-            else
-                return false;
+            currentUser = null;
+            return true;
         }
 
         public bool IsAdmin()

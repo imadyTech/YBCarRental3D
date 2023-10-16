@@ -10,6 +10,9 @@ using UnityEngine.UI;
 
 namespace YBCarRental3D
 {
+    /// <summary>
+    /// YB_ViewItemBasis contains both def and rendering methods
+    /// </summary>
     public class YB_ViewItemBasis : YB_DataBasis
     {
         public int              x = 0, y = 0;                       //relative coordinate inside the view
@@ -25,8 +28,8 @@ namespace YBCarRental3D
         public bool             isHidden = false;                  //if an item is hidden, then the View will ignore it during rendering.
         public string           Content = "";
 
-        public YB_ViewBasis     parent;
-        public GameObject       itemObject;
+        public YB_ViewBasis     parentDef;
+        public GameObject       itemGameObject;
 
 
         public YB_ViewItemBasis()
@@ -63,7 +66,7 @@ namespace YBCarRental3D
         {
             try
             {
-                TMP_Text tmpText = itemObject.GetComponent<TMP_Text>();
+                TMP_Text tmpText = itemGameObject.GetComponent<TMP_Text>();
                 tmpText.enableWordWrapping = false;
                 tmpText.text = this.Content;
                 if (this.isCentral)

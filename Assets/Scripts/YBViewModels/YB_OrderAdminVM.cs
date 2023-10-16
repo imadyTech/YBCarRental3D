@@ -69,9 +69,9 @@ namespace YBCarRental3D
                 base.ybWindow.PopPrompt(this.viewDef.Title, "You have rejected the order.", null);
             };
         }
-        public override void OnButtonClicked(YB_ButtonItem button)
+        public override void OnButtonClicked(YB_ViewItemBasis button)
         {
-            if (button.ButtonType == YBGlobal.Button_Type_Submit)
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
                 this.onSubmit();
         }
     }
