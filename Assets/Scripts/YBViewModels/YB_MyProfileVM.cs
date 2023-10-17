@@ -1,5 +1,7 @@
 
 
+using imady.NebuUI;
+
 namespace YBCarRental3D
 {
     //113 order details - DetailsView
@@ -9,14 +11,15 @@ namespace YBCarRental3D
 
         YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
 
-
-        public string Id => userManagerPtr.CurrentUser.Id.ToString();
-        public string UserName => userManagerPtr.CurrentUser.UserName;
-        public string Password => "******";//forbidden
-        public string FirstName => userManagerPtr.CurrentUser.FirstName;
-        public string FamilyName => userManagerPtr.CurrentUser.FamilyName;
-        public string UserRoles => userManagerPtr.CurrentUser.UserRoles;
-        public string Balance=> userManagerPtr.CurrentUser.Balance.ToString("c2");
+        #region ===== view properties =====
+        [NbuViewProperty] public string Id => userManagerPtr.CurrentUser.Id.ToString();
+        [NbuViewProperty] public string UserName => userManagerPtr.CurrentUser.UserName;
+        [NbuViewProperty] public string Password => "******";//forbidden
+        [NbuViewProperty] public string FirstName => userManagerPtr.CurrentUser.FirstName;
+        [NbuViewProperty] public string FamilyName => userManagerPtr.CurrentUser.FamilyName;
+        [NbuViewProperty] public string UserRoles => userManagerPtr.CurrentUser.UserRoles;
+        [NbuViewProperty] public string Balance=> userManagerPtr.CurrentUser.Balance.ToString("c2");
+        #endregion ===== view properties =====
 
         public override void onViewForwarded(YB_ViewBasis fromView)
         {

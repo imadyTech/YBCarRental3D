@@ -95,13 +95,13 @@ namespace YBCarRental3D
             else
                 currentView = viewPtr;
 
+            Debug.Log($"[Window.Goto ]: {currentView.Title}");
             currentView.viewObject.SetActive(true);
             viewPtr.viewModel.onInit(this);
             if (previousView != null)
             {
                 currentView.viewModel.onViewForwarded(previousView);
             }
-            Debug.Log($"[Window.Goto ]: {currentView.Title}");
         }
         public void Goto(string viewTitle)
         {

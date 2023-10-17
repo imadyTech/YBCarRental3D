@@ -1,3 +1,4 @@
+using imady.NebuUI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,15 +17,26 @@ namespace YBCarRental3D
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
 
+        #region ===== view properties =====
+        [NbuViewProperty]
         public string Id => base.principalObject.Id.ToString();
+        [NbuViewProperty]
         public string Make => base.principalObject.Make;
+        [NbuViewProperty]
         public string Model => base.principalObject.Model;
+        [NbuViewProperty]
         public string Year => base.principalObject.Year.ToString();
+        [NbuViewProperty]
         public string Mileage => base.principalObject.Mileage.ToString();
+        [NbuViewProperty]
         public string MinRentPeriod => base.principalObject.MinRentPeriod.ToString();
+        [NbuViewProperty]
         public string MaxRentPeriod => base.principalObject.MaxRentPeriod.ToString();
+        [NbuViewProperty]
         public string DayRentPrice => base.principalObject.DayRentPrice.ToString("c2");
+        [NbuViewProperty]
         public string IsAvailable => base.principalObject.IsAvailable ? "Yes" : "No";
+        #endregion ===== view properties =====
 
         public override void onViewForwarded(YB_ViewBasis fromView)
         {

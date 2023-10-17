@@ -1,6 +1,7 @@
 ﻿using imady.NebuUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -18,9 +19,11 @@ namespace YBCarRental3D
         private Dictionary<string, Func<string>> valuesMapPtr;
 
         protected YB_Window ybWindow { get => YB_Window.Instance; }
-        public YB_DataBasis PrincipalData { 
+        public YB_DataBasis PrincipalData
+        {
             get => this.principalObject;
-            set => this.principalObject = value as TData; } 
+            set => this.principalObject = value as TData;
+        }
 
         public YB_ViewModelBasis()
         {
@@ -32,10 +35,10 @@ namespace YBCarRental3D
         }
         public virtual string Get_PropertyValue(string bindName)
         {
-            valuesMapPtr.TryGetValue(bindName, out var value);  //retrieve the input gameobject and return the value
-            if (value != null)
+            valuesMapPtr.TryGetValue(bindName, out var valueGetter);  //retrieve the input gameobject and return the value
+            if (valueGetter != null)
             {
-                return value.Invoke();
+                return valueGetter.Invoke();
             }
             return string.Empty;
         }
@@ -120,6 +123,9 @@ namespace YBCarRental3D
         }
         protected virtual void RescaleItem(YB_ViewItemBasis itemDef, ref GameObject itemObject, Rect viewContainer)
         {
+#if DEVELOPMENT
+            Debug.Log($"[RescaleItem] {itemDef.ItemType} {itemDef.Id}");
+#endif
             //fit width
             var width = (viewContainer.width * itemDef.w / viewDef.w);
             var height = (viewContainer.height * itemDef.h / viewDef.h);
@@ -127,6 +133,9 @@ namespace YBCarRental3D
         }
         protected virtual void RepositItem(YB_ViewItemBasis itemDef, ref GameObject itemObject, Rect viewContainer)
         {
+#if DEVELOPMENT
+            Debug.Log($"[RepositItem] {itemDef.ItemType} {itemDef.Id}");
+#endif
             var x = viewContainer.width * (itemDef.x + (float)itemDef.w / 2 - (float)viewDef.w / 2) / (float)viewDef.w;
             var y = viewContainer.height * (0.5f - (float)itemDef.y / (float)viewDef.h);
             itemObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
@@ -137,9 +146,15 @@ namespace YBCarRental3D
         #region === Bind/Render view with VM === 
         protected virtual GameObject RenderView()
         {
-            var properties = this.GetType().GetProperties();
-            foreach (PropertyInfo property in properties)
+            var properties = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            List<PropertyInfo> propertiesWithAttribute = properties
+                .Where(property => Attribute.IsDefined(property, typeof(NbuViewPropertyAttribute)))
+                .ToList();
+            foreach (PropertyInfo property in propertiesWithAttribute)
             {
+#if DEVELOPMENT
+                Debug.Log($"[VM Rendering] : PropertyInfo {property.Name}");
+#endif
                 try
                 {
                     BindingText(this.gameObject, property.Name, property.GetValue(this).ToString());
@@ -150,12 +165,13 @@ namespace YBCarRental3D
                     Debug.Log($"[Binding Error] : {this.gameObject.name}, {property.Name}");
                 }
 
-                void BindingText(GameObject parentGameObject, string filedName, string content)
+                void BindingText(GameObject gameObjectRoot, string filedName, string content)
                 {
-                    var text = parentGameObject.GetComponent<TMP_Text>();
+                    TMP_Text text;
+                    gameObjectRoot.TryGetComponent<TMP_Text>(out text);
                     if (text != null && !String.IsNullOrEmpty(text.name) && text.name == filedName)
                         text.SetText(content);
-                    foreach (Transform child in parentGameObject.transform)
+                    foreach (Transform child in gameObjectRoot.transform)
                     {
                         BindingText(child.gameObject, filedName, content);
                     }

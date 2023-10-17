@@ -7,6 +7,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 namespace YBCarRental3D 
 {
@@ -25,6 +26,9 @@ namespace YBCarRental3D
             base.CreateListHead();
 
             var list = await YB_ManagerFactory.CarMgr.ListCars(CurrentPage, (base.viewDef as YB_ListView).ListRowCount);
+#if DEVELOPMENT
+            Debug.Log($"[Listcars Returned] : {list.Count()} cars");
+#endif
             base.RenderListview(list);
         }
     };

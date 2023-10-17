@@ -135,7 +135,6 @@ namespace YBCarRental3D
                     {
                         //Console.WriteLine(sr.ReadLine());
                         line = sr.ReadLine();
-                        Debug.Log(line);
 
                         if (string.IsNullOrEmpty(line) || line[^1..] == commentsSeparator)      //check if ended with a '#' or empty line
                             continue;

@@ -30,6 +30,9 @@ namespace YBCarRental3D
         {
             //ClearLayoutContainer(container);
             //var resultViewList = new List<INebuUIView>();
+#if DEVELOPMENT
+            Debug.Log($"[RenderListview] {this.viewDef.Title}");
+#endif
 
             int numOfRows = int.Parse(this.viewDef.FindValue("ListRowCount"));
             int yPos = 2;
@@ -45,12 +48,16 @@ namespace YBCarRental3D
         }
         protected void CreateListItem(YB_ListItem listItemDef, TData data)
         {
+#if DEVELOPMENT
+            Debug.Log($"[CreateListItem] {data.GetType().Name} {data.Id}");
+#endif
+
             listItemDef.itemGameObject = base.ybWindow.GenerateViewItemTemplate(listItemDef, this.gameObject.transform);
 
             try
             {
                 GenerateRow(base.ybWindow.listItemColTemplate, listHead.listHeadColumnDefMap, listItemDef.itemGameObject, data, listHead.w);
-                listItemDef.carriedData = data;
+                listItemDef.linkedTData = data;
                 listItemDef.parentDef = this.viewDef;
                 ConfigViewItemObj(listItemDef, ref listItemDef.itemGameObject);
             }
@@ -66,10 +73,14 @@ namespace YBCarRental3D
         #region === Utility methods ===
         private void GenerateRow(GameObject unitTemplate, Dictionary<string, int> rowFormatDef, GameObject rowObject, TData data, int rowDefWidth)
         {
+
             float rowScreenWidth = rowObject.GetComponent<RectTransform>().rect.width;
             int startPos = 3;
             foreach (var iterator in rowFormatDef)
             {
+#if DEVELOPMENT
+            Debug.Log($"[Generate Row Col] {iterator.Key}");
+#endif
                 var colObjTemplate = Instantiate(unitTemplate, rowObject.transform);
                 var headColText = colObjTemplate.GetComponent<TMP_Text>();
 

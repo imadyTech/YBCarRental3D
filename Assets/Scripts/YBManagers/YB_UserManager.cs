@@ -31,17 +31,22 @@ namespace YBCarRental3D
                 _currentUser = null;
                 return false;
             }
-            if (result == null) 
+            if (result == null)
                 return false;
-            else 
+            else
                 return true;
         }
 
         public async Task<YB_User> UserLogin(string username, string password)
         {
+            _currentUser = null;
             var requestString = $"{this.apiContext.BaseApiUrl}/login";
             var postdata = $"{{\"userName\":\"{username}\",\"password\": \"{password}\"}}";
+            Debug.Log(requestString);
+            Debug.Log(postdata);
+
             var result = await apiContext.PostRequest(requestString, postdata);
+            Debug.Log(result);
             try
             {
                 _currentUser = JsonConvert.DeserializeObject<YB_User>(result);
@@ -49,7 +54,6 @@ namespace YBCarRental3D
             catch (Exception ex)
             {
                 Debug.Log($"[Login error] : {ex.Message}");
-                _currentUser = null;
             }
             return _currentUser;
         }

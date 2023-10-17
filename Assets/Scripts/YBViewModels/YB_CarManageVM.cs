@@ -1,4 +1,5 @@
 
+using imady.NebuUI;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 
@@ -12,15 +13,28 @@ namespace YBCarRental3D
         }
 
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
+
+
+        #region ===== view properties =====
+        [NbuViewProperty]
         public int Id { get; set; }
+        [NbuViewProperty]
         public string Make { get; set; }
+        [NbuViewProperty]
         public string Model { get; set; }
+        [NbuViewProperty]
         public int Year { get; set; }
+        [NbuViewProperty]
         public int Mileage { get; set; }
+        [NbuViewProperty]
         public bool IsAvailable { get; set; }
+        [NbuViewProperty]
         public int MinRentPeriod { get; set; }
+        [NbuViewProperty]
         public int MaxRentPeriod { get; set; }
+        [NbuViewProperty]
         public float DayRentPrice { get; set; }
+        #endregion ===== view properties =====
 
 
         public async override void onSubmit()

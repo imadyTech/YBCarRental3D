@@ -1,5 +1,6 @@
 
 
+using imady.NebuUI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,9 @@ namespace YBCarRental3D
     {
         public YB_LogOutVM() : base() { }
 
-        public string SeeYou => "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser.FirstName;
+        #region ===== view properties =====
+        [NbuViewProperty] public string SeeYou => "See ya, " + YB_ManagerFactory.UserMgr.CurrentUser.FirstName;
+        #endregion ===== view properties =====
 
 
         public override void onSubmit()

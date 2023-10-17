@@ -1,3 +1,4 @@
+using imady.NebuUI;
 using System;
 
 namespace YBCarRental3D
@@ -10,17 +11,28 @@ namespace YBCarRental3D
         YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
+        #region ===== View properties =====
+        [NbuViewProperty]
         public string UserRoles => userManagerPtr.CurrentUser.UserRoles;
+        [NbuViewProperty]
         public string UserName => userManagerPtr.CurrentUser.UserName;
+        [NbuViewProperty]
         public string Make { get; set; }
+        [NbuViewProperty]
         public string Model { get; set; }
+        [NbuViewProperty]
         public int Year { get; set; }
+        [NbuViewProperty]
         public int Mileage { get; set; }
+        [NbuViewProperty]
         public bool IsAvailable { get; set; }
+        [NbuViewProperty]
         public int MinRentPeriod { get; set; }
+        [NbuViewProperty]
         public int MaxRentPeriod { get; set; }
+        [NbuViewProperty]
         public float DayRentPrice { get; set; }
-
+        #endregion ===== View properties =====
 
         public override void onViewForwarded(YB_ViewBasis fromView)
         {

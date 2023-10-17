@@ -13,6 +13,7 @@ namespace YBCarRental3D
 
         YB_User carryForwardedUser;//This is view about car, but came from adminMenuVM, so as to keep the user
 
+
         private int _currentPage = 0;
         public int CurrentPage { get => _currentPage; set => _currentPage = value; }
 

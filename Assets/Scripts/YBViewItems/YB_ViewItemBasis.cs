@@ -66,11 +66,19 @@ namespace YBCarRental3D
         {
             try
             {
-                TMP_Text tmpText = itemGameObject.GetComponent<TMP_Text>();
-                tmpText.enableWordWrapping = false;
-                tmpText.text = this.Content;
-                if (this.isCentral)
-                    tmpText.alignment = TextAlignmentOptions.Center;
+#if DEVELOPMENT
+                Debug.Log($"[Item BindContent] {this.ItemType} {this.Id}");
+#endif
+
+                TMP_Text tmpText;
+                itemGameObject.TryGetComponent<TMP_Text>(out tmpText);
+                if (tmpText != null)
+                {
+                    tmpText.enableWordWrapping = false;
+                    tmpText.text = this.Content;
+                    if (this.isCentral)
+                        tmpText.alignment = TextAlignmentOptions.Center;
+                }
             }
             catch { }
             return this;
@@ -83,6 +91,10 @@ namespace YBCarRental3D
 
         public virtual YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
         {
+#if DEVELOPMENT
+            Debug.Log($"[Item BindContent] {this.ItemType} {this.Id}");
+#endif
+
             return this;
         }
 
