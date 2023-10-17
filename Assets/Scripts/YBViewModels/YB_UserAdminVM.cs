@@ -12,12 +12,9 @@ namespace YBCarRental3D {
 		YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
 
-        public override void onSubmit()				
+        public async override void onSubmit()				
 		{
-			throw new NotImplementedException();
-
 			var userPtr = this.principalObject;
-
 			try {
 				//userPtr.Id				= std.stoi((valuesMapPtr)["Id"]);
 				userPtr.UserName	= base.Get_PropertyValue("UserName");
@@ -28,10 +25,12 @@ namespace YBCarRental3D {
 			}
 			catch (Exception e)
 			{
-				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.");
 			}
+
 			try {
-				if (userManagerPtr.UpdateUser(userPtr)) {
+				var result = await userManagerPtr.UpdateUser(userPtr);
+				if (result == true) {
 					ybWindow.PopPrompt(this.viewDef.Title, "The user info was successfully updated.", YBGlobal.ADMIN_MAIN_VIEW);
 				}
 				else
@@ -41,7 +40,7 @@ namespace YBCarRental3D {
 			}
 			catch (Exception e)
 			{
-				ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.");
 			}
 		}
 	}

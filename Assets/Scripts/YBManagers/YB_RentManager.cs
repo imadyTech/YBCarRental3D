@@ -1,4 +1,7 @@
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace YBCarRental3D
 {
@@ -8,13 +11,9 @@ namespace YBCarRental3D
         {
         }
 
-        public bool PlaceOrder(int userId, int carId, DateTime startDate, int days)
+        public async Task<bool> PlaceOrder(int userId, int carId, DateTime startDate, int days)
         {
-            DateTime rawtime;
-
             DateTime today = DateTime.Now;
-
-
             YB_Rent order = new YB_Rent();
             order.UserId = userId;
             order.CarId = carId;
@@ -23,45 +22,43 @@ namespace YBCarRental3D
             order.DateOfOrder = today;
             order.Status = YB_Rent.YB_Rental_Status_Pending;
 
-            return base.Add(order).Result;
+            return await base.Add(order);
         }
-        public bool ApproveOrder(YB_Rent rentalOrder)
+        public async Task<bool> ApproveOrder(YB_Rent order)
         {
-            if (rentalOrder.Status != YB_Rent.YB_Rental_Status_Pending) return false;
+            if (order.Status != YB_Rent.YB_Rental_Status_Pending) 
+                return false;
             try
             {
-                rentalOrder.Status = YB_Rent.YB_Rental_Status_Approved;
-                return base.Update(rentalOrder).Result;
+                var requestString = $"{this.apiContext.BaseApiUrl}/approve/{order.Id}";
+                var result = await apiContext.GetRequest(requestString);
+                //Todo: need judge the result
+                return true;
             }
             catch (Exception e)
             {
                 return false;
             }
         }
-        public bool RejectOrder(YB_Rent rentalOrder)
+        public async Task<bool> RejectOrder(YB_Rent order)
         {
-            if (rentalOrder.Status != YB_Rent.YB_Rental_Status_Pending) return false;
+            if (order.Status != YB_Rent.YB_Rental_Status_Pending) 
+                return false;
             try
             {
-                rentalOrder.Status = YB_Rent.YB_Rental_Status_Rejected;
-                return base.Update(rentalOrder).Result;
+                var requestString = $"{this.apiContext.BaseApiUrl}/reject/{order.Id}";
+                var result = await apiContext.GetRequest(requestString);
+                //Todo: need judge the result
+                return true;
             }
             catch (Exception e)
             {
                 return false;
             }
         }
-        public bool ApproveOrder(int orderId)
+        public async Task<IEnumerable<YB_Rent>> ListOrders(int pageNum, int pageSize)
         {
-            var orderPtr = base.Get(orderId).Result;
-
-            return this.ApproveOrder(orderPtr);
-        }
-        public bool RejectOrder(int orderId)
-        {
-            var orderPtr = base.Get(orderId).Result;
-
-            return this.RejectOrder(orderPtr);
+            return await base.GetList(pageNum, pageSize);
         }
     }
 

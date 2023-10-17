@@ -14,11 +14,11 @@ namespace YBCarRental3D
         {
         }
 
-        public override void onSubmit()
+        public async override void onSubmit()
         {
             throw new NotImplementedException();
 
-            bool deleteResult = YB_ManagerFactory.CarMgr.DeleteCar(this.principalObject);
+            bool deleteResult = await YB_ManagerFactory.CarMgr.DeleteCar(this.principalObject);
 
             if (deleteResult)
                 ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);

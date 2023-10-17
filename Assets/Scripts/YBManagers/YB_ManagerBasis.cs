@@ -20,16 +20,16 @@ namespace YBCarRental3D
             this.apiContext.BaseApiUrl = $"{baseUrl}/{controllerName}";
         }
 
-        public async Task<TData> Get(int id)
+        protected async Task<TData> Get(int id)
         {
             var requestString = $"{this.apiContext.BaseApiUrl}/{id}";
             var result = await apiContext.GetRequest(requestString);
             return JsonConvert.DeserializeObject<TData>(result);
         }
 
-        public async Task<bool> Add(TData data)
+        protected async Task<bool> Add(TData data)
         {
-            var requestString = $"{this.apiContext.BaseApiUrl}/Add";
+            var requestString = $"{this.apiContext.BaseApiUrl}/add";
             var contentString = JsonConvert.SerializeObject(data);
 
             try
@@ -43,12 +43,12 @@ namespace YBCarRental3D
             }
         }
 
-        public async Task<bool> Delete(int id)
+        protected async Task<bool> Delete(int id)
         {
-            var requestString = $"{this.apiContext.BaseApiUrl}/Delete/{id}";
+            var requestString = $"{this.apiContext.BaseApiUrl}/delete/{id}";
             try
             {
-                var result = apiContext.DeleteRequest(requestString);
+                var result = await apiContext.DeleteRequest(requestString);
                 return true;
             }
             catch (Exception e)
@@ -57,9 +57,9 @@ namespace YBCarRental3D
             }
         }
 
-        public async Task<bool> Update(TData data)
+        protected async Task<bool> Update(TData data)
         {
-            var requestString = $"{this.apiContext.BaseApiUrl}/Update";
+            var requestString = $"{this.apiContext.BaseApiUrl}/update";
             var contentString = JsonConvert.SerializeObject(data);
 
             try
@@ -73,7 +73,7 @@ namespace YBCarRental3D
             }
         }
 
-        internal async Task<IEnumerable<TData>> GetList(int pageNum, int pageSize)
+        protected async Task<IEnumerable<TData>> GetList(int pageNum, int pageSize)
         {
             var requestString = $"{this.apiContext.BaseApiUrl}/list";
             var postDataString = JsonConvert.SerializeObject(new 

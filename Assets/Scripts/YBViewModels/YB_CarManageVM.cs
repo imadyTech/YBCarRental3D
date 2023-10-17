@@ -23,7 +23,7 @@ namespace YBCarRental3D
         public float DayRentPrice { get; set; }
 
 
-        public override void onSubmit()
+        public async override void onSubmit()
         {
             if (base.Has_PropertyValue("Id")) Id = int.Parse(base.Get_PropertyValue("Id"));
             if (base.Has_PropertyValue("Make")) Make = base.Get_PropertyValue("Make");
@@ -45,7 +45,7 @@ namespace YBCarRental3D
             car.MaxRentPeriod = MaxRentPeriod;
             car.DayRentPrice = DayRentPrice;
 
-            bool result = carManagerPtr.UpdateCar(car);
+            bool result = await carManagerPtr.UpdateCar(car);
             if (result)
             {
                 ybWindow.PopPrompt(this.viewDef.Title, "The car has been successfully updated!", YBGlobal.ADMIN_MAIN_VIEW);

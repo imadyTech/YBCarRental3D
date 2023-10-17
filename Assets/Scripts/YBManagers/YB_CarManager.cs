@@ -10,29 +10,29 @@ namespace YBCarRental3D
         {
         }
 
-        public bool AddCar(YB_Car carPtr)
+        public async Task<bool> AddCar(YB_Car carPtr)
         {
-            return base.Add(carPtr).Result;
+            return await base.Add(carPtr);
         }
 
-        public bool DeleteCar(YB_Car carPtr)
+        public async Task<bool> DeleteCar(YB_Car carPtr)
         {
-            return this.Delete(carPtr.Id).Result;
+            return await base.Delete(carPtr.Id);
         }
 
-        public bool DeleteCar(int carId)
+        public async Task<bool> DeleteCar(int carId)
         {
-            return base.Delete(carId).Result;
+            return await base.Delete(carId);
         }
 
-        public bool UpdateCar(YB_Car carPtr)
+        public async Task<bool> UpdateCar(YB_Car carPtr)
         {
-            return base.Update(carPtr).Result;
+            return await base.Update(carPtr);
         }
 
-        public YB_Car GetCar(int carId)
+        public async Task<YB_Car> GetCar(int carId)
         {
-            return base.Get(carId).Result;
+            return await base.Get(carId);
         }
 
         public async Task<IEnumerable<YB_Car>> ListCars(int pageNum, int pageSize)

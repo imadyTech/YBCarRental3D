@@ -27,6 +27,8 @@ namespace YBCarRental3D
                 base.ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);
             else if (YB_ManagerFactory.UserMgr.CurrentUser != null && YB_ManagerFactory.UserMgr.IsAdmin())
                 base.ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
+            else
+                base.ybWindow.PopPrompt(this.viewDef.Title, "Login have encounted some error, check your connection or contact administrator for server status.");
         }
 
         public override void OnButtonClicked(YB_ViewItemBasis button)

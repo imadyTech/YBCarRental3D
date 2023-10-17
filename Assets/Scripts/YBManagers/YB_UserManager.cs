@@ -1,28 +1,40 @@
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
     public class YB_UserManager : YB_ManagerBasis<YB_User>
     {
-        YB_User currentUser;
+        private YB_User _currentUser;
+        public YB_User CurrentUser => _currentUser;
 
         public YB_UserManager(string baseUrl) : base(baseUrl, "YBUsers")
         {
         }
 
 
-
-        public bool UserRegister(YB_User user)
-
+        public async Task<bool> UserRegister(YB_User user)
         {
-            var existingUser = base.Get(user.Id);
-            if (existingUser != null)
+            var requestString = $"{this.apiContext.BaseApiUrl}/register";
+            var postdata = JsonConvert.SerializeObject(user);
+            var result = await apiContext.PostRequest(requestString, postdata);
+            try
             {
-                return false; //user already exist
+                _currentUser = JsonConvert.DeserializeObject<YB_User>(result);
             }
-            return base.Add(user).Result;
+            catch (Exception ex)
+            {
+                Debug.Log($"[Register error] : {ex.Message}");
+                _currentUser = null;
+                return false;
+            }
+            if (result == null) 
+                return false;
+            else 
+                return true;
         }
 
         public async Task<YB_User> UserLogin(string username, string password)
@@ -30,39 +42,47 @@ namespace YBCarRental3D
             var requestString = $"{this.apiContext.BaseApiUrl}/login";
             var postdata = $"{{\"userName\":\"{username}\",\"password\": \"{password}\"}}";
             var result = await apiContext.PostRequest(requestString, postdata);
-            currentUser = JsonConvert.DeserializeObject<YB_User>(result);
-            return currentUser;
+            try
+            {
+                _currentUser = JsonConvert.DeserializeObject<YB_User>(result);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"[Login error] : {ex.Message}");
+                _currentUser = null;
+            }
+            return _currentUser;
         }
 
         public async Task<bool> UserLogout()
         {
             var requestString = $"{this.apiContext.BaseApiUrl}/logout";
-            var postdata = $"{{\"userName\":\"{currentUser.UserName}\",\"password\": \"{currentUser.Password}\"}}";
+            var postdata = $"{{\"userName\":\"{_currentUser.UserName}\",\"password\": \"{_currentUser.Password}\"}}";
             var result = await apiContext.PostRequest(requestString, postdata);
 
-            currentUser = null;
+            _currentUser = null;
             return true;
         }
 
         public bool IsAdmin()
         {
-            return currentUser.UserRoles.Contains("admin");
+            return _currentUser.UserRoles.Contains("admin");
         }
 
 
-        public YB_User GetUser(int userId)
+        public async Task<YB_User> GetUser(int userId)
         {
-            return base.Get(userId).Result;
+            return await base.Get(userId);
         }
 
-        public bool UpdateUser(YB_User userPtr)
+        public async Task<bool> UpdateUser(YB_User userPtr)
         {
-            return base.Update(userPtr).Result;
+            return await base.Update(userPtr);
         }
 
-        public YB_User CurrentUser
+        public async Task<IEnumerable<YB_User>> ListUsers(int pageNum, int pageSize)
         {
-            get => currentUser;
+            return await base.GetList(pageNum, pageSize);
         }
     }
 }

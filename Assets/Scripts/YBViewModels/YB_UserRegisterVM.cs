@@ -23,10 +23,8 @@ namespace YBCarRental3D {
 			this.principalObject = userPtr;
 		}
 
-        public override void onSubmit()				
+        public async override void onSubmit()				
 		{
-			throw new NotImplementedException();
-
 			var userPtr = this.principalObject;
 
 			try {
@@ -38,29 +36,31 @@ namespace YBCarRental3D {
 			}
 			catch (Exception e)
 			{
-				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.", null);
+				ybWindow.PopPrompt(this.viewDef.Title, "Some issues in your input. Please check again.");
 			}
 
-			//Input verification
+			//Input verification (front end
 			if (userPtr.UserName.Length > 10 || userPtr.UserName.Length < 3) {
-                ybWindow.PopPrompt(this.viewDef.Title, "UserName length must between 3 and 10 characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "UserName length must between 3 and 10 characters.");
 				return;
 			}
 			if (userPtr.FirstName.Length > 12 || userPtr.FirstName.Length < 3) {
-                ybWindow.PopPrompt(this.viewDef.Title, "First Name length must between 3 and 12 characters..", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "First Name length must between 3 and 12 characters..");
 				return;
 			}
 			if (userPtr.FamilyName.Length > 12 || userPtr.FamilyName.Length < 3) {
-                ybWindow.PopPrompt(this.viewDef.Title, "Family Name length must between 3 and 12 characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "Family Name length must between 3 and 12 characters.");
 				return;
 			}
 			if (userPtr.Password.Length > 6 || userPtr.Password.Length < 1) {
-                ybWindow.PopPrompt(this.viewDef.Title, "Must input a password no more than 6 digits or characters.", null);
+                ybWindow.PopPrompt(this.viewDef.Title, "Must input a password no more than 6 digits or characters.");
 				return;
 			}
 
 			try {
-				if (userManagerPtr.UserRegister(userPtr)) {
+				var result = await userManagerPtr.UserRegister(userPtr);
+
+                if (result) {
                     ybWindow.PopPrompt(this.viewDef.Title, "The new user was successfully registered.", YBGlobal.MAIN_VIEW);
 				}
 				else
@@ -73,7 +73,13 @@ namespace YBCarRental3D {
                 ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.", null);
 			}
 		}
-	};
+        public override void OnButtonClicked(YB_ViewItemBasis button)
+        {
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
+                this.onSubmit();
+        }
+
+    };
 
 
 }

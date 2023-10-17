@@ -14,7 +14,7 @@ namespace YBCarRental3D
     {
         public YB_ViewBasis previousView;
         public YB_ViewBasis viewDef;                    //View Definition object
-        public TData principalObject;                   //Logic DTO (Data Transfer Object)
+        protected TData principalObject;                   //Logic DTO (Data Transfer Object)
         private Dictionary<string, Func<string>> valuesMapPtr;
 
         protected YB_Window ybWindow { get => YB_Window.Instance; }

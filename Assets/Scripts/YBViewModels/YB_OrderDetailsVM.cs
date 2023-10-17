@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -14,79 +15,99 @@ namespace YBCarRental3D
         YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
+        YB_Car car;
 
-        public override void onViewForwarded(YB_ViewBasis fromView)
+        public string Id => base.principalObject.Id.ToString();
+        public string CustomerName => $"{userManagerPtr.CurrentUser.FirstName} {userManagerPtr.CurrentUser.FamilyName}";
+        public string CarInfo => $"{car.Make} {car.Model} {car.Year}";
+        public string DateOfOrder => base.principalObject.DateOfOrder.ToString();
+        public string Status => base.principalObject.Status.ToString();
+        public string OrderCost => (base.principalObject.RentDays * car.DayRentPrice).ToString();
+        public string UserName => userManagerPtr.CurrentUser.UserName;
+        public string Balance => userManagerPtr.CurrentUser.Balance.ToString();
+
+
+        public async override void onViewForwarded(YB_ViewBasis fromView)
         {
+            this.principalObject = fromView.viewModel.PrincipalData as YB_Rent;
+            base.onViewForwarded(fromView);
+
+            car = await carManagerPtr.GetCar(base.principalObject.CarId);
+
+            base.RenderView();
         }
 
-
-        public override string Get_PropertyValue(string bindName)
+        private void Update()
         {
-            string value = "";
-            if (bindName == "UserName")
+            if (Input.anyKeyDown && !Input.GetKey(KeyCode.Escape))
             {
-                value = userManagerPtr.CurrentUser.UserName;
-                return value;
+                YB_Window.Instance.Back();
             }
-            if (bindName == "Balance")
-            {
-                value = (userManagerPtr.CurrentUser.Balance).ToString();
-                return value;
-            }
-            if (bindName == "CarInfo")
-            {
-                var car = carManagerPtr.GetCar(principalObject.CarId);
-                value = car.Make + " " + car.Model + " " + car.Year;
-                return value;
-            }
-            if (bindName == "CustomerName")
-            {
-                value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
-                return value;
-            }
-            if (bindName == "OrderCost")
-            {
-                var car = carManagerPtr.GetCar(principalObject.CarId);
-                value = ((float)principalObject.RentDays * car.DayRentPrice).ToString();
-                return value;
-            }
-            return base.Get_PropertyValue(bindName);
         }
 
+        //public override string Get_PropertyValue(string bindName)
+        //{
+        //    string value = "";
+        //    if (bindName == "UserName")
+        //    {
+        //        value = userManagerPtr.CurrentUser.UserName;
+        //        return value;
+        //    }
+        //    if (bindName == "Balance")
+        //    {
+        //        value = (userManagerPtr.CurrentUser.Balance).ToString();
+        //        return value;
+        //    }
+        //    if (bindName == "CarInfo")
+        //    {
+        //        var car = carManagerPtr.GetCar(principalObject.CarId);
+        //        value = car.Make + " " + car.Model + " " + car.Year;
+        //        return value;
+        //    }
+        //    if (bindName == "CustomerName")
+        //    {
+        //        value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
+        //        return value;
+        //    }
+        //    if (bindName == "OrderCost")
+        //    {
+        //        var car = carManagerPtr.GetCar(principalObject.CarId);
+        //        value = ((float)principalObject.RentDays * car.DayRentPrice).ToString();
+        //        return value;
+        //    }
+        //    return base.Get_PropertyValue(bindName);
+        //}
 
-        public override void onSubmit()
-        {
-            throw new NotImplementedException();
 
-            int daysToRent = 0;
-            int carId = 0;
+        //public async override void onSubmit()
+        //{
+        //    throw new NotImplementedException();
 
-            DateTime startDate=DateTime.Now;
+        //    int daysToRent = 0;
+        //    int carId = 0;
 
-            if (base.Has_PropertyValue("DaysToRent"))
-                daysToRent = int.Parse(base.Get_PropertyValue("DaysToRent"));
-            if (base.Has_PropertyValue("Id"))
-                carId = int.Parse(base.Get_PropertyValue("Id"));
+        //    DateTime startDate=DateTime.Now;
 
-            YB_Car car = carManagerPtr.GetCar(carId);
-            YB_Rent order = new YB_Rent();
-            int totalPrice = (int) car.DayRentPrice*daysToRent;
+        //    if (base.Has_PropertyValue("DaysToRent"))
+        //        daysToRent = int.Parse(base.Get_PropertyValue("DaysToRent"));
+        //    if (base.Has_PropertyValue("Id"))
+        //        carId = int.Parse(base.Get_PropertyValue("Id"));
 
-            if (userManagerPtr.CurrentUser.Balance >= totalPrice)
-            {
-                bool result = rentManagerPtr.PlaceOrder((userManagerPtr.CurrentUser).Id,
-                    carId,
-                    startDate,
-                    daysToRent);
-                //order success, deduct account balance
-                if (result)
-                    userManagerPtr.CurrentUser.Balance -= totalPrice;
-                userManagerPtr.Update(userManagerPtr.CurrentUser);
-            }
-            else
-            {
-                ybWindow.PopPrompt(this.viewDef.Title, "Your order has been submitted!", YBGlobal.USER_MAIN_VIEW);
-            }
-        }
+        //    YB_Car car = await carManagerPtr.GetCar(carId);
+        //    YB_Rent order = new YB_Rent();
+        //    int totalPrice = (int) car.DayRentPrice*daysToRent;
+
+        //    if (userManagerPtr.CurrentUser.Balance >= totalPrice)
+        //    {
+        //        var result = await rentManagerPtr.PlaceOrder((userManagerPtr.CurrentUser).Id,
+        //            carId,
+        //            startDate,
+        //            daysToRent);
+        //    }
+        //    else
+        //    {
+        //        ybWindow.PopPrompt(this.viewDef.Title, "Your order has been submitted!", YBGlobal.USER_MAIN_VIEW);
+        //    }
+        //}
     }
 }

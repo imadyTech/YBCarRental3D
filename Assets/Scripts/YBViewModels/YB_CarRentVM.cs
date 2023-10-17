@@ -1,7 +1,6 @@
-
-
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace YBCarRental3D
 {
@@ -16,8 +15,16 @@ namespace YBCarRental3D
         YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
         YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
-        public string Make=> base.principalObject.Make;
-        public string Model=> base.principalObject.Model;
+
+        public string Id => base.principalObject.Id.ToString();
+        public string Make => base.principalObject.Make;
+        public string Model => base.principalObject.Model;
+        public string Year => base.principalObject.Year.ToString();
+        public string Mileage => base.principalObject.Mileage.ToString();
+        public string MinRentPeriod => base.principalObject.MinRentPeriod.ToString();
+        public string MaxRentPeriod => base.principalObject.MaxRentPeriod.ToString();
+        public string DayRentPrice => base.principalObject.DayRentPrice.ToString("c2");
+        public string IsAvailable => base.principalObject.IsAvailable ? "Yes" : "No";
 
         public override void onViewForwarded(YB_ViewBasis fromView)
         {
@@ -26,58 +33,49 @@ namespace YBCarRental3D
             base.RenderView();
         }
 
-        public override string Get_PropertyValue(string bindName)
+        public async override void onSubmit()
         {
-            string value = "";
-            if (bindName == "UserName")
-            {
-                value = userManagerPtr.CurrentUser.UserName;
-                return value;
-            }
-            if (bindName == "Balance")
-            {
-                value = (userManagerPtr.CurrentUser.Balance).ToString();
-                return value;
-            }
-            return base.Get_PropertyValue(bindName);
-        }
-
-
-        public override void onSubmit()
-        {
-            throw new NotImplementedException();
-
             int daysToRent = 0;
-            int carId = 0;
-
+            //int carId = 0;
             DateTime startDate = DateTime.Now;
 
 
             if (base.Has_PropertyValue("DaysToRent"))
                 daysToRent = int.Parse(base.Get_PropertyValue("DaysToRent"));
-            if (base.Has_PropertyValue("Id"))
-                carId = int.Parse(base.Get_PropertyValue("Id"));
+            //if (base.Has_PropertyValue("Id"))
+            //    carId = int.Parse(base.Get_PropertyValue("Id"));
+            //YB_Car car = await carManagerPtr.GetCar(this.principalObject.Id);
 
-            YB_Car car = carManagerPtr.GetCar(carId);
-            YB_Rent order = new YB_Rent();
-            int totalPrice = (int)(car.DayRentPrice * daysToRent);
+            int totalPrice = (int)(this.principalObject.DayRentPrice * daysToRent);
 
             if (userManagerPtr.CurrentUser.Balance >= totalPrice)
             {
-                bool result = rentManagerPtr.PlaceOrder((userManagerPtr.CurrentUser).Id,
-                    carId,
+                bool result = await rentManagerPtr.PlaceOrder(
+                    (userManagerPtr.CurrentUser).Id,
+                    this.principalObject.Id,
                     startDate,
                     daysToRent);
                 //order success, deduct account balance
                 if (result)
-                    userManagerPtr.CurrentUser.Balance -= totalPrice;
-                userManagerPtr.Update(userManagerPtr.CurrentUser);
+                    ybWindow.PopPrompt(this.viewDef.Title, "Your order has been successfully placed.", this.viewDef.GotoView);
+                else
+                    ybWindow.PopPrompt(this.viewDef.Title, "Your order was NOT placed due to some server issues.");
             }
             else
             {
-                ybWindow.PopPrompt(this.viewDef.Title, "You don't have enough money to fulfill the order.", YBGlobal.USER_MAIN_VIEW);
+                ybWindow.PopPrompt(this.viewDef.Title, "You don't have enough money to fulfill the order.");
             }
         }
+
+        public override void OnButtonClicked(YB_ViewItemBasis button)
+        {
+            Debug.Log($"[Button Clicked] : {this.name} - {button.Id}");
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
+            {
+                this.onSubmit();
+            }
+        }
+
     };
 
 }

@@ -19,53 +19,51 @@ namespace YBCarRental3D
             CarId       = int.Parse( fromView.viewModel.Get_PropertyValue("CarId"));
             RentDays    = int.Parse( fromView.viewModel.Get_PropertyValue("RentDays"));
         }
-        public override string Get_PropertyValue(string bindName)
+        //public async override string Get_PropertyValue(string bindName)
+        //{
+        //    string value = string.Empty;
+        //    if (bindName == "UserName")
+        //    {
+        //        value = userManagerPtr.CurrentUser.UserName;
+        //        return value;
+        //    }
+        //    if (bindName == "UserRoles")
+        //    {
+        //        value = (userManagerPtr.CurrentUser.UserRoles);
+        //        return value;
+        //    }
+        //    if (bindName == "CarInfo")
+        //    {
+        //        var car = carManagerPtr.GetCar(this.CarId);
+        //        value = car.Make + " " + car.Model + " " + car.Year;
+        //        return value;
+        //    }
+        //    if (bindName == "CustomerName")
+        //    {
+        //        value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
+        //        return value;
+        //    }
+        //    if (bindName == "OrderCost")
+        //    {
+        //        var car = carManagerPtr.GetCar(this.CarId);
+        //        value = (this.RentDays * car.DayRentPrice).ToString();
+        //        return value;
+        //    }
+        //    return base.Get_PropertyValue(bindName);
+        //}
+        public async override void onSubmit()
         {
-            string value = string.Empty;
-            if (bindName == "UserName")
-            {
-                value = userManagerPtr.CurrentUser.UserName;
-                return value;
-            }
-            if (bindName == "UserRoles")
-            {
-                value = (userManagerPtr.CurrentUser.UserRoles);
-                return value;
-            }
-            if (bindName == "CarInfo")
-            {
-                var car = carManagerPtr.GetCar(this.CarId);
-                value = car.Make + " " + car.Model + " " + car.Year;
-                return value;
-            }
-            if (bindName == "CustomerName")
-            {
-                value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
-                return value;
-            }
-            if (bindName == "OrderCost")
-            {
-                var car = carManagerPtr.GetCar(this.CarId);
-                value = (this.RentDays * car.DayRentPrice).ToString();
-                return value;
-            }
-            return base.Get_PropertyValue(bindName);
-        }
-        public override void onSubmit()
-        {
-            throw new NotImplementedException();
-
             int orderId = int.Parse(base.Get_PropertyValue("Id"));
 
             string reviewType = base.Get_PropertyValue(YBGlobal.SUBMIT_BINDKEY_BUTTONCONTENT);
             if (reviewType == "APPROVE")
             {
-                rentManagerPtr.ApproveOrder(orderId);
+                await rentManagerPtr.ApproveOrder(this.principalObject);
                 base.ybWindow.PopPrompt(this.viewDef.Title, "You have approved the order!", YBGlobal.ADMIN_MAIN_VIEW);
             };
             if (reviewType == "REJECT")
             {
-                rentManagerPtr.RejectOrder(orderId);
+                await rentManagerPtr.RejectOrder(this.principalObject);
                 base.ybWindow.PopPrompt(this.viewDef.Title, "You have rejected the order.", null);
             };
         }

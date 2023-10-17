@@ -29,7 +29,7 @@ namespace YBCarRental3D
         {
             return base.Get_PropertyValue(bindName);
         }
-        public override void onSubmit()
+        public async override void onSubmit()
         {
             throw new NotImplementedException();
 
@@ -51,7 +51,7 @@ namespace YBCarRental3D
             car.MaxRentPeriod = MaxRentPeriod;
             car.DayRentPrice = DayRentPrice;
 
-            bool result = carManagerPtr.AddCar(car);
+            bool result = await carManagerPtr.AddCar(car);
             if (result)
             {
                 ybWindow.PopPrompt(this.viewDef.Title, "The car has been successfully added!", YBGlobal.ADMIN_MAIN_VIEW);
