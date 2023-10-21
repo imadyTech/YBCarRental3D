@@ -184,42 +184,6 @@ namespace YBCarRental3D
             return this.gameObject;
         }
 
-        //protected   virtual GameObject RenderView(GameObject template, object viewmodel)
-        //{
-        //    var properties = viewmodel.GetType().GetProperties();
-        //    foreach (PropertyInfo property in properties)
-        //    {
-        //        try
-        //        {
-        //            if (property.PropertyType.IsPrimitive || property.PropertyType.IsValueType || property.PropertyType == typeof(string))
-        //            {
-        //                var temp = property.GetValue(viewmodel).ToString();
-        //                var temp0 = property.Name;
-        //                BindingText(template, property.Name, property.GetValue(viewmodel).ToString());
-
-        //            }
-        //            if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
-        //                BindCombo(template, property.GetValue(viewmodel));
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            //Debug.LogWarning($"View Rendering Error: {property.Name}: {e}");
-        //        }
-        //    }
-        //    return template;
-        //}
-
-        //protected   void BindingText(GameObject targetGameObject, string fieldName, string content)
-        //{
-        //    var text = targetGameObject.GetComponent<Text>();
-        //    if (text != null && !String.IsNullOrEmpty(text.name) && text.name == fieldName)
-        //        text.text = content;
-        //    foreach (Transform child in targetGameObject.transform)
-        //    {
-        //        BindingText(child.gameObject, fieldName, content);
-        //    }
-        //}
-
         public virtual void Hide()
         {
             this.gameObject.SetActive(false);

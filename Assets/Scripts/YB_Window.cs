@@ -41,16 +41,16 @@ namespace YBCarRental3D
         {
             viewHistoryStack = new Stack<YB_ViewBasis>();
 
-            this.GenerateViews();
+            this.GenerateViewContainers();
             this.Goto(YBGlobal.INIT_VIEW);
 
             return this;
         }
-        private void GenerateViews()
+        private void GenerateViewContainers()
         {
             foreach (var viewDef in viewFactory)
             {
-                Debug.Log($"[Rendering View] : {viewDef.Title}");
+                Debug.Log($"[Generate View] : {viewDef.Title}");
                 //create view object
                 viewDef.viewObject = Instantiate(viewTemplate, this.gameObject.transform);
                 viewDef.viewObject.SetActive(false);
@@ -64,6 +64,7 @@ namespace YBCarRental3D
                     {
                         viewDef.viewModel = viewDef.viewObject.AddComponent(datasourceType) as I_YB_ViewModel;
                         viewDef.viewModel.SetViewDef(viewDef);
+                        viewDef.viewModel.onInit(this);
                     }
                 }
             }
@@ -97,7 +98,6 @@ namespace YBCarRental3D
 
             Debug.Log($"[Window.Goto ]: {currentView.Title}");
             currentView.viewObject.SetActive(true);
-            viewPtr.viewModel.onInit(this);
             if (previousView != null)
             {
                 currentView.viewModel.onViewForwarded(previousView);
