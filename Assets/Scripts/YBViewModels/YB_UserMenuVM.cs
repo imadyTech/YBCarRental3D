@@ -1,3 +1,4 @@
+using imady.NebuEvent;
 using imady.NebuUI;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ using UnityEngine;
 namespace YBCarRental3D {
     //105 UserMenu
     public class YB_UserMenuVM : YB_ViewModelBasis<YB_User>
-	{
+    {
         public YB_UserMenuVM():base() {
 		}
 
@@ -23,6 +24,7 @@ namespace YBCarRental3D {
             Debug.Log($"[View onInit] : {base.viewDef.Title}");
 #endif
             base.onInit(window);
+
         }
 
         public override void onViewForwarded(YB_ViewBasis fromView)

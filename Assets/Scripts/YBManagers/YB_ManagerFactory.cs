@@ -17,6 +17,7 @@ namespace YBCarRental3D
         public static YB_RentManager       RentMgr;
 
         public string localApiUri = "https://localhost:7024/api";
+        //public string localApiUri = "https://192.168.8.172:5000/api";
         public string azureApiUri = "https://angoomathapi.azurewebsites.net/api";
 
         public YB_ManagerFactory()

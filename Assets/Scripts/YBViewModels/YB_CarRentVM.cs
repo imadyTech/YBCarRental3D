@@ -81,13 +81,14 @@ namespace YBCarRental3D
 
         public override void OnButtonClicked(YB_ViewItemBasis button)
         {
+#if DEVELOPMENT
             Debug.Log($"[Button Clicked] : {this.name} - {button.Id}");
+#endif
             if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
             {
                 this.onSubmit();
             }
         }
-
     };
 
 }

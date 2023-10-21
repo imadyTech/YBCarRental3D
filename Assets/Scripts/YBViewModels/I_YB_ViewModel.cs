@@ -1,4 +1,5 @@
-﻿using System;
+﻿using imady.NebuEvent;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace YBCarRental3D
     using FORMATED_LIST_ITEM_VALUE = Tuple<string, string, int>;
     using FORMATED_LIST_VIEW_VALUES = List<Tuple<string, string, int>>;
 
-    public interface I_YB_ViewModel
+    public interface I_YB_ViewModel: INebuEventObjectBase
     {
         string Get_PropertyValue(string bindNamePtr);
         //query an object and fill the result as indicated in a List ref

@@ -1,15 +1,17 @@
 
+using imady.NebuEvent;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace YBCarRental3D
 {
     /// 102 - LoginView
-    public class YB_UserLoginVM : YB_ViewModelBasis<YB_User>
+    public class YB_UserLoginVM : YB_ViewModelBasis<YB_User>, INebuProvider<NebuDataMessage<string>>
     {
         public YB_UserLoginVM() : base()
         {
         }
+
 
         public async override void onSubmit()
         {
@@ -27,10 +29,14 @@ namespace YBCarRental3D
 
             if (YB_ManagerFactory.UserMgr.CurrentUser != null && !YB_ManagerFactory.UserMgr.IsAdmin())
             {
+                NotifyObservers(new NebuDataMessage<string>("userLogged"));
+
                 base.ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);
             }
             else if (YB_ManagerFactory.UserMgr.CurrentUser != null && YB_ManagerFactory.UserMgr.IsAdmin())
             {
+                NotifyObservers(new NebuDataMessage<string>("adminLogged"));
+
                 base.ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
             }
             else

@@ -28,6 +28,10 @@ namespace YBCarRental3D
         public YB_ViewModelBasis()
         {
         }
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         public virtual bool Has_PropertyValue(string propertyName)
         {

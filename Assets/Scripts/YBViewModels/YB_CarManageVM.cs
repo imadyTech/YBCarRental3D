@@ -17,29 +17,73 @@ namespace YBCarRental3D
 
         #region ===== view properties =====
         [NbuViewProperty]
-        public int Id { get; set; }
+        public int Id
+        {
+            get => this.principalObject.Id;
+            set { this.principalObject.Id = value; }
+        }
         [NbuViewProperty]
-        public string Make { get; set; }
+        public string Make
+        {
+            get => this.principalObject.Make;
+            set { this.principalObject.Make = value; }
+        }
         [NbuViewProperty]
-        public string Model { get; set; }
+        public string Model
+        {
+            get => this.principalObject.Model;
+            set { this.principalObject.Model = value; }
+        }
         [NbuViewProperty]
-        public int Year { get; set; }
+        public int Year
+        {
+            get => this.principalObject.Year;
+            set { this.principalObject.Year = value; }
+        }
         [NbuViewProperty]
-        public int Mileage { get; set; }
+        public int Mileage
+        {
+            get => this.principalObject.Mileage;
+            set { this.principalObject.Mileage = value; }
+        }
         [NbuViewProperty]
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable
+        {
+            get => this.principalObject.IsAvailable;
+            set { this.principalObject.IsAvailable = value; }
+        }
         [NbuViewProperty]
-        public int MinRentPeriod { get; set; }
+        public int MinRentPeriod
+        {
+            get => this.principalObject.MinRentPeriod;
+            set { this.principalObject.MinRentPeriod = value; }
+        }
         [NbuViewProperty]
-        public int MaxRentPeriod { get; set; }
+        public int MaxRentPeriod
+        {
+            get => this.principalObject.MaxRentPeriod;
+            set { this.principalObject.MaxRentPeriod = value; }
+        }
         [NbuViewProperty]
-        public float DayRentPrice { get; set; }
+        public float DayRentPrice
+        {
+            get => this.principalObject.DayRentPrice;
+            set { this.principalObject.DayRentPrice = value; }
+        }
         #endregion ===== view properties =====
+
+        public override void onViewForwarded(YB_ViewBasis fromView)
+        {
+            this.principalObject = fromView.viewModel.PrincipalData as YB_Car;
+            base.onViewForwarded(fromView);
+
+            base.RenderView();
+        }
 
 
         public async override void onSubmit()
         {
-            if (base.Has_PropertyValue("Id")) Id = int.Parse(base.Get_PropertyValue("Id"));
+
             if (base.Has_PropertyValue("Make")) Make = base.Get_PropertyValue("Make");
             if (base.Has_PropertyValue("Model")) Model = base.Get_PropertyValue("Model");
             if (base.Has_PropertyValue("Year")) Year = int.Parse(base.Get_PropertyValue("Year"));
@@ -69,7 +113,6 @@ namespace YBCarRental3D
                 ybWindow.PopPrompt(this.viewDef.Title, "There is some issue to add your car information.", null);
             }
         }
-
     };
 
 }
