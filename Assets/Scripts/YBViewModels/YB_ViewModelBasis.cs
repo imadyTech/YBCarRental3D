@@ -14,9 +14,10 @@ namespace YBCarRental3D
         where TData : YB_DataBasis
     {
         public YB_ViewBasis previousView;
-        public YB_ViewBasis viewDef;                    //View Definition object
-        protected TData principalObject;                   //Logic DTO (Data Transfer Object)
-        private Dictionary<string, Func<string>> valuesMapPtr;
+        public YB_ViewBasis viewDef;                            //View Definition object
+        protected TData principalObject;                    //Logic DTO (Data Transfer Object)
+        private Dictionary<string, Action<string>> forwardValuesMapPtr;
+        private Dictionary<string, Func<string>> reverseValuesMapPtr;
 
         protected YB_Window ybWindow { get => YB_Window.Instance; }
         public YB_DataBasis PrincipalData
@@ -35,11 +36,11 @@ namespace YBCarRental3D
 
         public virtual bool Has_PropertyValue(string propertyName)
         {
-            return valuesMapPtr.ContainsKey(propertyName);
+            return reverseValuesMapPtr.ContainsKey(propertyName);
         }
         public virtual string Get_PropertyValue(string bindName)
         {
-            valuesMapPtr.TryGetValue(bindName, out var valueGetter);  //retrieve the input gameobject and return the value
+            reverseValuesMapPtr.TryGetValue(bindName, out var valueGetter);  //retrieve the input gameobject and return the value
             if (valueGetter != null)
             {
                 return valueGetter.Invoke();
@@ -56,10 +57,10 @@ namespace YBCarRental3D
         //must use the YB_Window passed in here, as the static instance of YB_Window is not yet existing at this moment.
         public virtual void onInit(YB_Window window)
         {
-            if (valuesMapPtr == null)
-                valuesMapPtr = new Dictionary<string, Func<string>>();
+            if (reverseValuesMapPtr == null)
+                reverseValuesMapPtr = new Dictionary<string, Func<string>>();
             else
-                valuesMapPtr.Clear();
+                reverseValuesMapPtr.Clear();
 
             //generate and config item objects one-by-one (through viewModel's configuring method)
             foreach (var viewItemDef in viewDef)
@@ -75,6 +76,7 @@ namespace YBCarRental3D
         public virtual void onViewForwarded(YB_ViewBasis fromView)
         {
             this.previousView = fromView;
+            this.RenderStaticView();
         }
         public virtual void onContentUpdated(string bindName, string newValue)
         {
@@ -120,7 +122,8 @@ namespace YBCarRental3D
             itemDef
                 .BindContent()
                 .BindAction()
-                .ReverseBind(this.valuesMapPtr);
+                .ForwardBind(this.forwardValuesMapPtr)
+                .ReverseBind(this.reverseValuesMapPtr);
 
             //!!!! this is extremely important for view/viewModel automatical binding !!!!
             if (!string.IsNullOrEmpty(itemDef.Bind)) itemObj.name = itemDef.Bind;
@@ -148,7 +151,11 @@ namespace YBCarRental3D
 
 
         #region === Bind/Render view with VM === 
-        protected virtual GameObject RenderView()
+        /// <summary>
+        /// The static content comes from ViewRepo definition, not value data.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual GameObject RenderStaticView()
         {
             var properties = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
             List<PropertyInfo> propertiesWithAttribute = properties
@@ -184,6 +191,25 @@ namespace YBCarRental3D
             return this.gameObject;
         }
 
+        protected virtual GameObject RenderDynamicView()
+        {
+            var properties = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            List<PropertyInfo> propertiesWithAttribute = properties
+                .Where(property => Attribute.IsDefined(property, typeof(NbuViewPropertyAttribute)))
+                .ToList();
+            foreach (PropertyInfo property in propertiesWithAttribute)
+            {
+#if DEVELOPMENT
+                Debug.Log($"[VM RenderDynamicView] : PropertyInfo {property.Name}");
+#endif
+
+                foreach (var item in forwardValuesMapPtr)
+                {
+
+                }
+            }
+            return this.gameObject;
+        }
         public virtual void Hide()
         {
             this.gameObject.SetActive(false);

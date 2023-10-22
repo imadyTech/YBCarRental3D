@@ -32,7 +32,6 @@ namespace YBCarRental3D
         public async override void onViewForwarded(YB_ViewBasis fromView)
         {
             base.onViewForwarded(fromView);
-            base.RenderView();
             await YB_ManagerFactory.UserMgr.UserLogout();
         }
     };

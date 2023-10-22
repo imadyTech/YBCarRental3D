@@ -25,7 +25,6 @@ namespace YBCarRental3D
         {
             this.principalObject = fromView.viewModel.PrincipalData as YB_User;
             base.onViewForwarded(fromView);
-            base.RenderView();
         }
 
     };

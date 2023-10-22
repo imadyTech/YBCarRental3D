@@ -88,13 +88,19 @@ namespace YBCarRental3D
         {
             return this;
         }
+        public virtual YB_ViewItemBasis ForwardBind(Dictionary<string, Action<string>> valuesMapPtr)
+        {
+#if DEVELOPMENT
+            Debug.Log($"[Item ForwardBind] {this.ItemType} {this.Id}");
+#endif
+            return this;
+        }
 
         public virtual YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
         {
 #if DEVELOPMENT
-            Debug.Log($"[Item BindContent] {this.ItemType} {this.Id}");
+            Debug.Log($"[Item ReverseBind] {this.ItemType} {this.Id}");
 #endif
-
             return this;
         }
 

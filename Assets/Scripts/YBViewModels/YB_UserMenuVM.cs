@@ -33,7 +33,6 @@ namespace YBCarRental3D {
             Debug.Log($"[View onViewForwarded] : {base.viewDef.Title}");
 #endif
             base.onViewForwarded(fromView);
-            base.RenderView();
         }
 
     }

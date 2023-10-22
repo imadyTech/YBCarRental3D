@@ -36,8 +36,6 @@ namespace YBCarRental3D
             base.onViewForwarded(fromView);
 
             car = await carManagerPtr.GetCar(base.principalObject.CarId);
-
-            base.RenderView();
         }
 
         private void Update()

@@ -1,0 +1,26 @@
+{
+  "name": "com.imady.nebuevent",
+  "displayName": "imady.NebuEvent",
+  "description": "A Message-Orientated mini event system (Sync) for small size applications.",
+  "version": "0.2.6",
+  "unity": "2018.3",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/imadyTech/UnityUI.git",
+    "type": "git"
+  },
+  "upm": {
+    "changelog": "# Initial upload."
+  },  
+  "type": "template",
+  "keywords": [
+    "event",
+    "C#",
+    ".net"
+  ],
+  "author": {
+    "name": "Frank Shen",
+    "email": "fs@imady.com",
+    "url": "http://www.imady.com"
+  }
+}

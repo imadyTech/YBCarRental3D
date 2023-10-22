@@ -28,6 +28,25 @@ namespace YBCarRental3D
             return base.BindAction();
         }
         /// <summary>
+        /// For value input type items, will provide an Action that binding the input value to gameobject viewItem
+        /// </summary>
+        /// <param name="valuesMapPtr"></param>
+        /// <returns></returns>
+        public override YB_ViewItemBasis ForwardBind(Dictionary<string, Action<string>> valuesMapPtr)
+        {
+            Debug.Log($"[YB_InputItem ForwardBinding] : {this.Bind}");
+            try
+            {
+                valuesMapPtr.Add(
+                    this.Bind, 
+                    a => { this.itemGameObject.GetComponent<TMP_InputField>().text = a; });
+            }
+            catch (Exception e) { 
+                Debug.Log(e);
+            }
+            return this;
+        }
+        /// <summary>
         /// For value input type items, will provide a func returns the value of input gameobject
         /// </summary>
         /// <param name="valuesMapPtr"></param>
@@ -37,9 +56,9 @@ namespace YBCarRental3D
             Debug.Log($"[YB_InputItem ReverseBinding] : {this.Bind}");
             try
             {
-                valuesMapPtr.Add(this.Bind, () => { 
-                    return this.itemGameObject.GetComponent<TMP_InputField>().text; 
-                });
+                valuesMapPtr.Add(
+                    this.Bind, 
+                    () => { return this.itemGameObject.GetComponent<TMP_InputField>().text; });
             }
             catch (Exception e) { 
                 Debug.Log(e);
