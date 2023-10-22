@@ -69,7 +69,6 @@ namespace YBCarRental3D
                 }
             }
         }
-
         public GameObject GenerateViewItemTemplate(YB_ViewItemBasis itemDef, Transform parentViewObj)
         {
             GameObject viewItemObj = viewItemTemplate;
@@ -89,7 +88,7 @@ namespace YBCarRental3D
 
             if (currentView != null && currentView.viewObject != null)
             //currentView.viewObject.SetActive(false);
-                currentView.Exit();
+                currentView.viewModel.onExit();
 
             if (viewPtr == null)
                 currentView = viewFactory.GetView(YBGlobal.ERROR_VIEW);
@@ -131,10 +130,14 @@ namespace YBCarRental3D
         }
 
 
+        private float timePassed;
         public void Update()
         {
-            if (Input.GetKey(KeyCode.Escape))
-            {
+            timePassed += Time.deltaTime;
+
+            if (Input.GetKey(KeyCode.Escape) &&  timePassed >= 0.2f) {
+                // do stuff
+                timePassed = 0f;
                 this.Back();
             }
         }

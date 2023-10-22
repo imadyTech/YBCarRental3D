@@ -36,6 +36,7 @@ namespace YBCarRental3D
         void onViewForwarded(YB_ViewBasis fromView);
         void OnButtonClicked(YB_ViewItemBasis button);
         void onSubmit();
+        void onExit();
         void onContentUpdated(string bindName, string newValue);
         //void onItemFocused(string bindName);
         //void onItemSelected(string bindName);

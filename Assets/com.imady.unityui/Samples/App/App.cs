@@ -47,6 +47,7 @@ namespace imady.NebuUI.Samples
         #region MonoBehaviour Methods
         protected override void Awake()
         {
+            Application.targetFrameRate = 30;
             base.Awake();
 
             //========================================
@@ -76,12 +77,12 @@ namespace imady.NebuUI.Samples
         }
         #endregion
 
-        public YB_Window window;
-        public YB_ManagerFactory managerFactory;
-        public YB_APIContext apiContext;
-        public YB_LogicFactory logicVMFactory;
-        public YB_ViewFactory viewFactory;
-        public YB_ViewItemFactory viewItemFactory;
+        public YB_Window            window;
+        public YB_ManagerFactory    managerFactory;
+        public YB_APIContext        apiContext;
+        public YB_LogicFactory      logicVMFactory;
+        public YB_ViewFactory       viewFactory;
+        public YB_ViewItemFactory   viewItemFactory;
 
         private void InitializeAppConfiguration()
         {

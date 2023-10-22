@@ -42,11 +42,13 @@ namespace YBCarRental3D
             _currentUser = null;
             var requestString = $"{this.apiContext.BaseApiUrl}/login";
             var postdata = $"{{\"userName\":\"{username}\",\"password\": \"{password}\"}}";
-            Debug.Log(requestString);
-            Debug.Log(postdata);
 
             var result = await apiContext.PostRequest(requestString, postdata);
+#if DEVELOPMENT
+            Debug.Log(requestString);
+            Debug.Log(postdata);
             Debug.Log(result);
+#endif
             try
             {
                 _currentUser = JsonConvert.DeserializeObject<YB_User>(result);

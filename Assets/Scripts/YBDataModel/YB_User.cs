@@ -1,5 +1,7 @@
 
 
+using Newtonsoft.Json;
+
 namespace YBCarRental3D
 {
 
@@ -9,13 +11,13 @@ namespace YBCarRental3D
 		public YB_User(string username, int password) : this() { }
 		~YB_User() { }
 
-		public string					UserName;										//max 12 alphabets; No verification in this application.
-		public string					FirstName;
-		public string					FamilyName;
-		public string					Password;										//max 6 digits alphabet/numerics;
-		public string					UserRoles;										//multiple roles are allowed, separated by "|"
-		public bool						LoginStatus;									//true: logged in; false: logged out;
-		public double					Balance;										//Account Balance allows user to hire a car (fail to rent if no sufficient balance).
+        [JsonProperty] public string					UserName;                                       //max 12 alphabets; No verification in this application.
+        [JsonProperty] public string					FirstName;
+		[JsonProperty] public string					FamilyName;
+		[JsonProperty] public string					Password;										//max 6 digits alphabet/numerics;
+		[JsonProperty] public string					UserRoles;										//multiple roles are allowed, separated by "|"
+		[JsonProperty] public bool						LoginStatus;									//true: logged in; false: logged out;
+		[JsonProperty] public double					Balance;										//Account Balance allows user to hire a car (fail to rent if no sufficient balance).
 	};
 
 }

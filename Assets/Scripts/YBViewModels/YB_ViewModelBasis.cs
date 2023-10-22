@@ -47,10 +47,10 @@ namespace YBCarRental3D
             }
             return string.Empty;
         }
-        public virtual List<YB_DataBasis> Get_QueryList(int page, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
+        //public virtual List<YB_DataBasis> Get_QueryList(int page, int pageSize)
+        //{
+        //    throw new NotImplementedException();
+        //}
         //public virtual YB_DataBasis Get_PrincipalData() { return this.principalObject; }
 
 
@@ -61,6 +61,11 @@ namespace YBCarRental3D
                 reverseValuesMapPtr = new Dictionary<string, Func<string>>();
             else
                 reverseValuesMapPtr.Clear();
+
+            if (forwardValuesMapPtr == null)
+                forwardValuesMapPtr = new Dictionary<string, Action<string>>();
+            else
+                forwardValuesMapPtr.Clear();
 
             //generate and config item objects one-by-one (through viewModel's configuring method)
             foreach (var viewItemDef in viewDef)
@@ -77,15 +82,23 @@ namespace YBCarRental3D
         {
             this.previousView = fromView;
             this.RenderStaticView();
+            this.RenderDynamicView();
+        }
+        public virtual void onExit()
+        {
+            this.gameObject.SetActive(false);
         }
         public virtual void onContentUpdated(string bindName, string newValue)
         {
         }
         public virtual void OnButtonClicked(YB_ViewItemBasis button)
         {
-            //the function in basis doing nothing.
+            //the base method doing nothing.
             //override this method in derived VM
-            Debug.Log(button.Content);
+            Debug.Log($"[Button Clicked] : {button.Content}");
+
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
+                this.onSubmit();
 
             //if (button.ButtonType == YBGlobal.Button_Type_Submit)
             //{
@@ -202,10 +215,13 @@ namespace YBCarRental3D
 #if DEVELOPMENT
                 Debug.Log($"[VM RenderDynamicView] : PropertyInfo {property.Name}");
 #endif
-
-                foreach (var item in forwardValuesMapPtr)
+                if (forwardValuesMapPtr != null && forwardValuesMapPtr.Count>0)
                 {
-
+                    foreach (var item in forwardValuesMapPtr)
+                    {
+                        if (item.Key == property.Name)
+                            item.Value.Invoke(property.GetValue(this).ToString());
+                    }
                 }
             }
             return this.gameObject;

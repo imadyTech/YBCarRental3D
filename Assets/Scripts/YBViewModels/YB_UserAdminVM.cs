@@ -1,5 +1,7 @@
+using imady.NebuUI;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace YBCarRental3D {
     //120 USER INFO UPDATE (admin feature) - InputView
@@ -13,17 +15,40 @@ namespace YBCarRental3D {
 
 
 
+        #region ===== view properties =====
+        [NbuViewProperty]
+        public string Id => this.principalObject.Id.ToString();
+        [NbuViewProperty]
+        public string UserName => this.principalObject.UserName;
+        [NbuViewProperty]
+        public string FirstName => this.principalObject.FirstName;
+        [NbuViewProperty]
+        public string FamilyName => this.principalObject.FamilyName;
+        [NbuViewProperty]
+        public string UserRoles => this.principalObject.UserRoles;
+        [NbuViewProperty]
+        public string Balance => this.principalObject.Balance.ToString();
+        #endregion ===== view properties =====
+
+        public override void onViewForwarded(YB_ViewBasis fromView)
+        {
+#if DEVELOPMENT
+            Debug.Log($"[View onViewForwarded] : {base.viewDef.Title}");
+#endif
+			this.principalObject = fromView.viewModel.PrincipalData as YB_User;
+            base.onViewForwarded(fromView);
+        }
 
         public async override void onSubmit()				
 		{
 			var userPtr = this.principalObject;
 			try {
-				//userPtr.Id				= std.stoi((valuesMapPtr)["Id"]);
+				userPtr.Id			= int.Parse(base.Get_PropertyValue("Id"));
 				userPtr.UserName	= base.Get_PropertyValue("UserName");
 				userPtr.FirstName	= base.Get_PropertyValue("FirstName");
 				userPtr.FamilyName	= base.Get_PropertyValue("FamilyName");
 				userPtr.UserRoles	= base.Get_PropertyValue("UserRoles");
-				userPtr.Balance		= int.Parse(base.Get_PropertyValue("Balance"));
+				userPtr.Balance		= float.Parse(base.Get_PropertyValue("Balance"));
 			}
 			catch (Exception e)
 			{
@@ -45,5 +70,5 @@ namespace YBCarRental3D {
 				ybWindow.PopPrompt(this.viewDef.Title, "Something goes wrong. Please check again.");
 			}
 		}
-	}
+    }
 }

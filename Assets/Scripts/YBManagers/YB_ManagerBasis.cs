@@ -64,7 +64,7 @@ namespace YBCarRental3D
 
             try
             {
-                var result = await apiContext.PostRequest(requestString, contentString);
+                var result = await apiContext.PutRequest(requestString, contentString);
                 return true;
             }
             catch (Exception e)

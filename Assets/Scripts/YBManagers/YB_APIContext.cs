@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using imady.NebuEvent;
 using imady.NebuUI;
+using System.Net;
 
 namespace YBCarRental3D
 {
@@ -61,14 +62,14 @@ namespace YBCarRental3D
                 www.timeout = 30;
                 await www.SendWebRequest();
 
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    return www.error;
-                }
-                else
+                if (www.result == UnityWebRequest.Result.Success)
                 {
                     string jsonResponse = www.downloadHandler.text;
                     return jsonResponse;
+                }
+                else
+                {
+                    return www.error;
                 }
             }
         }
@@ -91,41 +92,26 @@ namespace YBCarRental3D
             }
         }
 
-        public async Task<string> UpdateRequest(string uri, string postdata)
+
+        public async Task<string> PutRequest(string request, string postdata)
         {
-            using (UnityWebRequest www = UnityWebRequest.Post(uri, postdata, "application/json"))
+            using (UnityWebRequest www = UnityWebRequest.Put(request, postdata))
             {
+                www.SetRequestHeader("Content-Type", "application/json");
+
                 www.timeout = 30;
                 await www.SendWebRequest();
 
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    return www.error;
-                }
-                else
+                if (www.result == UnityWebRequest.Result.Success)
                 {
                     return www.result.ToString();
                 }
+                else
+                {
+                    return www.error;
+                }
             }
         }
-
-        //public async Task<string> PutRequest(string request)
-        //{
-        //    byte[] myData = System.Text.Encoding.UTF8.GetBytes("This is some test data");
-        //    using (UnityWebRequest www = UnityWebRequest.Put("https://www.my-server.com/upload", myData))
-        //    {
-        //        yield return www.SendWebRequest();
-
-        //        if (www.result != UnityWebRequest.Result.Success)
-        //        {
-        //            Debug.Log(www.error);
-        //        }
-        //        else
-        //        {
-        //            Debug.Log("Upload complete!");
-        //        }
-        //    }
-        //}
     }
 
 }

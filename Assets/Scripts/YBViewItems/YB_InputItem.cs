@@ -28,7 +28,7 @@ namespace YBCarRental3D
             return base.BindAction();
         }
         /// <summary>
-        /// For value input type items, will provide an Action that binding the input value to gameobject viewItem
+        /// Value -> View
         /// </summary>
         /// <param name="valuesMapPtr"></param>
         /// <returns></returns>
@@ -39,7 +39,8 @@ namespace YBCarRental3D
             {
                 valuesMapPtr.Add(
                     this.Bind, 
-                    a => { this.itemGameObject.GetComponent<TMP_InputField>().text = a; });
+                    a => { 
+                        this.itemGameObject.GetComponent<TMP_InputField>().text = a; });
             }
             catch (Exception e) { 
                 Debug.Log(e);
@@ -47,7 +48,7 @@ namespace YBCarRental3D
             return this;
         }
         /// <summary>
-        /// For value input type items, will provide a func returns the value of input gameobject
+        /// View -> Value
         /// </summary>
         /// <param name="valuesMapPtr"></param>
         /// <returns></returns>

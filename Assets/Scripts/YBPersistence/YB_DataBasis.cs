@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,14 @@ namespace YBCarRental3D
 {
     public class YB_DataBasis
     {
+        [JsonProperty]
         public int Id = -1;
+        [JsonIgnore]
         public char persistentSeparator = ';';
 
+        [JsonIgnore]
         protected string serializedString;
+        [JsonIgnore]
         protected Dictionary<string, string> stringPairsMap;
 
         public YB_DataBasis()

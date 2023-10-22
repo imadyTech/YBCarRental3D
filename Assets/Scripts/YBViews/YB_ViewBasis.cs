@@ -80,10 +80,7 @@ namespace YBCarRental3D
         {
 
         }
-        public void Exit()
-        {
-            this.viewObject.SetActive(false);
-        }
+
 
         public List<KeyValuePair<string, string>> FindValues(string key)
         {
