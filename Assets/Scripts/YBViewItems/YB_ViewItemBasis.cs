@@ -67,7 +67,7 @@ namespace YBCarRental3D
             try
             {
 #if DEVELOPMENT
-                Debug.Log($"[Item BindContent] {this.ItemType} {this.Id}");
+                Debug.Log($"    [Item BindContent] {this.ItemType} {this.Id}");
 #endif
 
                 TMP_Text tmpText;
@@ -86,12 +86,16 @@ namespace YBCarRental3D
 
         public virtual YB_ViewItemBasis BindAction()
         {
+#if DEVELOPMENT
+                Debug.Log($"    [Item BindAction] {this.ItemType} {this.Id}");
+#endif
             return this;
         }
+
         public virtual YB_ViewItemBasis ForwardBind(Dictionary<string, Action<string>> valuesMapPtr)
         {
 #if DEVELOPMENT
-            Debug.Log($"[Item ForwardBind] {this.ItemType} {this.Id}");
+            Debug.Log($"    [Item ForwardBind] {this.ItemType} {this.Id}");
 #endif
             return this;
         }
@@ -99,7 +103,7 @@ namespace YBCarRental3D
         public virtual YB_ViewItemBasis ReverseBind(Dictionary<string, Func<string>> valuesMapPtr)
         {
 #if DEVELOPMENT
-            Debug.Log($"[Item ReverseBind] {this.ItemType} {this.Id}");
+            Debug.Log($"    [Item ReverseBind] {this.ItemType} {this.Id}");
 #endif
             return this;
         }

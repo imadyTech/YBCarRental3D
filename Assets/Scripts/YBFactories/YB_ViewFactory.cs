@@ -54,7 +54,9 @@ namespace YBCarRental3D
             foreach (var pairValue in this.repository.allRecordLines)
             {
                 YB_ViewBasis viewPtr = this.CreateProduct(pairValue.Value);
+#if DEVELOPMENT
                 Debug.Log($"[Initializing View] : {viewPtr.Title}");
+#endif
                 try
                 {
                     CreateSubViewitems(ref viewPtr, pairValue.Value);
@@ -84,7 +86,10 @@ namespace YBCarRental3D
         {
             int startIndex = serializeString.IndexOf("ViewType:") + "ViewType:".Length;
             int endIndex = serializeString.IndexOf(";", startIndex);
-            var typeStr = serializeString.Substring(startIndex, endIndex - startIndex);  
+            var typeStr = serializeString.Substring(startIndex, endIndex - startIndex);
+#if DEVELOPMENT
+            Debug.Log($"[Initializing View] : {typeStr}");
+#endif
 
             if (typeStr == "DetailsView")    return new YB_DetailsView(serializeString);
             if (typeStr == "DialogView")     return new YB_DialogView(serializeString);

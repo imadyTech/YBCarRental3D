@@ -72,7 +72,7 @@ namespace YBCarRental3D
             //generate and config item objects one-by-one (through viewModel's configuring method)
             foreach (var viewItemDef in viewDef)
             {
-                Debug.Log($"[Generating ViewItem] : {viewItemDef.Id}, {viewItemDef.ItemType}");
+                Debug.Log($"  [ViewItem onInit] : {viewItemDef.Id}, {viewItemDef.ItemType}");
                 var item = window.GenerateViewItemTemplate(viewItemDef, this.transform);
                 this.ConfigViewItemObj(viewItemDef, ref item);
             }
@@ -137,7 +137,7 @@ namespace YBCarRental3D
         protected virtual void RescaleItem(YB_ViewItemBasis itemDef, ref GameObject itemObject, Rect viewContainer)
         {
 #if DEVELOPMENT
-            Debug.Log($"[RescaleItem] {itemDef.ItemType} {itemDef.Id}");
+            Debug.Log($"    [RescaleItem] {itemDef.ItemType} {itemDef.Id}");
 #endif
             //fit width
             var width = (viewContainer.width * itemDef.w / viewDef.w);
@@ -147,7 +147,7 @@ namespace YBCarRental3D
         protected virtual void RepositItem(YB_ViewItemBasis itemDef, ref GameObject itemObject, Rect viewContainer)
         {
 #if DEVELOPMENT
-            Debug.Log($"[RepositItem] {itemDef.ItemType} {itemDef.Id}");
+            Debug.Log($"    [RepositItem] {itemDef.ItemType} {itemDef.Id}");
 #endif
             var x = viewContainer.width * (itemDef.x + (float)itemDef.w / 2 - (float)viewDef.w / 2) / (float)viewDef.w;
             var y = viewContainer.height * (0.5f - (float)itemDef.y / (float)viewDef.h);

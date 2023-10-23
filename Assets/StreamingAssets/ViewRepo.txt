@@ -326,8 +326,8 @@ Id:119;Title:OrderAdminView;ViewType:InputView;GotoView:AdminMenu;w:120;h:29;Sou
 <item>119P0:Id:11921!x:80!y:02!w:10!h:1!ItemType:TextItem!Content:UserRoles!Background:-!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;&
 <item>119R0:Id:11922!x:90!y:01!w:24!h:1!ItemType:TextItem!Bind:UserName!Content:??????????!Background:.!isCentral:0!isFocused:1!isSelected:0!isHidden:0!;&
 <item>119S0:Id:11923!x:90!y:02!w:24!h:1!ItemType:TextItem!Bind:UserRoles!Content:??????????!Background:.!isCentral:0!isFocused:1!isSelected:0!isHidden:0!;&
-<item>119X0:Id:11930!x:64!y:22!w:24!h:3!ItemType:ButtonItem!Content:APPROVE!Bind:ButtonContent!ButtonType:Submit!Background:.!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;&
-<item>119Y0:Id:11931!x:32!y:22!w:24!h:3!ItemType:ButtonItem!Content:REJECT!Bind:ButtonContent!ButtonType:Submit!Background:.!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;
+<item>119X0:Id:11930!x:64!y:22!w:24!h:3!ItemType:ButtonItem!Content:APPROVE!ButtonType:Submit!Background:.!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;&
+<item>119Y0:Id:11931!x:32!y:22!w:24!h:3!ItemType:ButtonItem!Content:REJECT!ButtonType:Submit!Background:.!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;
 
 ##<item>113T:Id:11324!x:00!y:20!w:120!h:1!ItemType:TextItem!Content:<Please any key to return previous view>!isCentral:1!isFocused:0!isHidden:0!;##
 ##<item>113T:Id:11324!x:35!y:18!w:24!h:1!ItemType:TextItem!Content:Input days to rent!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&##

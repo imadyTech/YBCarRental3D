@@ -44,14 +44,18 @@ namespace YBCarRental3D
         {
             base.SplitLine(serializeString);
 
-            if (!string.IsNullOrEmpty(FindValue("Id"))) base.Id = int.Parse(FindValue("Id"));
-            if (!string.IsNullOrEmpty(FindValue("Title"))) Title = FindValue("Title");
-            if (!string.IsNullOrEmpty(FindValue("ViewType"))) ViewType = FindValue("ViewType");
-            if (!string.IsNullOrEmpty(FindValue("w"))) w = int.Parse(FindValue("w"));
-            if (!string.IsNullOrEmpty(FindValue("h"))) h = int.Parse(FindValue("h"));
-            if (!string.IsNullOrEmpty(FindValue("Source"))) Source = FindValue("Source");
-            if (!string.IsNullOrEmpty(FindValue("ConfirmView"))) ConfirmView = FindValue("ConfirmView");
-            if (!string.IsNullOrEmpty(FindValue("GotoView"))) GotoView = FindValue("GotoView");
+            if (HasValue("Id")) base.Id = int.Parse(FindValue("Id"));
+            if (HasValue("Title")) Title = FindValue("Title");
+            if (HasValue("ViewType")) ViewType = FindValue("ViewType");
+            if (HasValue("w")) w = int.Parse(FindValue("w"));
+            if (HasValue("h")) h = int.Parse(FindValue("h"));
+            if (HasValue("Source")) Source = FindValue("Source");
+            if (HasValue("ConfirmView")) ConfirmView = FindValue("ConfirmView");
+            if (HasValue("GotoView")) GotoView = FindValue("GotoView");
+
+#if DEVELOPMENT
+            Debug.Log($"[Deserialized ViewDef] : {base.Id}");
+#endif
         }
 
         #region === iterator of subitemList ===

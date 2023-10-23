@@ -12,7 +12,7 @@ namespace YBCarRental3D
 
         private void Update()
         {
-            if( Input.anyKeyDown )
+            if( Input.anyKeyDown && !Input.GetKey(KeyCode.Escape))
             {
                 YB_Window.Instance.Goto(this.viewDef.GotoView);
             }
