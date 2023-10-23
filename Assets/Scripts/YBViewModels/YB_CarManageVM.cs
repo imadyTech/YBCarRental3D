@@ -82,13 +82,13 @@ namespace YBCarRental3D
         public async override void onSubmit()
         {
 
-            if (base.Has_PropertyValue("Make")) Make = base.Get_PropertyValue("Make");
-            if (base.Has_PropertyValue("Model")) Model = base.Get_PropertyValue("Model");
-            if (base.Has_PropertyValue("Year")) Year = int.Parse(base.Get_PropertyValue("Year"));
-            if (base.Has_PropertyValue("Mileage")) Mileage = int.Parse(base.Get_PropertyValue("Mileage"));
-            if (base.Has_PropertyValue("MinRentPeriod")) MinRentPeriod = int.Parse(base.Get_PropertyValue("MinRentPeriod"));
-            if (base.Has_PropertyValue("MaxRentPeriod")) MaxRentPeriod = int.Parse(base.Get_PropertyValue("MaxRentPeriod"));
-            if (base.Has_PropertyValue("DayRentPrice")) DayRentPrice = float.Parse(base.Get_PropertyValue("DayRentPrice"));
+            if (base.Has_ViewPropertyValue("Make")) Make = base.Get_ViewPropertyValue("Make");
+            if (base.Has_ViewPropertyValue("Model")) Model = base.Get_ViewPropertyValue("Model");
+            if (base.Has_ViewPropertyValue("Year")) Year = int.Parse(base.Get_ViewPropertyValue("Year"));
+            if (base.Has_ViewPropertyValue("Mileage")) Mileage = int.Parse(base.Get_ViewPropertyValue("Mileage"));
+            if (base.Has_ViewPropertyValue("MinRentPeriod")) MinRentPeriod = int.Parse(base.Get_ViewPropertyValue("MinRentPeriod"));
+            if (base.Has_ViewPropertyValue("MaxRentPeriod")) MaxRentPeriod = int.Parse(base.Get_ViewPropertyValue("MaxRentPeriod"));
+            if (base.Has_ViewPropertyValue("DayRentPrice")) DayRentPrice = float.Parse(base.Get_ViewPropertyValue("DayRentPrice"));
 
             YB_Car car = new YB_Car();
             car.Id = Id;

@@ -9,10 +9,6 @@ namespace YBCarRental3D
     //118 YB_CarDeleteVm- ListView
     public class YB_CarDeleteVm : YB_ViewModelBasis<YB_Car>
     {
-        public YB_CarDeleteVm() : base()
-        {
-        }
-
         #region ===== view properties =====
         [NbuViewProperty]
         public int Id   =>this.principalObject.Id;
@@ -47,24 +43,10 @@ namespace YBCarRental3D
             bool deleteResult = await YB_ManagerFactory.CarMgr.DeleteCar(this.principalObject);
 
             if (deleteResult)
-                ybWindow.Goto(YBGlobal.USER_MAIN_VIEW);
-            else if (deleteResult)
-                ybWindow.Goto(YBGlobal.ADMIN_MAIN_VIEW);
+                ybWindow.PopPrompt(this.viewDef.Title, "Car was successfully deleted!", this.viewDef.GotoView);
+            else
+                ybWindow.PopPrompt(this.viewDef.Title, "Car Delete was not successful.", YBGlobal.ADMIN_MAIN_VIEW);
         }
-
-        public override void OnButtonClicked(YB_ViewItemBasis button)
-        {
-#if DEVELOPMENT
-            Debug.Log($"[Button Clicked] : {this.name} - {button.Id}");
-#endif
-
-            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
-            {
-                this.onSubmit();
-            }
-        }
-
     };
-
 }
 

@@ -24,7 +24,7 @@ namespace YBCarRental3D
         {
             var requestString = $"{this.apiContext.BaseApiUrl}/{id}";
             var result = await apiContext.GetRequest(requestString);
-            return JsonConvert.DeserializeObject<TData>(result);
+            return JsonConvert.DeserializeObject<TData>(result.Body);
         }
 
         protected async Task<bool> Add(TData data)
@@ -35,7 +35,7 @@ namespace YBCarRental3D
             try
             {
                 var result = await apiContext.PostRequest(requestString, contentString);
-                return true;
+                return result.Success;
             }
             catch (Exception e)
             {
@@ -49,7 +49,7 @@ namespace YBCarRental3D
             try
             {
                 var result = await apiContext.DeleteRequest(requestString);
-                return true;
+                return result.Success;
             }
             catch (Exception e)
             {
@@ -65,7 +65,7 @@ namespace YBCarRental3D
             try
             {
                 var result = await apiContext.PutRequest(requestString, contentString);
-                return true;
+                return result.Success;
             }
             catch (Exception e)
             {
@@ -85,8 +85,12 @@ namespace YBCarRental3D
             try
             {
                 var result = await apiContext.PostRequest(requestString, postDataString);
-                var list = JsonConvert.DeserializeObject<IEnumerable<TData>>(result) ;
-                return list;
+                if (result.Success && !string.IsNullOrEmpty(result.Body))
+                {
+                    var list = JsonConvert.DeserializeObject<IEnumerable<TData>>(result.Body);
+                    return list;
+                }
+                else return null;
             }
             catch (Exception e)
             {

@@ -34,11 +34,11 @@ namespace YBCarRental3D
             base.Awake();
         }
 
-        public virtual bool Has_PropertyValue(string propertyName)
+        public virtual bool Has_ViewPropertyValue(string propertyName)
         {
             return reverseValuesMapPtr.ContainsKey(propertyName);
         }
-        public virtual string Get_PropertyValue(string bindName)
+        public virtual string Get_ViewPropertyValue(string bindName)
         {
             reverseValuesMapPtr.TryGetValue(bindName, out var valueGetter);  //retrieve the input gameobject and return the value
             if (valueGetter != null)
@@ -47,14 +47,16 @@ namespace YBCarRental3D
             }
             return string.Empty;
         }
-        //public virtual List<YB_DataBasis> Get_QueryList(int page, int pageSize)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public virtual YB_DataBasis Get_PrincipalData() { return this.principalObject; }
+        public virtual void Set_ViewPropertyValue(string bindName, string value)
+        {
+            forwardValuesMapPtr.TryGetValue(bindName, out var valueSetter);  //retrieve the input gameobject and return the value
+            if (valueSetter != null)
+            {
+                valueSetter.Invoke(value);
+            }
+        }
 
 
-        //must use the YB_Window passed in here, as the static instance of YB_Window is not yet existing at this moment.
         public virtual void onInit(YB_Window window)
         {
             if (reverseValuesMapPtr == null)
@@ -88,34 +90,25 @@ namespace YBCarRental3D
         {
             this.gameObject.SetActive(false);
         }
-        public virtual void onContentUpdated(string bindName, string newValue)
-        {
-        }
         public virtual void OnButtonClicked(YB_ViewItemBasis button)
         {
-            //the base method doing nothing.
-            //override this method in derived VM
             Debug.Log($"[Button Clicked] : {button.Content}");
 
             if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
                 this.onSubmit();
-
-            //if (button.ButtonType == YBGlobal.Button_Type_Submit)
-            //{
-            //}
-            //if (button.ButtonType == YBGlobal.Button_Type_Yes)
-            //{
-            //}
-            //if (button.ButtonType == YBGlobal.Button_Type_No)
-            //{
-            //}
-            //if (button.ButtonType == YBGlobal.Button_Type_Ok)
-            //{
-            //}
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Yes)
+                this.onYesClicked();
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_No)
+                this.onNoClicked();
+            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Ok)
+                this.onOkClicked();
         }
         public virtual void onYesClicked() { }
         public virtual void onNoClicked() { }
         public virtual void onOkClicked() { }
+        public virtual void onContentUpdated(string bindName, string newValue)
+        {
+        }
 
 
 
@@ -203,7 +196,6 @@ namespace YBCarRental3D
             }
             return this.gameObject;
         }
-
         protected virtual GameObject RenderDynamicView()
         {
             var properties = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -230,28 +222,9 @@ namespace YBCarRental3D
         {
             this.gameObject.SetActive(false);
         }
-
         public virtual void Show()
         {
             this.gameObject.SetActive(true);
-        }
-
-        protected virtual void ClearLayoutContainer(LayoutGroup container)
-        {
-            for (int i = 0; i < container.transform.childCount; i++)
-            {
-                Destroy(container.transform.GetChild(i).gameObject);
-            }
-        }
-
-        public virtual void Refresh(GameObject parent)
-        {
-            Transform transform;
-            for (int i = 0; i < parent.transform.childCount; i++)
-            {
-                transform = parent.transform.GetChild(i);
-                GameObject.Destroy(transform.gameObject);
-            }
         }
         #endregion
     }

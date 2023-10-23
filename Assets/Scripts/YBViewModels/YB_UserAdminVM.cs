@@ -30,6 +30,7 @@ namespace YBCarRental3D {
         public string Balance => this.principalObject.Balance.ToString();
         #endregion ===== view properties =====
 
+
         public override void onViewForwarded(YB_ViewBasis fromView)
         {
 #if DEVELOPMENT
@@ -43,12 +44,12 @@ namespace YBCarRental3D {
 		{
 			var userPtr = this.principalObject;
 			try {
-				userPtr.Id			= int.Parse(base.Get_PropertyValue("Id"));
-				userPtr.UserName	= base.Get_PropertyValue("UserName");
-				userPtr.FirstName	= base.Get_PropertyValue("FirstName");
-				userPtr.FamilyName	= base.Get_PropertyValue("FamilyName");
-				userPtr.UserRoles	= base.Get_PropertyValue("UserRoles");
-				userPtr.Balance		= float.Parse(base.Get_PropertyValue("Balance"));
+				userPtr.Id			= int.Parse(base.Get_ViewPropertyValue("Id"));
+				userPtr.UserName	= base.Get_ViewPropertyValue("UserName");
+				userPtr.FirstName	= base.Get_ViewPropertyValue("FirstName");
+				userPtr.FamilyName	= base.Get_ViewPropertyValue("FamilyName");
+				userPtr.UserRoles	= base.Get_ViewPropertyValue("UserRoles");
+				userPtr.Balance		= float.Parse(base.Get_ViewPropertyValue("Balance"));
 			}
 			catch (Exception e)
 			{

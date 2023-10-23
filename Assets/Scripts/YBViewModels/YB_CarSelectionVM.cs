@@ -14,23 +14,15 @@ namespace YBCarRental3D
     //109 CarSelection - ListView
     public class YB_CarSelectionVM : YB_ViewModelListBasis<YB_Car>
 	{
-        private int _currentPage = 0;
-        public int CurrentPage { get => _currentPage; set => _currentPage = value; }
-
-		public YB_CarSelectionVM() :base() {
-		}
-
-        public async override void onInit(YB_Window window)
+        public async override void onViewForwarded(YB_ViewBasis fromView)
         {
-            base.onInit(window);
-            base.CreateListHead();
-
             var list = await YB_ManagerFactory.CarMgr.ListCars(CurrentPage, (base.viewDef as YB_ListView).ListRowCount);
 #if DEVELOPMENT
             Debug.Log($"[Listcars Returned] : {list.Count()} cars");
 #endif
             base.RenderListview(list);
         }
+
     };
 }
 

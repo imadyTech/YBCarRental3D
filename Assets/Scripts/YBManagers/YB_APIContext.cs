@@ -28,7 +28,7 @@ namespace YBCarRental3D
 
         }
 
-        public async Task<string> GetRequest(string uri)
+        public async Task<YB_APIResponse> GetRequest(string uri)
         {
             using (UnityWebRequest www = UnityWebRequest.Get(uri))
             {
@@ -42,20 +42,45 @@ namespace YBCarRental3D
                 switch (www.result)
                 {
                     case UnityWebRequest.Result.ConnectionError:
-                        return www.error;
+                        return new YB_APIResponse()
+                        {
+                            Success = false,
+                            StatusCode = (int)www.responseCode,
+                            Body = www.error
+                        };
                     case UnityWebRequest.Result.DataProcessingError:
-                        return www.error;
+                        return new YB_APIResponse()
+                        {
+                            Success = false,
+                            StatusCode = (int)www.responseCode,
+                            Body = www.error
+                        };
                     case UnityWebRequest.Result.ProtocolError:
-                        return www.error;
+                        return new YB_APIResponse()
+                        {
+                            Success = false,
+                            StatusCode = (int)www.responseCode,
+                            Body = www.error
+                        };
                     case UnityWebRequest.Result.Success:
-                        return www.downloadHandler.text;
+                        return new YB_APIResponse()
+                        {
+                            Success = true,
+                            StatusCode = (int)www.responseCode,
+                            Body = www.downloadHandler.text
+                        };
                     default:
-                        return string.Empty;
+                        return new YB_APIResponse()
+                        {
+                            Success = false,
+                            StatusCode = (int)www.responseCode,
+                            Body = www.error
+                        };
                 }
             }
         }
 
-        public async Task<string> PostRequest(string uri, string postdata)
+        public async Task<YB_APIResponse> PostRequest(string uri, string postdata)
         {
             using (UnityWebRequest www = UnityWebRequest.Post(uri, postdata, "application/json"))
             {
@@ -63,37 +88,48 @@ namespace YBCarRental3D
                 await www.SendWebRequest();
 
                 if (www.result == UnityWebRequest.Result.Success)
-                {
-                    string jsonResponse = www.downloadHandler.text;
-                    return jsonResponse;
-                }
+                    return new YB_APIResponse()
+                    {
+                        Success = true,
+                        StatusCode = (int)www.responseCode,
+                        Body = www.downloadHandler.text
+                    };
                 else
-                {
-                    return www.error;
-                }
+                    return new YB_APIResponse()
+                    {
+                        Success = false,
+                        StatusCode = (int)www.responseCode,
+                        Body = www.error
+                    };
             }
         }
 
-        public async Task<string> DeleteRequest(string uri)
+        public async Task<YB_APIResponse> DeleteRequest(string uri)
         {
             using (UnityWebRequest www = UnityWebRequest.Delete(uri))
             {
                 www.timeout = 30;
                 await www.SendWebRequest();
 
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    return www.error;
-                }
+                if (www.result == UnityWebRequest.Result.Success)
+                    return new YB_APIResponse()
+                    {
+                        Success = true,
+                        StatusCode = (int)www.responseCode,
+                        Body = string.Empty
+                    };
                 else
-                {
-                    return www.result.ToString();
-                }
+                    return new YB_APIResponse()
+                    {
+                        Success = false,
+                        StatusCode = (int)www.responseCode,
+                        Body = www.error
+                    };
             }
         }
 
 
-        public async Task<string> PutRequest(string request, string postdata)
+        public async Task<YB_APIResponse> PutRequest(string request, string postdata)
         {
             using (UnityWebRequest www = UnityWebRequest.Put(request, postdata))
             {
@@ -103,13 +139,19 @@ namespace YBCarRental3D
                 await www.SendWebRequest();
 
                 if (www.result == UnityWebRequest.Result.Success)
-                {
-                    return www.result.ToString();
-                }
+                    return new YB_APIResponse()
+                    {
+                        Success = true,
+                        StatusCode = (int)www.responseCode,
+                        Body = string.Empty
+                    };
                 else
-                {
-                    return www.error;
-                }
+                    return new YB_APIResponse()
+                    {
+                        Success = false,
+                        StatusCode = (int)www.responseCode,
+                        Body = www.error
+                    };
             }
         }
     }

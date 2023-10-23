@@ -15,7 +15,7 @@ namespace YBCarRental3D
 
     public interface I_YB_ViewModel: INebuEventObjectBase
     {
-        string Get_PropertyValue(string bindNamePtr);
+        string Get_ViewPropertyValue(string bindNamePtr);
         //query an object and fill the result as indicated in a List ref
         //bool Get_QuerySingle(int Id, ref List<KeyValuePair<string, string>> pairs);
         //query the source with a index (NOT Id) and fill the result to a List

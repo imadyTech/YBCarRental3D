@@ -29,10 +29,10 @@ namespace YBCarRental3D {
 
 			try {
 				//userPtr.Id				= std::stoi((valuesMapPtr)["Id"]);
-				userPtr.UserName	= base.Get_PropertyValue("UserName");
-				userPtr.FirstName	= base.Get_PropertyValue("FirstName");
-				userPtr.FamilyName  = base.Get_PropertyValue("FamilyName");
-				userPtr.Password	= base.Get_PropertyValue("Password");
+				userPtr.UserName	= base.Get_ViewPropertyValue("UserName");
+				userPtr.FirstName	= base.Get_ViewPropertyValue("FirstName");
+				userPtr.FamilyName  = base.Get_ViewPropertyValue("FamilyName");
+				userPtr.Password	= base.Get_ViewPropertyValue("Password");
 			}
 			catch (Exception e)
 			{

@@ -32,8 +32,7 @@ namespace YBCarRental3D
             {
                 var requestString = $"{this.apiContext.BaseApiUrl}/approve/{order.Id}";
                 var result = await apiContext.GetRequest(requestString);
-                //Todo: need judge the result
-                return true;
+                return result.Success;
             }
             catch (Exception e)
             {
@@ -48,8 +47,7 @@ namespace YBCarRental3D
             {
                 var requestString = $"{this.apiContext.BaseApiUrl}/reject/{order.Id}";
                 var result = await apiContext.GetRequest(requestString);
-                //Todo: need judge the result
-                return true;
+                return result.Success;
             }
             catch (Exception e)
             {

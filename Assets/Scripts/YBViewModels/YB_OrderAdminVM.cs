@@ -1,3 +1,4 @@
+using imady.NebuUI;
 using System;
 
 namespace YBCarRental3D
@@ -5,57 +6,45 @@ namespace YBCarRental3D
     //119 Admin the order (Admin feature )- InputView
     public class YB_OrderAdminVM : YB_ViewModelBasis<YB_Rent>
     {
-        public YB_OrderAdminVM() : base() { }
+        YB_UserManager userManagerPtr = YB_ManagerFactory.UserMgr;
+        YB_RentManager rentManagerPtr = YB_ManagerFactory.RentMgr;
+        YB_CarManager carManagerPtr = YB_ManagerFactory.CarMgr;
 
-        YB_UserManager userManagerPtr   = YB_ManagerFactory.UserMgr;
-        YB_RentManager rentManagerPtr   = YB_ManagerFactory.RentMgr;
-        YB_CarManager carManagerPtr     = YB_ManagerFactory.CarMgr;
 
-        int CarId = -1;
-        int RentDays = 0;
+        #region ===== view properties =====
+        YB_Car car;
+        YB_User user;
+        [NbuViewProperty] public string Id => base.principalObject.Id.ToString();
+        [NbuViewProperty] public int UserId => base.principalObject.UserId;
+        [NbuViewProperty] public string CustomerName => $"{user.FirstName} {user.FamilyName}";
+        [NbuViewProperty] public string CarInfo => $"{car.Make} {car.Model} {car.Year}";
+        [NbuViewProperty] public string DateOfOrder => base.principalObject.DateOfOrder.ToString();
+        [NbuViewProperty] public string Status => base.principalObject.Status.ToString();
+        [NbuViewProperty] public string RentDays => base.principalObject.RentDays.ToString();
+        [NbuViewProperty] public string RentStart => base.principalObject.RentStart.ToString();
+        [NbuViewProperty] public string OrderCost => (base.principalObject.RentDays * car.DayRentPrice).ToString();
+        [NbuViewProperty] public string UserName => user.UserName;
+        [NbuViewProperty] public string Balance => user.Balance.ToString("c2");
+        #endregion ===== view properties =====
 
-        public override void onViewForwarded(YB_ViewBasis fromView)
+        public async override void onViewForwarded(YB_ViewBasis fromView)
         {
-            CarId       = int.Parse( fromView.viewModel.Get_PropertyValue("CarId"));
-            RentDays    = int.Parse( fromView.viewModel.Get_PropertyValue("RentDays"));
+            this.principalObject = fromView.viewModel.PrincipalData as YB_Rent;
+            car = await carManagerPtr.GetCar(this.principalObject.CarId);
+            user = await userManagerPtr.GetUser(this.principalObject.UserId);
+
+            base.onViewForwarded(fromView);
         }
-        //public async override string Get_PropertyValue(string bindName)
-        //{
-        //    string value = string.Empty;
-        //    if (bindName == "UserName")
-        //    {
-        //        value = userManagerPtr.CurrentUser.UserName;
-        //        return value;
-        //    }
-        //    if (bindName == "UserRoles")
-        //    {
-        //        value = (userManagerPtr.CurrentUser.UserRoles);
-        //        return value;
-        //    }
-        //    if (bindName == "CarInfo")
-        //    {
-        //        var car = carManagerPtr.GetCar(this.CarId);
-        //        value = car.Make + " " + car.Model + " " + car.Year;
-        //        return value;
-        //    }
-        //    if (bindName == "CustomerName")
-        //    {
-        //        value = userManagerPtr.CurrentUser.FirstName + " " + userManagerPtr.CurrentUser.FamilyName;
-        //        return value;
-        //    }
-        //    if (bindName == "OrderCost")
-        //    {
-        //        var car = carManagerPtr.GetCar(this.CarId);
-        //        value = (this.RentDays * car.DayRentPrice).ToString();
-        //        return value;
-        //    }
-        //    return base.Get_PropertyValue(bindName);
-        //}
+
+        string reviewType;
         public async override void onSubmit()
         {
-            int orderId = int.Parse(base.Get_PropertyValue("Id"));
+            if (!ValidateOrder(this.principalObject))
+            {
+                base.ybWindow.PopPrompt(this.viewDef.Title, "You must choose order at PENDING status.");
+                return;
+            }
 
-            string reviewType = base.Get_PropertyValue(YBGlobal.SUBMIT_BINDKEY_BUTTONCONTENT);
             if (reviewType == "APPROVE")
             {
                 await rentManagerPtr.ApproveOrder(this.principalObject);
@@ -64,13 +53,24 @@ namespace YBCarRental3D
             if (reviewType == "REJECT")
             {
                 await rentManagerPtr.RejectOrder(this.principalObject);
-                base.ybWindow.PopPrompt(this.viewDef.Title, "You have rejected the order.", null);
+                base.ybWindow.PopPrompt(this.viewDef.Title, "You have rejected the order.", YBGlobal.ADMIN_MAIN_VIEW);
             };
+
+            bool ValidateOrder(YB_Rent order)
+            {
+                if (order.Status != YB_Rent.YB_Rental_Status_Pending)
+                    return false;
+                else
+                    return true;
+            }
         }
+
         public override void OnButtonClicked(YB_ViewItemBasis button)
         {
-            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
-                this.onSubmit();
+            this.reviewType = button.Content;
+            base.OnButtonClicked(button);
         }
+
+
     }
 }

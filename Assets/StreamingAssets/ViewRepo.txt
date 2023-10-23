@@ -282,7 +282,7 @@ ListRowTemplate:ItemType:ListItem!x:0!y:8!w:120!h:1!Content:!Link:CarDeleteView!
 ####################### ----------   END OF VIEW DEFINITION   ------------ #######################
 
 ## 118 - CarDeleteView - DELETE car info!!! ##
-Id:118;Title:CarDeleteView;ViewType:InputView;GotoView:AdminMenu;ConfirmView:Confirm_CarDELETEView;w:120;h:29;Source:YB_CarDeleteVm;&
+Id:118;Title:CarDeleteView;ViewType:InputView;GotoView:AdminMenu;ConfirmView:Confirm_CarDELETEView;w:120;h:29;Source:YB_CarDeleteVM;&
 <item>118H1:Id:11800!x:36!y:05!w:20!h:1!ItemType:TextItem!Content:CarId!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>118A1:Id:11801!x:36!y:06!w:20!h:1!ItemType:TextItem!Content:Make!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>118B1:Id:11802!x:36!y:07!w:20!h:1!ItemType:TextItem!Content:Model!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&

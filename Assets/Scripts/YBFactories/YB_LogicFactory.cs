@@ -37,7 +37,7 @@ namespace YBCarRental3D
             this.RegisterDataSource("YB_CarListVM",         typeof(YB_CarListVM));//admin listing
             this.RegisterDataSource("YB_CarManageVM",       typeof(YB_CarManageVM));//admin
             this.RegisterDataSource("YB_CarDeleteListVM",   typeof(YB_CarDeleteListVM));//admin
-            this.RegisterDataSource("YB_CarDeleteVm",       typeof(YB_CarDeleteVm));//admin
+            this.RegisterDataSource("YB_CarDeleteVM",       typeof(YB_CarDeleteVm));//admin
             this.RegisterDataSource("YB_OrderManageVM",     typeof(YB_OrderManageVM));//admin - list all orders
             this.RegisterDataSource("YB_OrderAdminVM",      typeof(YB_OrderAdminVM));//admin - approve or reject
             this.RegisterDataSource("YB_UserAdminListVM",   typeof(YB_UserAdminListVM));//admin

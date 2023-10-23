@@ -18,24 +18,18 @@ namespace YBCarRental3D
 
 
         #region ===== view properties =====
-        [NbuViewProperty]
-        public string Id => base.principalObject.Id.ToString();
-        [NbuViewProperty]
-        public string Make => base.principalObject.Make;
-        [NbuViewProperty]
-        public string Model => base.principalObject.Model;
-        [NbuViewProperty]
-        public string Year => base.principalObject.Year.ToString();
-        [NbuViewProperty]
-        public string Mileage => base.principalObject.Mileage.ToString();
-        [NbuViewProperty]
-        public string MinRentPeriod => base.principalObject.MinRentPeriod.ToString();
-        [NbuViewProperty]
-        public string MaxRentPeriod => base.principalObject.MaxRentPeriod.ToString();
-        [NbuViewProperty]
-        public string DayRentPrice => base.principalObject.DayRentPrice.ToString("c2");
-        [NbuViewProperty]
-        public string IsAvailable => base.principalObject.IsAvailable ? "Yes" : "No";
+        [NbuViewProperty] public string UserName => userManagerPtr.CurrentUser.UserName;
+        [NbuViewProperty] public string Balance => userManagerPtr.CurrentUser.Balance.ToString("c2");
+
+        [NbuViewProperty] public string Id => base.principalObject.Id.ToString();
+        [NbuViewProperty] public string Make => base.principalObject.Make;
+        [NbuViewProperty] public string Model => base.principalObject.Model;
+        [NbuViewProperty] public string Year => base.principalObject.Year.ToString();
+        [NbuViewProperty] public string Mileage => base.principalObject.Mileage.ToString();
+        [NbuViewProperty] public string MinRentPeriod => base.principalObject.MinRentPeriod.ToString();
+        [NbuViewProperty] public string MaxRentPeriod => base.principalObject.MaxRentPeriod.ToString();
+        [NbuViewProperty] public string DayRentPrice => base.principalObject.DayRentPrice.ToString("c2");
+        [NbuViewProperty] public string IsAvailable => base.principalObject.IsAvailable ? "Yes" : "No";
         #endregion ===== view properties =====
 
         public override void onViewForwarded(YB_ViewBasis fromView)
@@ -51,8 +45,8 @@ namespace YBCarRental3D
             DateTime startDate = DateTime.Now;
 
 
-            if (base.Has_PropertyValue("DaysToRent"))
-                daysToRent = int.Parse(base.Get_PropertyValue("DaysToRent"));
+            if (base.Has_ViewPropertyValue("DaysToRent"))
+                daysToRent = int.Parse(base.Get_ViewPropertyValue("DaysToRent"));
             //if (base.Has_PropertyValue("Id"))
             //    carId = int.Parse(base.Get_PropertyValue("Id"));
             //YB_Car car = await carManagerPtr.GetCar(this.principalObject.Id);
@@ -78,16 +72,6 @@ namespace YBCarRental3D
             }
         }
 
-        public override void OnButtonClicked(YB_ViewItemBasis button)
-        {
-#if DEVELOPMENT
-            Debug.Log($"[Button Clicked] : {this.name} - {button.Id}");
-#endif
-            if ((button as YB_ButtonItem).ButtonType == YBGlobal.Button_Type_Submit)
-            {
-                this.onSubmit();
-            }
-        }
     };
 
 }
