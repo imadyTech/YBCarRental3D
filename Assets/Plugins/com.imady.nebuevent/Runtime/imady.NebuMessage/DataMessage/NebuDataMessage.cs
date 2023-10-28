@@ -18,5 +18,4 @@ namespace imady.NebuEvent
             this.messageBody = messageBody;
         }
     }
-
 }

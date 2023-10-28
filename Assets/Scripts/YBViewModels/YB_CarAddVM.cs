@@ -34,6 +34,8 @@ namespace YBCarRental3D
         public int MaxRentPeriod { get; set; }
         [NbuViewProperty]
         public float DayRentPrice { get; set; }
+        [NbuViewProperty]
+        public string UnityModelName { get; set; }
         #endregion ===== View properties =====
 
 
@@ -52,6 +54,7 @@ namespace YBCarRental3D
             if (base.Has_ViewPropertyValue("MinRentPeriod")) MinRentPeriod = int.Parse(base.Get_ViewPropertyValue("MinRentPeriod"));
             if (base.Has_ViewPropertyValue("MaxRentPeriod")) MaxRentPeriod = int.Parse(base.Get_ViewPropertyValue("MaxRentPeriod"));
             if (base.Has_ViewPropertyValue("DayRentPrice")) DayRentPrice = float.Parse(base.Get_ViewPropertyValue("DayRentPrice"));
+            if (base.Has_ViewPropertyValue("UnityModelName")) UnityModelName = base.Get_ViewPropertyValue("UnityModelName");
 
             YB_Car car = new YB_Car();
             car.Make = Make;
@@ -62,6 +65,7 @@ namespace YBCarRental3D
             car.MinRentPeriod = MinRentPeriod;
             car.MaxRentPeriod = MaxRentPeriod;
             car.DayRentPrice = DayRentPrice;
+            car.UnityModelName = UnityModelName;
 
             bool result = await carManagerPtr.AddCar(car);
             if (result)

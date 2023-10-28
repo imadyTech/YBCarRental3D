@@ -1,3 +1,4 @@
+using imady.NebuEvent;
 using imady.NebuUI;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,9 @@ using UnityEngine;
 namespace YBCarRental3D
 {
     //112 rent a car - InputView
-    public class YB_CarRentVM : YB_ViewModelBasis<YB_Car>
+    public class YB_CarRentVM : YB_ViewModelBasis<YB_Car>, 
+        INebuProvider<YBCarSelectedMessage>,
+        INebuProvider<YBCarDeSelectedMessage>
     {
         public YB_CarRentVM() : base()
         {
@@ -36,6 +39,13 @@ namespace YBCarRental3D
         {
             this.principalObject = fromView.viewModel.PrincipalData as YB_Car;
             base.onViewForwarded(fromView);
+            base.NotifyObservers(new YBCarSelectedMessage(this.principalObject));
+        }
+
+        public override void onExit()
+        {
+            base.NotifyObservers(new YBCarDeSelectedMessage(this.principalObject));
+            base.onExit();
         }
 
         public async override void onSubmit()
@@ -72,6 +82,5 @@ namespace YBCarRental3D
             }
         }
 
-    };
-
+    }
 }

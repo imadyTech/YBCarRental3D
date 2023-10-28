@@ -21,26 +21,26 @@ namespace imady.NebuUI.Samples
     {
         #region GameObjects & Managers对象定义
         //Nebu辅助开发工具，用于监控运行时进程
-        public GameObject NebuEventMgrGO;
-        public GameObject NebuSceneMgrGO;
-        public GameObject NebuUiMgrGO;
-        public GameObject MainCanvasObject;
-        public GameObject NebuCameraMgrGO;
-        public GameObject YBLogicFactoryGO;
+        public GameObject           NebuEventMgrGO;
+        public GameObject           NebuSceneMgrGO;
+        public GameObject           NebuUiMgrGO;
+        public GameObject           MainCanvasObject;
+        public GameObject           YBLogicFactoryGO;
 
 
-        public NbuUIManager uiManager;
-        public NbuTheatreManager theatreManager;
-        public NebuEventManager eventManager;
-        public NebulogManager nebulogManager;
+        public NbuUIManager         uiManager;
+        public NbuTheatreManager    theatreManager;
+        public NebuEventManager     eventManager;
+        public NebulogManager       nebulogManager;
         public YBCar_MessageManager carMessageManager;
 
 
-        public YB_CarObject bmw;
-        public YB_CarObject tesla1;
-        public YB_CarObject benz;
-        public YB_CarObject tesla2;
-        public YB_CarObject vw;
+        public YBCameraObject       yb_Camera;
+        public YB_CarObject         bmw;
+        public YB_CarObject         tesla1;
+        public YB_CarObject         benz;
+        public YB_CarObject         tesla2;
+        public YB_CarObject         vw;
 
         #endregion
 
@@ -98,6 +98,7 @@ namespace imady.NebuUI.Samples
             //    .AddEventManager(this.eventManager))//这是NebuTheatreManager自己注册到eventsystem
             //    .AddPool(this.NebuSceneMgrGO.transform);
             //Debug.Log("[Nebu剧场对象管理器]：NebuTheatreManager 初始化完成。");
+
 
             //添加用户界面管理器
             if (NebuUiMgrGO != null) uiManager = ((NbuUIManager)NebuUiMgrGO
@@ -197,7 +198,10 @@ namespace imady.NebuUI.Samples
             this.tesla2.AddEventManager(this.eventManager);
             this.benz.AddEventManager(this.eventManager);
             this.vw.AddEventManager(this.eventManager);
+            this.yb_Camera.AddEventManager(eventManager);
 
+
+            //this must be done after all observers/providers added eventmanager.
             eventManager.MappingEventObjectsByInterfaces();
 
             Debug.Log("[Initialized.]");

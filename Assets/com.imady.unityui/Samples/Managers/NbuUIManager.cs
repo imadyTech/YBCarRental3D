@@ -62,8 +62,8 @@ namespace imady.NebuUI.Samples
                 Debug.LogException(new Exception("MdyViewPool视窗池子还没完成初始化。"));
                 return this;
             }
-            topButtonGroupView = GetComponentInChildren<TopButtonGroupView>()
-                .AddEventManager(eventmanager) as TopButtonGroupView;
+            //topButtonGroupView = GetComponentInChildren<TopButtonGroupView>()
+            //    .AddEventManager(eventmanager) as TopButtonGroupView;
             //mainView = GetComponentInChildren<MainCanvasView>()
             //    .Init(eventmanager)
             //    .AddEventManager(eventmanager) as MainCanvasView;

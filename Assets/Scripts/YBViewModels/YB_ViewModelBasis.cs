@@ -14,8 +14,8 @@ namespace YBCarRental3D
         where TData : YB_DataBasis
     {
         public YB_ViewBasis previousView;
-        public YB_ViewBasis viewDef;                            //View Definition object
-        protected TData principalObject;                    //Logic DTO (Data Transfer Object)
+        public YB_ViewBasis viewDef;                                        //View Definition object
+        protected TData principalObject;                                    //Logic DTO (Data Transfer Object)
         private Dictionary<string, Action<string>> forwardValuesMapPtr;
         private Dictionary<string, Func<string>> reverseValuesMapPtr;
 
@@ -79,6 +79,7 @@ namespace YBCarRental3D
         }
         public virtual void onSubmit()
         {
+            //DO NOT DELETE ME
         }
         public virtual void onViewForwarded(YB_ViewBasis fromView)
         {

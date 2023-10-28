@@ -35,7 +35,7 @@ namespace YBCarRental3D
 		public int		MinRentPeriod;					//day
 		public int		MaxRentPeriod;					//day
 		public float	DayRentPrice;                   //rental price per day;
-
+		public string	UnityModelName;					//indicating the gameobject name of the 3D model
 
         public void Deserialize(string line)
         {
@@ -50,6 +50,8 @@ namespace YBCarRental3D
             if (base.HasValue("MinRentPeriod"))		MinRentPeriod= int.Parse(FindValue("MinRentPeriod"));
             if (base.HasValue("MaxRentPeriod"))		MaxRentPeriod= int.Parse(FindValue("MaxRentPeriod"));
             if (base.HasValue("DayRentPrice"))		DayRentPrice= int.Parse(FindValue("DayRentPrice"));
+            if (base.HasValue("UnityModelName"))	UnityModelName = FindValue("UnityModelName");
+
         }
 
     };
