@@ -85,6 +85,11 @@ namespace YBCarRental3D
 
         }
 
+        public void AddItem(YB_ViewItemBasis value)
+        {
+            subItemsList.Add(value);
+        }
+
 
         public List<KeyValuePair<string, string>> FindValues(string key)
         {

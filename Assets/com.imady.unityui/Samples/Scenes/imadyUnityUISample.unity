@@ -994,7 +994,7 @@ MonoBehaviour:
   benz: {fileID: 1899424980}
   tesla2: {fileID: 2112150801}
   vw: {fileID: 1702128301}
-  window: {fileID: 0}
+  window: {fileID: 1525083679}
   logicVMFactory: {fileID: 0}
 --- !u!1 &238815086
 GameObject:
