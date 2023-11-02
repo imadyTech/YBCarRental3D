@@ -31,6 +31,7 @@ Id:101;Title:MainMenuView;ViewType:MenuView;w:120;h:29;Source:YB_MainMenuViewVM;
 <item>101B:Id:1011!x:36!y:10!w:48!h:1!ItemType:MenuItem!Link:LoginView!Content:Login!Background: !isCentral:0!isFocused:1!isSelected:0!isHidden:0!;&
 <item>101C:Id:1012!x:36!y:12!w:48!h:1!ItemType:MenuItem!Link:RegisterView!Content:Register New User!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>101D:Id:1013!x:36!y:14!w:48!h:1!ItemType:MenuItem!Link:HelpView!Content:Brief User Manual!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
+<item>101F:Id:1015!x:36!y:16!w:48!h:1!ItemType:MenuItem!Link:CreditView!Content:Credit and Thanks!Background: !isCentral:0!isFocused:0!isSelected:0!isHidden:0!;&
 <item>101E:Id:1014!x:0!y:20!w:120!h:1!ItemType:TextItem!Content:<Please toggle with TAB and select with Return key>!Background: !isCentral:1!isFocused:0!isSelected:0!isHidden:0!;
 
 ## 102 - login ##
@@ -395,6 +396,25 @@ Id:888;Title:CopyrightView;ViewType:WelcomeView;w:120;h:29;Source:YB_CopyrightVi
 <item>888A:Id:8880!x:0!y:18!w:120!h:1!ItemType:TextItem!Content:Copyright @Zhenqun Shen!Background: !isCentral:1!isFocused:0!isSelected:0!isHidden:0!;&
 <item>888E:Id:8881!x:0!y:20!w:120!h:1!ItemType:TextItem!Content:Yoobee College of Creative Innovation!Background:.!isCentral:1!isFocused:0!isSelected:0!isHidden:0!;
 ####################### ----------   END OF VIEW DEFINITION   ------------ #######################
+
+
+## 996 - art resources licensing infor ##
+Id:996;Title:CreditView;ViewType:WelcomeView;GotoView:MainMenuView;w:120;h:29;Source:YB_CreditViewVM;&
+<item>996X:Id:99699!x:0!y:02!w:120!h:1!ItemType:TextItem!Content:CREDIT!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996A:Id:99600!x:0!y:04!w:120!h:1!ItemType:TextItem!Content:Ameer Studio!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996B:Id:99601!x:0!y:05!w:120!h:1!ItemType:TextItem!Content:Resources: Tesla 2018 Model 3!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996C:Id:99602!x:0!y:06!w:120!h:1!ItemType:TextItem!Content:Resources: Tesla Model P100D!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996D:Id:99603!x:0!y:07!w:120!h:1!ItemType:TextItem!Content:Licensed under CC Attribution!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996E:Id:99604!x:0!y:09!w:120!h:1!ItemType:TextItem!Content:Ricy!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996F:Id:99605!x:0!y:10!w:120!h:1!ItemType:TextItem!Content:Resources: 2021 BMW M4 Competition!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996G:Id:99606!x:0!y:11!w:120!h:1!ItemType:TextItem!Content:Licensed under CC Attribution!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996H:Id:99607!x:0!y:13!w:120!h:1!ItemType:TextItem!Content:RCC Design!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996I:Id:99608!x:0!y:14!w:120!h:1!ItemType:TextItem!Content:www.retrocartooncars.com!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996J:Id:99609!x:0!y:15!w:120!h:1!ItemType:TextItem!Content:retrovalorem@gmail.com!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996K:Id:99610!x:0!y:16!w:120!h:1!ItemType:TextItem!Content:Resources: Hatchback and Sedan!isFocused:1!isSelected:0!isHidden:0!;&
+<item>996L:Id:99611!x:0!y:17!w:120!h:1!ItemType:TextItem!Content:Licensed under Unity ASSET STORE TERMS OF SERVICE AND EULA!isFocused:1!isSelected:0!isHidden:0!;
+
+
 
 ## 998 - Error ##
 Id:998;Title:ErrorView;ViewType:WelcomeView;w:120;h:29;Source:YB_ErrorViewVM;&

@@ -47,6 +47,7 @@ namespace YBCarRental3D
             this.RegisterDataSource("YB_CopyrightViewVM",   typeof(YB_CopyrightViewVM));//
             this.RegisterDataSource("YB_ErrorViewVM",       typeof(YB_ErrorViewVM));//
             this.RegisterDataSource("YB_ByeByeViewVM",      typeof(YB_ByeByeViewVM));//
+            this.RegisterDataSource("YB_CreditViewVM",      typeof(YB_CreditViewVM));//
         }
         public bool RegisterDataSource(string sourceName, Type service) {
             try
